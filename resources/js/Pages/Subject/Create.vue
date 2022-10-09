@@ -98,13 +98,16 @@ const testMedia = computed(() => {
 <template>
     <AppLayout title="Profile">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Create New Test
-            </h2>
+            <h1 class="font-black text-5xl text-black-color mb-4">
+                Create <span class="text-primary-color">Test</span>
+            </h1>
+            <p class="lg:text-16px md:text-15px text-13px lg:max-w-2xl lg:mx-auto leading-7 md:leading-8 text-optional-color">
+                You may create a brand new test, or use an image from a previous test.
+            </p>
         </template>
         <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
             <div class="bg-white rounded-md p-4">
-                <form @submit.prevent="form.post(route('subjects.index'))">
+                <form @submit.prevent="form.post(route('category.subjects.store', form.category.id))">
                     <tab-group :defaultIndex="0" :selectedIndex="selectedTab" @change="changeTab">
                         <div class="border-b border-gray-200">
                             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -123,11 +126,13 @@ const testMedia = computed(() => {
                                 </tab-list>
                             </div>
                         </div>
-                        <tab-panels class="pb-48 mt-8">
+                        <tab-panels class="pb-4 mt-8">
                             <tab-panel v-slot="{selected}">
                                 <media-library-attachment
                                     @change="onUpload"
-                                    name="subject"/>
+                                    name="subject"
+                                    vapor
+                                />
                                 <div
                                     class="mt-4 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
 
@@ -135,7 +140,7 @@ const testMedia = computed(() => {
                                          @click="setSubject(item)"
                                          class="group cursor-pointer">
                                         <div
-                                            class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg sm:aspect-w-2 sm:aspect-h-3">
+                                            class="aspect-square w-full overflow-hidden rounded-lg sm:aspect-w-2 sm:aspect-h-3">
                                             <img :src="item.url" alt=""
                                                  class="h-full w-full object-cover object-center group-hover:opacity-75"/>
                                         </div>

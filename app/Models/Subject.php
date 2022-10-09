@@ -45,4 +45,9 @@ class Subject extends Model implements HasMedia
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function moderate()
+    {
+        return $this->morphOne(Moderate::class, 'model');
+    }
 }

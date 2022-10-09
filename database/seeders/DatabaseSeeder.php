@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Category;
 use App\Models\Comment;
-use App\Models\Criteria;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -20,40 +19,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            ClearStorageSeeder::class,
-        ]);
-        $criterias = [
-            'Business' => [
-                ['name' => 'Competent'],
-                ['name' => 'Likable'],
-                ['name' => 'Influential'],
-            ],
-            'Social' => [
-                ['name' => 'Confident'],
-                ['name' => 'Authentic'],
-                ['name' => 'Fun'],
-            ],
-            'Dating' => [
-                ['name' => 'Smart'],
-                ['name' => 'Trustworthy'],
-                ['name' => 'Attractive'],
-            ],
-        ];
-
-        $categories = Category::factory(3)
-            ->state(new Sequence(
-                ['name' => 'Business'],
-                ['name' => 'Social'],
-                ['name' => 'Dating'],
-            ))
-            ->create();
-
-        $categories->each(function ($category) use ($criterias) {
-            foreach ($criterias[$category->name] as $c) {
-                Criteria::factory()->for($category)->create($c);
-            }
-        });
+        if (env('local')) {
+            $this->call([
+                ClearStorageSeeder::class,
+            ]);
+        }
 
         $user = User::factory()
             ->withPersonalTeam()

@@ -1,0 +1,870 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- All CSS Links -->
+        <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+        <link rel="stylesheet" href="assets/css/odometer.min.css">
+        <link rel="stylesheet" href="assets/css/meanmenu.min.css">
+        <link rel="stylesheet" href="assets/css/animate.min.css">
+        <link rel="stylesheet" href="assets/dist/output.css">
+
+        <title>Togy - Tailwind Technology Startup Template</title>
+        <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- Preloader -->
+        <div class="preloader-area text-center left-0 right-0 top-0 bottom-0 bg-white fixed z-9999">
+            <div class="preloader absolute -mt-20 left-0 right-0 top-1/2 m-auto -translate-y-2/4">
+                <div class="waviy font-bold text-50px">
+                    <span class="text-black-color inline-block relative">T</span>
+                    <span class="text-primary-color inline-block relative">O</span>
+                    <span class="text-black-color inline-block relative">G</span>
+                    <span class="text-secondary-color inline-block relative">Y</span>
+                </div>
+            </div>
+        </div>
+        <!-- End Preloader -->
+
+        <!-- Navbar Area -->
+        <div class="navbar-area shadow-navbar relative z-2">
+            <div class="togy-responsive-nav lg:hidden">
+                <div class="container">
+                    <div class="togy-responsive-menu">
+                        <div class="logo">
+                            <a href="index-2.html">
+                                <img src="assets/img/logo.png" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="togy-nav hidden lg:block">
+                <div class="container xl:max-w-full 3xl:max-w-[1700px]">
+                    <nav class="navbar flex flex-wrap">
+                        <a class="navbar-brand self-center" href="index-2.html">
+                            <img src="assets/img/logo.png" alt="logo">
+                        </a>
+                        <div class="flex self-center grow basis-auto">
+                            <ul class="self-center flex flex-row ml-auto mr-auto">
+                                <li class="mr-12 xl:mr-15 relative group">
+                                    <a href="#" class="active block text-black-color font-semibold text-16px ease-in duration-300 relative pr-15 before:absolute before:right-6 before:top-38 before:w-1 before:h-9 before:bg-black-color before:-rotate-45 before:ease-in before:duration-300 after:absolute after:right-0 after:top-38 after:w-1 after:h-9 after:bg-black-color after:rotate-45 after:ease-in after:duration-300 hover:text-primary-color hover:before:bg-primary-color hover:after:bg-primary-color pt-30 pb-30">Home</a>
+                                    <ul class="absolute bg-white left-0 w-[250px] rounded-sm top-84 z-99 shadow-dropdown pt-10 pb-10 opacity-0 invisible ease-in duration-300 group-hover:opacity-100 group-hover:visible">
+                                        <li>
+                                            <a href="index.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Project Management</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-2.html" class="active block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Product Landing</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-3.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Customer Support</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-4.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Doc Landing</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-5.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Chatbot Landing</a>
+                                        </li>
+                                        <li>
+                                            <a href="index-6.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">App Landing</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ml-12 xl:ml-15 mr-12 xl:mr-15 relative group">
+                                    <a href="#" class="block text-black-color font-semibold text-16px ease-in duration-300 relative pr-15 before:absolute before:right-6 before:top-38 before:w-1 before:h-9 before:bg-black-color before:-rotate-45 before:ease-in before:duration-300 after:absolute after:right-0 after:top-38 after:w-1 after:h-9 after:bg-black-color after:rotate-45 after:ease-in after:duration-300 hover:text-primary-color hover:before:bg-primary-color hover:after:bg-primary-color pt-30 pb-30">Pages</a>
+                                    <ul class="absolute bg-white left-0 w-[250px] rounded-sm top-84 z-99 shadow-dropdown pt-10 pb-10 opacity-0 invisible ease-in duration-300 group-hover:opacity-100 group-hover:visible">
+                                        <li>
+                                            <a href="about.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">About Us</a>
+                                        </li>
+                                        <li>
+                                            <a href="team.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Team</a>
+                                        </li>
+                                        <li class="relative">
+                                            <a href="features.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20 relative before:absolute before:right-27 before:top-16 before:w-1 before:h-9 before:bg-black-color before:-rotate-45 before:ease-in before:duration-300 after:absolute after:right-20 after:top-16 after:w-1 after:h-9 after:bg-black-color after:rotate-45 after:ease-in after:duration-300 hover:before:bg-primary-color hover:after:bg-primary-color">Features</a>
+                                            <ul class="absolute bg-white w-[250px] rounded-sm top-0 z-99 shadow-dropdown pt-10 pb-10 opacity-0 invisible ease-in duration-300 left-full">
+                                                <li>
+                                                    <a href="features.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Features</a>
+                                                </li>
+                                                <li>
+                                                    <a href="products-features.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Products Features</a>
+                                                </li>
+                                                <li>
+                                                    <a href="top-flexibility.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Top Flexibility</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="pricing.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Pricing</a>
+                                        </li>
+                                        <li>
+                                            <a href="faq.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">FAQ</a>
+                                        </li>
+                                        <li>
+                                            <a href="profile-authentication.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Login/Register</a>
+                                        </li>
+                                        <li>
+                                            <a href="privacy-policy.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Privacy Policy</a>
+                                        </li>
+                                        <li>
+                                            <a href="terms-conditions.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Terms & Conditions</a>
+                                        </li>
+                                        <li>
+                                            <a href="not-found.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">404 Error Page</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ml-12 xl:ml-15 mr-12 xl:mr-15 relative group">
+                                    <a href="#" class="block text-black-color font-semibold text-16px ease-in duration-300 relative pr-15 before:absolute before:right-6 before:top-38 before:w-1 before:h-9 before:bg-black-color before:-rotate-45 before:ease-in before:duration-300 after:absolute after:right-0 after:top-38 after:w-1 after:h-9 after:bg-black-color after:rotate-45 after:ease-in after:duration-300 hover:text-primary-color hover:before:bg-primary-color hover:after:bg-primary-color pt-30 pb-30">Services</a>
+                                    <ul class="absolute bg-white left-0 w-[250px] rounded-sm top-84 z-99 shadow-dropdown pt-10 pb-10 opacity-0 invisible ease-in duration-300 group-hover:opacity-100 group-hover:visible">
+                                        <li>
+                                            <a href="services.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Services</a>
+                                        </li>
+                                        <li>
+                                            <a href="services-details.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Services Details</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ml-12 xl:ml-15 mr-12 xl:mr-15 relative group">
+                                    <a href="#" class="block text-black-color font-semibold text-16px ease-in duration-300 relative pr-15 before:absolute before:right-6 before:top-38 before:w-1 before:h-9 before:bg-black-color before:-rotate-45 before:ease-in before:duration-300 after:absolute after:right-0 after:top-38 after:w-1 after:h-9 after:bg-black-color after:rotate-45 after:ease-in after:duration-300 hover:text-primary-color hover:before:bg-primary-color hover:after:bg-primary-color pt-30 pb-30">Portfolio</a>
+                                    <ul class="absolute bg-white left-0 w-[250px] rounded-sm top-84 z-99 shadow-dropdown pt-10 pb-10 opacity-0 invisible ease-in duration-300 group-hover:opacity-100 group-hover:visible">
+                                        <li>
+                                            <a href="portfolio.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Portfolio</a>
+                                        </li>
+                                        <li>
+                                            <a href="portfolio-details.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Portfolio Details</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ml-12 xl:ml-15 mr-12 xl:mr-15 relative group">
+                                    <a href="#" class="block text-black-color font-semibold text-16px ease-in duration-300 relative pr-15 before:absolute before:right-6 before:top-38 before:w-1 before:h-9 before:bg-black-color before:-rotate-45 before:ease-in before:duration-300 after:absolute after:right-0 after:top-38 after:w-1 after:h-9 after:bg-black-color after:rotate-45 after:ease-in after:duration-300 hover:text-primary-color hover:before:bg-primary-color hover:after:bg-primary-color pt-30 pb-30">Blog</a>
+                                    <ul class="absolute bg-white left-0 w-[250px] rounded-sm top-84 z-99 shadow-dropdown pt-10 pb-10 opacity-0 invisible ease-in duration-300 group-hover:opacity-100 group-hover:visible">
+                                        <li>
+                                            <a href="blog-grid.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Blog Grid</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-right-sidebar.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Blog Right Sidebar</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog-details.html" class="block font-medium text-16px text-black-color ease-in duration-300 hover:text-primary-color pt-9 pb-9 pl-20 pr-20">Blog Details</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ml-12 xl:ml-15">
+                                    <a href="contact.html" class="block text-black-color font-semibold text-16px ease-in duration-300 hover:text-primary-color pt-30 pb-30">Contact Us</a>
+                                </li>
+                            </ul>
+                            <div class="self-center">
+                                <a href="contact.html" class="inline-block font-semibold text-13px md:text-14px lg:text-15px rounded-sm text-white pt-17 pb-13 pl-35 pr-35 bg-secondary-gradient-color shadow-custom-box-shadow hover:shadow-secondary-btn ease-in duration-300">Get Started</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- End Navbar Area -->
+
+        <!-- Navbar for Responsive -->
+        <div class="navbar-for-responsive hidden">
+            <div class="mean-menu">
+                <ul class="navbar-nav">
+                    <li>
+                        <a href="#" class="active">Home</a>
+                        <ul>
+                            <li>
+                                <a href="index.html">Project Management</a>
+                            </li>
+                            <li>
+                                <a href="index-2.html" class="active">Product Landing</a>
+                            </li>
+                            <li>
+                                <a href="index-3.html">Customer Support</a>
+                            </li>
+                            <li>
+                                <a href="index-4.html">Doc Landing</a>
+                            </li>
+                            <li>
+                                <a href="index-5.html">Chatbot Landing</a>
+                            </li>
+                            <li>
+                                <a href="index-6.html">App Landing</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Pages</a>
+                        <ul>
+                            <li>
+                                <a href="about.html">About Us</a>
+                            </li>
+                            <li>
+                                <a href="team.html">Team</a>
+                            </li>
+                            <li class="relative">
+                                <a href="features.html">Features</a>
+                                <ul>
+                                    <li>
+                                        <a href="features.html">Features</a>
+                                    </li>
+                                    <li>
+                                        <a href="products-features.html">Products Features</a>
+                                    </li>
+                                    <li>
+                                        <a href="top-flexibility.html">Top Flexibility</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="pricing.html">Pricing</a>
+                            </li>
+                            <li>
+                                <a href="faq.html">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="profile-authentication.html">Login/Register</a>
+                            </li>
+                            <li>
+                                <a href="privacy-policy.html">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="terms-conditions.html">Terms & Conditions</a>
+                            </li>
+                            <li>
+                                <a href="not-found.html">404 Error Page</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                        <ul>
+                            <li>
+                                <a href="services.html">Services</a>
+                            </li>
+                            <li>
+                                <a href="services-details.html">Services Details</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Portfolio</a>
+                        <ul>
+                            <li>
+                                <a href="portfolio.html">Portfolio</a>
+                            </li>
+                            <li>
+                                <a href="portfolio-details.html">Portfolio Details</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Blog</a>
+                        <ul>
+                            <li>
+                                <a href="blog-grid.html">Blog Grid</a>
+                            </li>
+                            <li>
+                                <a href="blog-right-sidebar.html">Blog Right Sidebar</a>
+                            </li>
+                            <li>
+                                <a href="blog-details.html">Blog Details</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="contact.html">Contact Us</a>
+                    </li>
+                </ul>
+                <div class="absolute right-45 top-3 md:top-1 md:right-50">
+                    <a href="contact.html" class="inline-block font-semibold text-11px md:text-14px lg:text-15px rounded-sm text-white pt-13 pb-10 pl-15 pr-15 md:pl-25 md:pr-25 bg-secondary-gradient-color shadow-custom-box-shadow hover:shadow-secondary-btn ease-in duration-300">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <!-- End Navbar for Responsive -->
+
+        <!-- Banner Area -->
+        <div class="banner-area pt-60 md:pt-80 lg:pt-100 relative z-1 before:absolute before:left-0 before:right-0 before:bottom-0 before:bg-[#fbfbfb] before:h-[180px] md:before:h-[300px] before:-z-1">
+            <div class="container">
+                <div class="banner-content text-center ml-auto mr-auto max-w-[1010px]">
+                    <h1 class="font-black text-black-color text-25px md:text-40px lg:text-51px xl:text-65px mb-12 md:mb-15 lg:mb-20">Always Build Better Product With Togy</h1>
+                    <p class="text-optional-color text-14px md:text-15px lg:text-16px mb-15 lg:ml-auto lg:mr-auto lg:max-w-[790px] md:leading-8 leading-7">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla imperdiet nulla duis ac. Id massa scelerisque venenatis, massa gravida donec orci.</p>
+                    <a href="profile-authentication.html" class="inline-block mt-0 md:mt-5 lg:mt-10 font-semibold text-13px md:text-14px lg:text-15px rounded-sm text-white pt-17 pb-15 pl-35 pr-35 bg-secondary-gradient-color shadow-custom-box-shadow hover:shadow-secondary-btn ease-in duration-300">Sign Up For Free</a>
+                    <span class="block text-[#A4A4A4] mt-25 md:mt-25 lg:mt-30 text-13px md:text-15px lg:text-16px">Avail 30 Days Free Trial</span>
+                </div>
+                <div class="banner-image text-center mt-30 md:mt-40 lg:mt-60 rounded-xl relative xl:ml-auto xl:mr-auto xl:max-w-[1094px]">
+                    <img src="assets/img/banner/banner-img2.jpg" class="inline-block rounded-md md:rounded-xl wow animate__animated animate__fadeInUp" data-wow-delay=".1s" alt="banner-image">
+                    <img src="assets/img/shape/best.png" class="absolute left-[-85px] top-[-140px] hidden 2xl:inline animate-custom-movebounce" alt="image">
+                    <img src="assets/img/shape/easy.png" class="absolute right-[-200px] bottom-[180px] hidden 3xl:inline animate-custom-movebounce" alt="image">
+                </div>
+            </div>
+            <div class="absolute -z-1 hidden xl:inline left-0 top-[14%]"><img src="assets/img/shape/shape16.png" alt="shape"></div>
+            <div class="absolute -z-1 hidden lg:inline left-[5%] bottom-[27%]"><img src="assets/img/shape/shape17.png" class="animate-custom-rotateme" alt="shape"></div>
+            <div class="absolute -z-1 hidden lg:inline right-[0] top-[14%]"><img src="assets/img/shape/shape18.png" alt="shape"></div>
+        </div>
+        <!-- End Banner Area -->
+
+        <!-- About Area -->
+        <div class="about-area pt-60 md:pt-80 lg:pt-100 pb-60 md:pb-80 lg:pb-100 bg-[#fbfbfb] relative z-1 bg-cover bg-no-repeat bg-bottom" style="background-image: url(assets/img/shape/bg4.jpg);">
+            <div class="container lg:pb-20 xl:pb-50">
+                <div class="grid gap-25 grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+                    <div class="content xl:pr-95 self-center">
+                        <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">About The Product</span>
+                        <h2 class="font-black text-22px md:text-28px lg:text-35px xl:text-40px mb-12 text-black-color">Get Work Done On Time, All The Time!</h2>
+                        <p class="text-13px md:text-15px lg:text-16px leading-7 md:leading-8 text-optional-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla imperdiet nulla duis ac. Id massa scelerisque venenatis, massa gravida donec orci.</p>
+                        <ul class="mt-20 md:mt-25">
+                            <li class="text-[#2D2D2D] relative text-13px md:text-15px lg:text-16px font-medium pl-26 md:pl-34 mb-15 md:mb-20 last:mb-0">
+                                <img src="assets/img/icon/tick-circle.svg" class="absolute left-0 -top-2 w-[18px] md:w-auto" alt="check">
+                                Create Task For Any Team Member
+                            </li>
+                            <li class="text-[#2D2D2D] relative text-13px md:text-15px lg:text-16px font-medium pl-26 md:pl-34 mb-15 md:mb-20 last:mb-0">
+                                <img src="assets/img/icon/tick-circle.svg" class="absolute left-0 -top-2 w-[18px] md:w-auto" alt="check">
+                                Create Appropriate Timeframe For The Task
+                            </li>
+                            <li class="text-[#2D2D2D] relative text-13px md:text-15px lg:text-16px font-medium pl-26 md:pl-34 mb-15 md:mb-20 last:mb-0">
+                                <img src="assets/img/icon/tick-circle.svg" class="absolute left-0 -top-2 w-[18px] md:w-auto" alt="check">
+                                Get Notified When Task Completed
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="image text-center self-center xl:-ml-95 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                        <img src="assets/img/about/about1.png" alt="about-image">
+                    </div>
+                </div>
+            </div>
+            <div class="absolute -z-1 hidden lg:inline right-5 top-0"><img src="assets/img/shape/shape19.png" class="animate-custom-movebounce" alt="shape"></div>
+        </div>
+        <!-- End About Area -->
+        
+        <!-- Features Area -->
+        <div class="features-area pt-60 md:pt-80 lg:pt-100 pb-60 md:pb-80 lg:pb-100 relative z-2">
+            <div class="container">
+                <div class="section-title mb-35 md:mb-40 lg:mb-50 text-center">
+                    <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">Product’s Feature</span>
+                    <h2 class="font-black text-22px md:text-30px lg:text-35px xl:text-40px mb-6 text-black-color">Why Togy Best For Your Product</h2>
+                    <p class="lg:text-16px md:text-15px text-13px lg:max-w-2xl lg:mx-auto leading-7 md:leading-8 text-optional-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla imperdiet nulla duis ac. Id massa scelerisque venenatis, massa gravida donec orci.</p>
+                </div>
+                <div class="grid gap-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+                    <div class="single-features-box border p-[20px] sm:border-0 sm:p-0 text-center sm:text-left wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                        <div class="icon w-60 h-60 md:w-75 md:h-75 lg:w-90 lg:h-90 rounded-full bg-secondary-gradient-color text-center relative mb-20 md:mb-25 ml-auto mr-auto sm:ml-0 sm:mr-0">
+                            <img src="assets/img/icon/shield-tick.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="shield-tick">
+                        </div>
+                        <h3 class="font-bold text-18px md:text-20px lg:text-24px mb-10 lg:mb-12">
+                            <a href="services-details.html" class="inline-block text-black-color hover:text-primary-color ease-in duration-300">
+                                Top Flexibility
+                            </a>
+                        </h3>
+                        <p class="leading-7 md:leading-8 text-optional-color mb-10 md:mb-15 text-13px md:text-15px lg:text-16px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla imperdiet nulla duis.</p>
+                        <a href="services-details.html" class="link-btn inline-block relative pr-20 font-medium text-13px md:text-14px lg:text-15px text-secondary-color ease-in duration-100 hover:text-secondary-color hover:tracking-wide">
+                            Learn More <img src="assets/img/icon/secondary-arrow-right.svg" class="absolute right-0 top-1 md:top-3" alt="arrow-right">
+                        </a>
+                    </div>
+                    <div class="single-features-box border p-[20px] sm:border-0 sm:p-0 text-center sm:text-left wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
+                        <div class="icon w-60 h-60 md:w-75 md:h-75 lg:w-90 lg:h-90 rounded-full bg-primary-gradient-color text-center relative mb-20 md:mb-25 ml-auto mr-auto sm:ml-0 sm:mr-0">
+                            <img src="assets/img/icon/timer.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="timer">
+                        </div>
+                        <h3 class="font-bold text-18px md:text-20px lg:text-24px mb-10 lg:mb-12">
+                            <a href="services-details.html" class="inline-block text-black-color hover:text-primary-color ease-in duration-300">
+                                Time Saving
+                            </a>
+                        </h3>
+                        <p class="leading-7 md:leading-8 text-optional-color mb-10 md:mb-15 text-13px md:text-15px lg:text-16px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla imperdiet nulla duis.</p>
+                        <a href="services-details.html" class="link-btn inline-block relative pr-20 font-medium text-13px md:text-14px lg:text-15px text-secondary-color ease-in duration-100 hover:text-secondary-color hover:tracking-wide">
+                            Learn More <img src="assets/img/icon/secondary-arrow-right.svg" class="absolute right-0 top-1 md:top-3" alt="arrow-right">
+                        </a>
+                    </div>
+                    <div class="single-features-box border p-[20px] sm:border-0 sm:p-0 text-center sm:text-left wow animate__animated animate__fadeInUp" data-wow-delay=".5s">
+                        <div class="icon w-60 h-60 md:w-75 md:h-75 lg:w-90 lg:h-90 rounded-full bg-green-gradient-color text-center relative mb-20 md:mb-25 ml-auto mr-auto sm:ml-0 sm:mr-0">
+                            <img src="assets/img/icon/like.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="like">
+                        </div>
+                        <h3 class="font-bold text-18px md:text-20px lg:text-24px mb-10 lg:mb-12">
+                            <a href="services-details.html" class="inline-block text-black-color hover:text-primary-color ease-in duration-300">
+                                Best Management
+                            </a>
+                        </h3>
+                        <p class="leading-7 md:leading-8 text-optional-color mb-10 md:mb-15 text-13px md:text-15px lg:text-16px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla imperdiet nulla duis.</p>
+                        <a href="services-details.html" class="link-btn inline-block relative pr-20 font-medium text-13px md:text-14px lg:text-15px text-secondary-color ease-in duration-100 hover:text-secondary-color hover:tracking-wide">
+                            Learn More <img src="assets/img/icon/secondary-arrow-right.svg" class="absolute right-0 top-1 md:top-3" alt="arrow-right">
+                        </a>
+                    </div>
+                    <div class="single-features-box border p-[20px] sm:border-0 sm:p-0 text-center sm:text-left wow animate__animated animate__fadeInUp" data-wow-delay=".7s">
+                        <div class="icon w-60 h-60 md:w-75 md:h-75 lg:w-90 lg:h-90 rounded-full bg-yello-gradient-color text-center relative mb-20 md:mb-25 ml-auto mr-auto sm:ml-0 sm:mr-0">
+                            <img src="assets/img/icon/shapes.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="shapes">
+                        </div>
+                        <h3 class="font-bold text-18px md:text-20px lg:text-24px mb-10 lg:mb-12">
+                            <a href="services-details.html" class="inline-block text-black-color hover:text-primary-color ease-in duration-300">
+                                Collaborative
+                            </a>
+                        </h3>
+                        <p class="leading-7 md:leading-8 text-optional-color mb-10 md:mb-15 text-13px md:text-15px lg:text-16px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla imperdiet nulla duis.</p>
+                        <a href="services-details.html" class="link-btn inline-block relative pr-20 font-medium text-13px md:text-14px lg:text-15px text-secondary-color ease-in duration-100 hover:text-secondary-color hover:tracking-wide">
+                            Learn More <img src="assets/img/icon/secondary-arrow-right.svg" class="absolute right-0 top-1 md:top-3" alt="arrow-right">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute -z-1 hidden lg:inline right-90 -bottom-30"><img src="assets/img/shape/shape20.png" class="animate-custom-rotateme" alt="shape"></div>
+        </div>
+        <!-- End Features Area -->
+
+        <!-- Features Area -->
+        <div class="features-area pt-60 md:pt-80 lg:pt-100 pb-60 md:pb-80 lg:pb-100 bg-[#fbfbfb] relative z-1">
+            <div class="container">
+                <div class="grid gap-25 grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+                    <div class="image text-center relative self-center xl:-mr-[75px] wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                        <img src="assets/img/about/about2.jpg" class="rounded-md" alt="about-image">
+                        <img src="assets/img/about/about3.jpg" class="rounded-md absolute left-0 top-0 opacity-0 invisible" alt="about-image">
+                        <img src="assets/img/about/about4.jpg" class="rounded-md absolute left-0 top-0 opacity-0 invisible" alt="about-image">
+                    </div>
+                    <div class="content xl:pl-[100px] self-center">
+                        <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">Advanced Features</span>
+                        <h2 class="font-black text-22px md:text-28px lg:text-35px xl:text-40px mb-12 text-black-color">We Have Features For All Creatives</h2>
+                        <p class="text-13px md:text-15px lg:text-16px leading-7 md:leading-8 text-optional-color">Lorem ipsum dolor sit amet, consectetur adipis elit. Nulla imperdiet nulla duis ac. Id massa scelerisque ven enatis, massa gravida donec orci.</p>
+                        <ul class="mt-20 md:mt-25">
+                            <li class="text-black-color b1 text-15px md:text-17px lg:text-17px xl:text-20px rounded-md font-bold bg-white shadow-custom-box-shadow4 relative mb-15 last:mb-0 pl-15 md:pl-25 pr-45 pt-20 md:pt-22 pb-20 md:pb-22 hover:text-white hover:bg-secondary-gradient-color">
+                                <div class="icon absolute right-10 md:right-20 top-1/2 rounded-full -translate-y-2/4 md:w-50 w-40 md:h-50 h-40 bg-secondary-gradient-color">
+                                    <img src="assets/img/icon/box.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="box">
+                                </div>
+                                Brainstorm Ideas
+                            </li>
+                            <li class="text-black-color b2 text-15px md:text-17px lg:text-17px xl:text-20px rounded-md font-bold bg-white shadow-custom-box-shadow4 relative mb-15 last:mb-0 pl-15 md:pl-25 pr-45 pt-20 md:pt-22 pb-20 md:pb-22 hover:text-white hover:bg-primary-gradient-color">
+                                <div class="icon absolute right-10 md:right-20 top-1/2 rounded-full -translate-y-2/4 md:w-50 w-40 md:h-50 h-40 bg-primary-gradient-color">
+                                    <img src="assets/img/icon/cube.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="box">
+                                </div>
+                                Manage Projects
+                            </li>
+                            <li class="text-black-color b3 text-15px md:text-17px lg:text-17px xl:text-20px rounded-md font-bold bg-white shadow-custom-box-shadow4 relative mb-15 last:mb-0 pl-15 md:pl-25 pr-45 pt-20 md:pt-22 pb-20 md:pb-22 hover:text-white hover:bg-green-gradient-color">
+                                <div class="icon absolute right-10 md:right-20 top-1/2 rounded-full -translate-y-2/4 md:w-50 w-40 md:h-50 h-40 bg-green-gradient-color">
+                                    <img src="assets/img/icon/grid.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="box">
+                                </div>
+                                Organize Tasks
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute hidden xl:inline left-[9%] -top-30"><img src="assets/img/shape/shape12.png" class="animate-custom-movebounce" alt="shape"></div>
+        </div>
+        <!-- End Features Area -->
+
+        <!-- Integrate Apps Area -->
+        <div class="integrate-apps-area pt-60 md:pt-80 lg:pt-100 pb-60 md:pb-80 lg:pb-30 relative z-1">
+            <div class="container">
+                <div class="grid gap-25 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+                    <div class="integrate-apps-content self-center lg:pr-75 xl:pr-100 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                        <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">Advanced Features</span>
+                        <h2 class="font-black text-22px md:text-30px lg:text-35px xl:text-40px mb-12 lg:mb-15 text-black-color">Integrate With Your Favorite Apps</h2>
+                        <p class="text-13px md:text-15px lg:text-16px lg:max-w-[435px] leading-7 md:leading-8 text-optional-color">Togy Projects gives you the added advantage of several other Togy apps and third party apps through seamless integrations.</p>
+                        <a href="pricing.html" class="inline-block font-semibold text-13px lg:text-15px mt-20 lg:mt-25 rounded-sm text-white pt-17 pb-15 pl-35 pr-35 bg-secondary-gradient-color shadow-custom-box-shadow hover:shadow-secondary-btn ease-in duration-300">More Integration</a>
+                    </div>
+                    <div class="integrate-apps-list lg:-ml-75 xl:-ml-100 wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
+                        <ul class="relative">
+                            <li class="inline-block md:block w-[110px] h-[110px] bg-white top-1/2 border-2 border-transparent ease-in duration-300 hover:border-primary-color md:mt-[70px] md:-translate-y-2/4 relative md:absolute text-center shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/messenger.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="messenger">
+                            </li>
+                            <li class="inline-block md:block w-[110px] h-[110px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color relative md:absolute text-center md:top-[120px] lg:left-[10px] xl:left-[80px] md:left-[80px] shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/gitlab.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="gitlab">
+                            </li>
+                            <li class="inline-block md:block w-[120px] h-[120px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color md:top-1/2 md:left-[230px] lg:left-[170px] xl:left-[230px] md:mt-[15px] md:-translate-y-2/4 relative md:absolute text-center shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/instagram.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="instagram">
+                            </li>
+                            <li class="inline-block md:block w-[90px] h-[90px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color md:left-[290px] relative md:absolute md:right-0 md:bottom-[80px] text-center md:m-auto shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/twitter.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="twitter">
+                            </li>
+                            <li class="inline-block md:block w-[90px] h-[90px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color md:right-0 md:bottom-[225px] relative md:absolute text-center shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/slack.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="slack">
+                            </li>
+                            <li class="inline-block md:block w-[90px] h-[90px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color relative md:absolute md:right-[100px] md:top-[50px] text-center shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/pinterest.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="pinterest">
+                            </li>
+                            <li class="inline-block md:block w-[145px] h-[145px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color lg:-left-55 xl:left-0 md:left-0 md:right-0 md:top-0 md:m-auto relative text-center shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/dropbox.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="dropbox">
+                            </li>
+                            <li class="inline-block md:block w-[110px] h-[110px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color md:right-0 md:top-1/2 md:-translate-y-2/4 md:left-[260px] md:-mt-[35px] lg:-mt-[70px] xl:-mt-[35px] md:m-auto relative md:absolute text-center shadow-custom-box-shadow2 rounded-full">
+                                <img src="assets/img/integrate-apps/microsoft.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="microsoft">
+                            </li>
+                            <li class="inline-block md:block w-[155px] h-[155px] bg-white border-2 border-transparent ease-in duration-300 hover:border-primary-color relative md:left-[190px] text-center shadow-custom-box-shadow2 rounded-full md:mt-320">
+                                <img src="assets/img/integrate-apps/netflix.svg" class="absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="netflix">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute hidden lg:inline left-[15%] top-[9%]"><img src="assets/img/shape/shape21.png" class="animate-custom-movebounce" alt="shape"></div>
+        </div>
+        <!-- End Integrate Apps Area -->
+
+        <!-- Overview Area -->
+        <div class="overview-area lg:pt-100 md:pb-80 lg:pb-100 relative z-1 bg-cover bg-no-repeat bg-center" style="background-image: url(assets/img/shape/bg5.png);">
+            <div class="container">
+                <div class="grid gap-30 lg:gap-25 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+                    <div class="overview-image md:pt-60 md:pl-100 lg:pt-30 lg:pl-30 xl:pt-60 xl:pl-100 relative z-1 circle-shape-bg before:w-377 md:before:h-388 lg:before:h-[330px] xl:before:h-388 before:absolute before:left-0 before:top-0 before:hidden before:-z-1 md:before:inline md:before:animate-none 2xl:before:animate-custom-slow-rotateme">
+                        <img src="assets/img/overview/overview-img1.gif" class="rounded-md wow animate__animated animate__fadeInUp" data-wow-delay=".1s" alt="overview-image">
+                    </div>
+                    <div class="overview-content self-center xl:pl-100 lg:pl-30 relative xl:top-30">
+                        <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">Our Products_01</span>
+                        <h2 class="font-black text-22px md:text-28px lg:text-35px xl:text-40px mb-12 lg:mb-15 text-black-color">App Landing Page Design</h2>
+                        <p class="text-13px md:text-15px lg:text-16px leading-7 md:leading-8 text-optional-color">Togy Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the Togy software.</p>
+                        <a href="portfolio-details.html" class="inline-block font-semibold text-13px md:text-14px lg:text-15px mt-15 md:mt-20 rounded-sm text-white pt-17 pb-13 pl-35 pr-35 bg-secondary-gradient-color shadow-custom-box-shadow hover:shadow-secondary-btn ease-in duration-300">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="right-[10%] top-[-15%] absolute -z-1 hidden lg:inline"><img src="assets/img/shape/shape4.png" class="animate-custom-movebounce" alt="shape"></div>
+        </div>
+        <!-- End Overview Area -->
+
+        <!-- Overview Area -->
+        <div class="overview-area pt-30 pb-30 relative z-1">
+            <div class="container">
+                <div class="grid gap-30 lg:gap-25 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+                    <div class="overview-content self-center lg:pr-30 xl:pr-100 order-2 lg:order-1 relative xl:top-30">
+                        <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">Our Products_02</span>
+                        <h2 class="font-black text-22px md:text-28px lg:text-35px xl:text-40px mb-12 lg:mb-15 text-black-color">Finance Application Design</h2>
+                        <p class="text-13px md:text-15px lg:text-16px leading-7 md:leading-8 text-optional-color">Togy Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the Togy software.</p>
+                        <a href="portfolio-details.html" class="inline-block font-semibold text-13px md:text-14px lg:text-15px mt-15 md:mt-20 rounded-sm text-white pt-17 pb-13 pl-35 pr-35 bg-gradient-color shadow-custom-box-shadow hover:shadow-primary-btn ease-in duration-300">View Details</a>
+                    </div>
+                    <div class="overview-image md:pt-60 md:pr-100 lg:pt-30 lg:pr-30 xl:pt-60 xl:pr-100 relative z-1 circle-shape-bg3 before:w-377 md:before:h-388 lg:before:h-[329px] xl:before:h-388 before:absolute before:right-0 before:top-0 before:-z-1 before:hidden md:before:inline order-1 lg:order-2 md:before:animate-none 2xl:before:animate-custom-slow-rotateme">
+                        <img src="assets/img/overview/overview-img3.jpg" class="rounded-md wow animate__animated animate__fadeInUp" data-wow-delay=".1s" alt="overview-image">
+                    </div>
+                </div>
+            </div>
+            <div class="left-0 bottom-[15%] absolute -z-1 hidden lg:inline"><img src="assets/img/shape/shape5.png" class="animate-custom-movebounce" alt="shape"></div>
+        </div>
+        <!-- End Overview Area -->
+
+        <!-- Overview Area -->
+        <div class="overview-area md:pt-80 lg:pt-100 pb-60 md:pb-80 lg:pb-100">
+            <div class="container xl:pb-30">
+                <div class="grid gap-30 lg:gap-25 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+                    <div class="overview-image md:pt-60 md:pl-100 lg:pt-30 lg:pl-30 xl:pt-60 xl:pl-100 relative z-1 circle-shape-bg4 before:w-377 md:before:h-388 lg:before:h-[330px] xl:before:h-388 before:absolute before:left-0 before:top-0 before:hidden before:-z-1 md:before:inline md:before:animate-none 2xl:before:animate-custom-slow-rotateme">
+                        <img src="assets/img/overview/overview-img4.jpg" class="rounded-md wow animate__animated animate__fadeInUp" data-wow-delay=".1s" alt="overview-image">
+                    </div>
+                    <div class="overview-content self-center xl:pl-100 lg:pl-30 relative xl:top-30">
+                        <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">Our Products_03</span>
+                        <h2 class="font-black text-22px md:text-28px lg:text-35px xl:text-40px mb-12 lg:mb-15 text-black-color">Mobile Application Design</h2>
+                        <p class="text-13px md:text-15px lg:text-16px leading-7 md:leading-8 text-optional-color">Togy Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the Togy software.</p>
+                        <a href="portfolio-details.html" class="inline-block font-semibold text-13px md:text-14px lg:text-15px mt-15 md:mt-20 rounded-sm text-white pt-17 pb-13 pl-35 pr-35 bg-secondary-gradient-color shadow-custom-box-shadow hover:shadow-secondary-btn ease-in duration-300">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Overview Area -->
+
+        <!-- Feedback Area -->
+        <div class="feedback-area relative z-1 pt-60 md:pt-80 lg:pt-100 pb-60 md:pb-80 lg:pb-100 bg-[#fcfcfc] bg-cover bg-no-repeat bg-center" style="background-image: url(assets/img/shape/bg6.jpg);">
+            <div class="container">
+                <div class="text-center md:text-left section-title mb-35 md:mb-40 lg:mb-50 relative">
+                    <span class="block text-purple-color font-semibold text-13px md:text-15px mb-12 md:mb-15">Feedback</span>
+                    <h2 class="font-black text-22px md:text-30px lg:text-35px xl:text-40px text-black-color md:max-w-[400px]">Loved By Industry Leaders</h2>
+                    <div class="mt-20 md:mt-0 md:absolute md:right-0 md:top-1/2 md:m-auto md:-translate-y-2/4">
+                        <div class="customOne swiper-button-prev relative left-0 right-0 mt-0 w-42 md:w-50 bg-white shadow-custom-box-shadow3 rounded-sm opacity-100 h-42 md:h-50 top-0 inline-block after:hidden hover:bg-secondary-gradient-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-26 w-26 absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                            </svg>
+                        </div>
+                        <div class="customTwo swiper-button-next relative left-0 right-0 mt-0 w-42 md:w-50 bg-white ml-8 shadow-custom-box-shadow3 rounded-sm h-42 md:h-50 top-0 inline-block after:hidden hover:bg-secondary-gradient-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper feedbackSwiperSlides -mb-20 pl-15 pr-15 md:pl-0 md:pr-0">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="single-feedback-box mb-20 shadow-custom-box-shadow4 rounded-md md:rounded-xl bg-white mt-50 md:mt-70 pl-[20px] pr-[20px] pb-[20px] md:pl-[35px] md:pr-[35px] md:pb-[35px] lg:pl-[25px] lg:pr-[25px] lg:pb-[25px] xl:pl-[35px] xl:pr-[35px] xl:pb-[35px]">
+                            <img src="assets/img/icon/dropbox.svg" class="-mb-30 md:-mb-45 ml-auto mr-auto relative -top-50 md:-top-70 w-100 md:w-auto" alt="dropbox">
+                            <p class="text-[#111111] text-14px md:text-15px lg:text-16px leading-7 md:leading-8">“Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the software.”</p>
+                            <div class="client-info flex mt-15 md:mt-20">
+                                <img src="assets/img/user/user1.jpg" alt="user" class="rounded-md w-65 md:w-75 h-65 md:h-75">
+                                <div class="title ml-15 md:ml-20 self-center">
+                                    <h3 class="text-secondary-color text-16px md:text-17px lg:text-18px font-bold mb-5 md:mb-8">Adam Smith</h3>
+                                    <span class="text-13px md:text-14px text-black-color font-medium opacity-95">CEO, Dropbox</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="single-feedback-box mb-20 shadow-custom-box-shadow4 rounded-md md:rounded-xl bg-white mt-50 md:mt-70 pl-[20px] pr-[20px] pb-[20px] md:pl-[35px] md:pr-[35px] md:pb-[35px] lg:pl-[25px] lg:pr-[25px] lg:pb-[25px] xl:pl-[35px] xl:pr-[35px] xl:pb-[35px]">
+                            <img src="assets/img/icon/google.svg" class="-mb-30 md:-mb-45 ml-auto mr-auto relative -top-50 md:-top-70 w-100 md:w-auto" alt="google">
+                            <p class="text-[#111111] text-14px md:text-15px lg:text-16px leading-7 md:leading-8">“Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the software.”</p>
+                            <div class="client-info flex mt-20">
+                                <img src="assets/img/user/user2.jpg" alt="user" class="rounded-md w-65 md:w-75 h-65 md:h-75">
+                                <div class="title ml-15 md:ml-20 self-center">
+                                    <h3 class="text-secondary-color text-16px md:text-17px lg:text-18px font-bold mb-5 md:mb-8">Alina Smith</h3>
+                                    <span class="text-13px md:text-14px text-black-color font-medium opacity-95">CEO, Google</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="single-feedback-box mb-20 shadow-custom-box-shadow4 rounded-md md:rounded-xl bg-white mt-50 md:mt-70 pl-[20px] pr-[20px] pb-[20px] md:pl-[35px] md:pr-[35px] md:pb-[35px] lg:pl-[25px] lg:pr-[25px] lg:pb-[25px] xl:pl-[35px] xl:pr-[35px] xl:pb-[35px]">
+                            <img src="assets/img/icon/twitter.svg" class="-mb-30 md:-mb-45 ml-auto mr-auto relative -top-50 md:-top-70 w-100 md:w-auto" alt="twitter">
+                            <p class="text-[#111111] text-14px md:text-15px lg:text-16px leading-7 md:leading-8">“Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the software.”</p>
+                            <div class="client-info flex mt-20">
+                                <img src="assets/img/user/user3.jpg" alt="user" class="rounded-md w-65 md:w-75 h-65 md:h-75">
+                                <div class="title ml-15 md:ml-20 self-center">
+                                    <h3 class="text-secondary-color text-16px md:text-17px lg:text-18px font-bold mb-5 md:mb-8">James Andy</h3>
+                                    <span class="text-13px md:text-14px text-black-color font-medium opacity-95">CEO, Twitter</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="single-feedback-box mb-20 shadow-custom-box-shadow4 rounded-md md:rounded-xl bg-white mt-50 md:mt-70 pl-[20px] pr-[20px] pb-[20px] md:pl-[35px] md:pr-[35px] md:pb-[35px] lg:pl-[25px] lg:pr-[25px] lg:pb-[25px] xl:pl-[35px] xl:pr-[35px] xl:pb-[35px]">
+                            <img src="assets/img/icon/facebook.svg" class="-mb-30 md:-mb-45 ml-auto mr-auto relative -top-50 md:-top-70 w-100 md:w-auto" alt="facebook">
+                            <p class="text-[#111111] text-14px md:text-15px lg:text-16px leading-7 md:leading-8">“Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the software.”</p>
+                            <div class="client-info flex mt-20">
+                                <img src="assets/img/user/user4.jpg" alt="user" class="rounded-md w-65 md:w-75 h-65 md:h-75">
+                                <div class="title ml-15 md:ml-20 self-center">
+                                    <h3 class="text-secondary-color text-16px md:text-17px lg:text-18px font-bold mb-5 md:mb-8">Sarah Taylor</h3>
+                                    <span class="text-13px md:text-14px text-black-color font-medium opacity-95">CEO, Facebook</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="single-feedback-box mb-20 shadow-custom-box-shadow4 rounded-md md:rounded-xl bg-white mt-50 md:mt-70 pl-[20px] pr-[20px] pb-[20px] md:pl-[35px] md:pr-[35px] md:pb-[35px] lg:pl-[25px] lg:pr-[25px] lg:pb-[25px] xl:pl-[35px] xl:pr-[35px] xl:pb-[35px]">
+                            <img src="assets/img/icon/linkedin.svg" class="-mb-30 md:-mb-45 ml-auto mr-auto relative -top-50 md:-top-70 w-100 md:w-auto" alt="linkedin">
+                            <p class="text-[#111111] text-14px md:text-15px lg:text-16px leading-7 md:leading-8">“Planning, tracking and delivering your team’s best work has never been easier. We make it easiest for you through the software.”</p>
+                            <div class="client-info flex mt-20">
+                                <img src="assets/img/user/user5.jpg" alt="user" class="rounded-md w-65 md:w-75 h-65 md:h-75">
+                                <div class="title ml-15 md:ml-20 self-center">
+                                    <h3 class="text-secondary-color text-16px md:text-17px lg:text-18px font-bold mb-5 md:mb-8">Amy Jones</h3>
+                                    <span class="text-13px md:text-14px text-black-color font-medium opacity-95">CEO, Linkedin</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Feedback Area -->
+
+        <!-- Mobile App Area -->
+        <div class="mobile-app-area relative pt-60 pb-60 md:pt-80 md:pb-80 z-1 lg:pt-100 lg:pb-100">
+            <div class="container">
+                <div class="grid gap-25 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3">
+                    <div class="integrate-apps-content relative xl:top-30 xl:-mr-80 self-center lg:text-center xl:text-left">
+                        <h2 class="font-black text-22px md:text-30px lg:text-35px xl:text-34px 2xl:text-38px mb-12 lg:mb-15 text-black-color">Download Mobile App To Stay Connected</h2>
+                        <p class="text-13px md:text-15px lg:text-16px leading-7 md:leading-8 text-optional-color lg:max-w-[685px] lg:m-auto xl:max-w-[100%]">Togy Projects gives you the added advantage of several other Togy apps and third party apps through seamless integrations.</p>
+                        <div class="btn-box">
+                            <a href="#" class="inline-block relative font-bold text-13px md:text-15px lg:text-16px mt-15 md:mt-25 rounded-sm text-white pt-15 md:pt-17 pb-11 md:pb-13 pl-16 sm:pl-75 pr-16 sm:pr-30 bg-gradient-color shadow-custom-box-shadow hover:shadow-primary-btn ease-in duration-300">
+                                <img src="assets/img/icon/play-store.svg" class="sm:absolute sm:left-30 sm:top-1/2 sm:-translate-y-2/4 mb-10 sm:mb-0" alt="play-store">
+                                <span class="block text-12px font-normal mb-4 md:mb-2">GET IT ON</span>
+                                Google Play
+                            </a>
+                            <a href="#" class="ml-10 md:ml-15 xl:ml-9 2xl:ml-15 inline-block relative font-bold text-13px md:text-15px lg:text-16px mt-15 md:mt-25 rounded-sm text-white pt-15 md:pt-17 pb-11 md:pb-13 pl-16 sm:pl-75 pr-16 sm:pr-30 bg-secondary-gradient-color shadow-custom-box-shadow hover:shadow-secondary-btn ease-in duration-300">
+                                <img src="assets/img/icon/apple-store.svg" class="sm:absolute sm:left-30 sm:top-1/2 sm:-translate-y-2/4 mb-10 sm:mb-0" alt="play-store">
+                                <span class="block text-12px font-normal mb-4 md:mb-2">GET IT ON</span>
+                                Apple Store
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mobile-app-image xl:col-span-2 xl:pl-100 wow animate__animated animate__fadeInUp text-center" data-wow-delay=".1s">
+                        <img src="assets/img/mobile-app.png" class="inline-block" alt="bg-image">
+                    </div>
+                </div>
+            </div>
+            <div class="left-[16%] top-[14%] absolute -z-1 hidden xl:inline"><img src="assets/img/shape/shape11.png" class="animate-custom-rotateme" alt="shape"></div>
+        </div>
+        <!-- End Mobile App Area -->
+
+        <!-- Support Area -->
+        <div class="support-area relative bg-secondary-gradient-color z-2 pt-60 md:pt-80 lg:pt-100 pb-60 md:pb-80 lg:pb-100">
+            <div class="container">
+                <div class="grid gap-18 md:gap-25 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                    <div class="support-content xl:col-span-2">
+                        <h2 class="font-black text-22px md:text-30px lg:text-34px xl:text-40px mb-12 text-white">24/7 Customer Support</h2>
+                        <p class="text-13px md:text-15px lg:text-16px md:max-w-[700px] leading-7 md:leading-8 text-white">Our team is here to provide you with personalized and outstanding service. We also offer a range of self-learning tools in our support center:</p>
+                    </div>
+                    <div class="support-btn self-center lg:text-right">
+                        <a href="contact.html" class="inline-block font-semibold text-13px md:text-15px rounded-sm text-white pt-17 pb-13 pl-25 md:pl-35 pr-25 md:pr-35 bg-gradient-color hover:bg-white hover:bg-none hover:text-black-color ease-in duration-300">Contact Us Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="top-[-35%] left-[2%] 2xl:top-[-12%] absolute -z-1 hidden xl:inline"><img src="assets/img/shape/shape12.png" class="animate-custom-movebounce" alt="shape"></div>
+            <div class="right-[10%] bottom-[-30.4%] absolute -z-1 hidden xl:inline"><img src="assets/img/shape/shape13.png" class="animate-custom-moveleftbounce" alt="shape"></div>
+            <div class="top-[20%] left-[52%] absolute -z-1 hidden lg:inline"><img src="assets/img/shape/shape14.png" class="animate-custom-rotateme" alt="shape"></div>
+        </div>
+        <!-- End Support Area -->
+
+        <!-- Footer Area -->
+        <footer class="footer-area pt-60 lg:pt-100 pb-60 lg:pb-100 relative z-1 bg-gray-gradient-color">
+            <div class="container">
+                <div class="grid gap-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+                    <div class="single-footer-widget">
+                        <a href="index-2.html" class="logo inline-block mb-20 lg:mb-25">
+                            <img src="assets/img/logo.png" alt="logo">
+                        </a>
+                        <img src="assets/img/footer.png" alt="footer-image">
+                    </div>
+                    <div class="single-footer-widget md:pl-25">
+                        <h3 class="font-bold text-18px md:text-20px lg:text-24px mb-15 md:mb-20 lg:mb-25 text-black-color">
+                            Services
+                        </h3>
+                        <ul>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="services-details.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    Web Design
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="services-details.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    Web Development
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="services-details.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    Social Marketing
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="services-details.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    WordPress
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="services-details.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    Content Writing
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="single-footer-widget">
+                        <h3 class="font-bold text-18px md:text-20px lg:text-24px mb-15 md:mb-20 lg:mb-25 text-black-color">
+                            Quick Links
+                        </h3>
+                        <ul>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="about.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    About Us
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="portfolio.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    Portfolio
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="pricing.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    Pricing Plan
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="faq.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    FAQ
+                                </a>
+                            </li>
+                            <li class="mb-12 md:mb-15 lg:mb-20 last:mb-0">
+                                <a href="index.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color relative before:absolute before:right-0 before:top-1/2 before:-translate-y-2/4 before:w-18 before:h-2 before:bg-secondary-color before:opacity-0 before:invisible hover:before:opacity-100 hover:before:visible pr-25">
+                                    Download Apps
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="single-footer-widget md:-ml-35">
+                        <h3 class="font-bold text-18px md:text-20px lg:text-24px mb-15 md:mb-20 lg:mb-25 text-black-color">
+                            Contact Us
+                        </h3>
+                        <ul>
+                            <li class="mb-15 md:mb-15 lg:mb-20 text-optional-color last:mb-0 relative text-13px md:text-15px lg:text-16px pl-25">
+                                <img src="assets/img/icon/phone-call.svg" class="absolute top-0 md:top-2 left-0" alt="icon">
+                                <span class="font-medium text-black-color">Call Us:</span>
+                                <a href="tel:+(323)750-1234" class="text-optional-color transition hover:text-secondary-color">+(323) 750-1234</a>
+                            </li>
+                            <li class="mb-15 md:mb-15 lg:mb-20 text-optional-color last:mb-0 relative text-13px md:text-15px lg:text-16px pl-25">
+                                <img src="assets/img/icon/location-pin.svg" class="absolute top-0 md:top-2 left-0" alt="icon">
+                                <span class="font-medium text-black-color">Address:</span>
+                                <a href="#" target="_blank" class="text-optional-color transition hover:text-secondary-color">+7011 Vermont Ave, Los Angeles, CA 90044 </a>
+                            </li>
+                            <li class="mb-15 md:mb-15 lg:mb-20 text-optional-color last:mb-0 relative text-13px md:text-15px lg:text-16px pl-25">
+                                <img src="assets/img/icon/email.svg" class="absolute top-0 md:top-2 left-0" alt="icon">
+                                <span class="font-medium text-black-color">Mail Us:</span>
+                                <a href="mailto:hello@togy.com" class="text-optional-color transition hover:text-secondary-color">hello@togy.com</a>
+                            </li>
+                        </ul>
+                        <ul class="mt-15 md:mt-25">
+                            <li class="inline-block mr-5 last:mr-0">
+                                <a href="#" target="_blank" class="block w-35 rounded-full transition relative h-35 bg-[#4267B2] text-center hover:opacity-90">
+                                    <img src="assets/img/social/white-facebook.svg" class="w-8 absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="facebook">
+                                </a>
+                            </li>
+                            <li class="inline-block mr-5 last:mr-0">
+                                <a href="#" target="_blank" class="block w-35 rounded-full transition relative h-35 bg-[#1DA1F2] text-center hover:opacity-90">
+                                    <img src="assets/img/social/white-twitter.svg" class="w-15 absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="twitter">
+                                </a>
+                            </li>
+                            <li class="inline-block mr-5 last:mr-0">
+                                <a href="#" target="_blank" class="block w-35 rounded-full transition relative h-35 bg-[#2867B2] text-center hover:opacity-90">
+                                    <img src="assets/img/social/white-linkedin.svg" class="w-15 absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="linkedin">
+                                </a>
+                            </li>
+                            <li class="inline-block mr-5 last:mr-0">
+                                <a href="#" target="_blank" class="block w-35 rounded-full transition relative h-35 bg-instagram-gradient-color text-center hover:opacity-90">
+                                    <img src="assets/img/social/white-instagram.svg" class="w-15 absolute left-0 right-0 top-1/2 m-auto -translate-y-2/4" alt="instagram">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="right-[7%] bottom-[6%] absolute -z-1 hidden lg:inline"><img src="assets/img/shape/shape15.png" class="animate-custom-rotateme" alt="shape"></div>
+        </footer>
+        <!-- End Footer Area -->
+
+        <!-- Copyright Area -->
+        <div class="copyright-area pt-25 md:pt-35 pb-25 md:pb-35 text-center lg:text-left">
+            <div class="container">
+                <div class="grid gap-5 md:gap-25 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+                    <div class="copyright">
+                        <p class="text-13px md:text-15px lg:text-16px text-optional-color">&copy;2022 <span class="font-semibold text-primary-color">Togy</span>. All rights reserved by <a href="https://envytheme.com/" class="font-semibold bg-primary-gradient-color" target="_blank">EnvyTheme</a></p>
+                    </div>
+                    <div class="copyright-info self-center">
+                        <ul class="lg:text-right">
+                            <li class="inline-block mr-15 md:mr-20 lg:mr-25 last:mr-0 mt-10 md:mt-0">
+                                <a href="privacy-policy.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color">
+                                    Privacy Policy
+                                </a>
+                            </li>
+                            <li class="inline-block mr-15 md:mr-20 lg:mr-25 last:mr-0 mt-10 md:mt-0">
+                                <a href="privacy-policy.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color">
+                                    Security
+                                </a>
+                            </li>
+                            <li class="inline-block mr-15 md:mr-20 lg:mr-25 last:mr-0 mt-10 md:mt-0">
+                                <a href="terms-conditions.html" class="inline-block text-optional-color text-13px md:text-15px lg:text-16px transition hover:text-secondary-color">
+                                    Terms & Conditions
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Copyright Area -->
+        
+        <!-- Go Top -->
+        <div class="progress-wrap bg-white rounded-full block z-50 cursor-pointer fixed w-[3rem] h-[3rem] right-24 bottom-24 opacity-0 invisible">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-center m-auto absolute left-0 right-0 top-1/2 -translate-y-2/4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l4-4m0 0l4 4m-4-4v18" />
+            </svg>
+        </div>
+
+        <!-- All JS Links -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/swiper-bundle.min.js"></script>
+        <script src="assets/js/appear.min.js"></script>
+        <script src="assets/js/odometer.min.js"></script>
+        <script src="assets/js/magnific-popup.min.js"></script>
+        <script src="assets/js/meanmenu.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/main.js"></script>
+    </body>
+</html>

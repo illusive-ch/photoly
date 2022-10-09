@@ -24,6 +24,9 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
+})->name('home');
+Route::get('/vars', function () {
+    dd($_ENV);
 });
 
 Route::middleware([

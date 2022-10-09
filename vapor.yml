@@ -1,0 +1,27 @@
+id: 36152
+name: photoly
+environments:
+  production:
+    memory: 1024
+    cli-memory: 512
+    storage: photoly-production
+    runtime: 'php-8.1:al2'
+    build:
+      - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+      - 'php artisan event:cache'
+      - 'npm ci && npm run build && rm -rf node_modules'
+  staging:
+    database: photoly-staging
+    storage: photolystaging
+    memory: 512
+    cli-memory: 512
+    runtime: 'php-8.1:al2'
+    build:
+      - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install'
+      - 'php artisan event:cache'
+      - 'npm ci && npm run build && rm -rf node_modules'
+      - 'php artisan migrate:fresh --force'
+      - 'php artisan db:seed'
+    deploy:
+      - 'php artisan migrate:fresh --force'
+      - 'php artisan db:seed'

@@ -10,6 +10,11 @@ class Criteria extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
     public function category(): belongsTo
     {
         return $this->belongsTo(Category::class);

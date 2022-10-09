@@ -2,11 +2,9 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {ref, watch} from 'vue'
 import {TabGroup, TabList, Tab, TabPanels, TabPanel, Switch, SwitchGroup, SwitchLabel} from '@headlessui/vue'
-
-import {ChevronUpIcon, StarIcon} from '@heroicons/vue/24/outline'
+import SubjectScore from '@/Components/SubjectScore.vue';
 
 const props = defineProps({
-    scores: Object,
     subject: Object,
     comments: Object,
 });
@@ -24,9 +22,12 @@ const tabs = [
 <template>
     <AppLayout title="Profile">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Create New Test
-            </h2>
+            <h1 class="font-black text-5xl text-black-color mb-4">
+                Test <span class="text-primary-color">Results</span>
+            </h1>
+            <p class="lg:text-16px md:text-15px text-13px lg:max-w-2xl lg:mx-auto leading-7 md:leading-8 text-optional-color">
+                Below is a list of your test results, click on the tabs to view detailed information.
+            </p>
         </template>
         <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
             <div class="bg-white rounded-md p-4">
@@ -57,43 +58,9 @@ const tabs = [
                             </div>
                             <TabPanels class="pb-48 mt-8">
                                 <TabPanel>
-                                    <div v-for="(score,name) in scores"
+                                    <div v-for="(score,name) in subject.data.scores"
                                          class="flex flex-col items-center mt-4">
-                                        <div class="w-full trustworthy relative">
-                                            <div class="text-lg flex space-x-4 items-center">
-                                                <span class="" v-text="name"/>
-                                                <span class="font-bold" v-text="score.avg"></span>
-                                            </div>
-                                            <div class="relative h-3">
-                                                <div class="h-8 bg-gray-50 border relative rounded-lg">
-                                                    <div
-                                                        class="bg-blue-100 absolute inset-0 h-full"
-                                                        :style="'width: '+score.confidence.higher*10+'%;'"/>
-                                                    <div
-                                                        class="bg-blue-200 absolute inset-0 h-full"
-                                                        :style="'width: '+((((score.confidence.higher * 10 - score.confidence.lower *10) / 4) * 3) + (score.confidence.lower*10)) +'%;'"/>
-                                                    <div
-                                                        class="bg-blue-300 absolute inset-0 h-full"
-                                                        :style="'width: '+((((score.confidence.higher * 10 - score.confidence.lower *10) / 4) * 2) + (score.confidence.lower*10)) +'%;'"/>
-                                                    <div
-                                                        class="bg-blue-400 absolute inset-0 h-full"
-                                                        :style="'width: '+((((score.confidence.higher * 10 - score.confidence.lower *10) / 4)) + (score.confidence.lower*10)) +'%;'"/>
-                                                    <div
-                                                        class="bg-blue-500 absolute inset-0 h-full"
-                                                        :style="'width: '+score.confidence.lower*10+'%;'"/>
-                                                </div>
-                                            </div>
-                                            <div class="w-full mt-4 relative h-10">
-                                                <div class="absolute"
-                                                     :style="'left: '+((((score.confidence.higher * 10 - score.confidence.lower *10) / 4) * 2) + (score.confidence.lower*10)) +'%;'">
-                                                    <div class="flex flex-col">
-                                                        <ChevronUpIcon class="w-5 h-5"/>
-                                                        <span class="text-sm">Above Average</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        <SubjectScore :score="score" :name="name"/>
                                     </div>
                                 </TabPanel>
                                 <TabPanel>

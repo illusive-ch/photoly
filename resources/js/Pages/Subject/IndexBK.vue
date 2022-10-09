@@ -1,427 +1,219 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import {useForm} from "@inertiajs/inertia-vue3";
-import {TransitionRoot} from '@headlessui/vue'
-import {ref, watch} from 'vue'
-import {TabGroup, TabList, Tab, TabPanels, TabPanel, Switch, SwitchGroup, SwitchLabel} from '@headlessui/vue'
-import {reactive, computed} from 'vue'
-import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import SelectWithCheck from '@/Components/SelectWithCheck.vue';
-import {MediaLibraryAttachment} from '@spatie/media-library-pro-vue3-attachment';
-import {
-    RadioGroup,
-    RadioGroupLabel,
-    RadioGroupOption,
-} from '@headlessui/vue'
+import {useForm} from '@inertiajs/inertia-vue3'
+import {RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption, TransitionRoot} from '@headlessui/vue'
+import {ArrowPathIcon} from '@heroicons/vue/24/outline'
+import {ref} from 'vue';
 
 
 const props = defineProps({
-    media: Object,
-    categories: Object,
+    subject: Object,
+    category: Object,
 });
 
-const selectedTab = ref(0)
-const tabs = [
-    {name: 'Photo', selected: true},
-    {name: 'Category', selected: false},
-    {name: 'Details', selected: false},
-    {name: 'Test Size', selected: false},
+const scores = [
+    {name: 'Very', score: 3},
+    {name: 'Yes', score: 2},
+    {name: 'Somewhat', score: 1},
+    {name: 'No', score: 0},
 ]
-
 const form = useForm({
     _method: 'POST',
-    media: null,
-    upload: false,
-    category: {},
-    options: {},
+    vote: {},
+    subject: props.subject.data,
+    comment: null
 });
-
-const setSubject = (subject) => {
-    console.log('here')
-    form.media = subject
-    form.upload = false
-    changeTab(selectedTab.value + 1)
-}
-const onUpload = (subject) => {
-    form.upload = true
-    form.media = subject
-    console.log('ON UPLOAD SWITCHING')
-    changeTab(1)
-}
-const changeTab = (index) => {
-    resetOptions()
-    selectedTab.value = index
-}
+const showImage = ref(true)
 const nameWithComma = (array, index) => {
+    console.log(array[index]['name'])
     if (index !== array.length - 1) {
         return `${array[index]},`;
     } else {
         return array[index];
     }
 }
-const resetOptions = () => {
-    console.log('resetting')
-    form.options = {}
+const saveVote = () => {
+    showImage.value = false
+    form.post(route('category.subjects.criteria.store', {
+        category: props.category.id,
+        subject: props.subject.data.id
+    }), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset()
+            form.vote = {}
+            showImage.value = true
+        }
+    })
 }
-const allowedAges = computed(() => {
-    let ages = [];
-    for (var i = 18; i <= 99; i++) {
-        ages.push({
-            id: i,
-            name: `${i} yrs old`
-        });
-    }
-    return ages
-})
-
-const testMedia = computed(() => {
-    if (form.media === null) {
-        return null
-    }
-    if (form.media.url) {
-        return form.media.url
-    }
-    console.log(form.media)
-
-    const firstValue = Object.values(form.media)[0];
-    if (firstValue.preview_url) {
-        return firstValue.preview_url
-    }
-    console.log('FORMMEDIA')
-
-    console.log(form.media)
-    return false
-})
 </script>
 
 <template>
     <AppLayout title="Profile">
         <template #header>
             <h1 class="font-black text-5xl text-black-color mb-4">
-                Create <span class="text-primary-color">Test</span>
+                Vote: <span class="text-primary-color" v-text="category.name"></span>
             </h1>
             <p class="lg:text-16px md:text-15px text-13px lg:max-w-2xl lg:mx-auto leading-7 md:leading-8 text-optional-color">
-                You may create a brand new test, or use an image from a previous test.
+                You are currently voting on the {{ category.name }} category, try to judge the photo as a whole and not
+                just the person using the following categories:
             </p>
         </template>
-        <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-            <div class="bg-white rounded-md p-4">
-                <form @submit.prevent="form.post(route('subjects.index'))">
-                    <tab-group :defaultIndex="0" :selectedIndex="selectedTab" @change="changeTab">
-                        <div class="border-b border-gray-200">
-                            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-                                <tab-list class="mt-6 sm:mt-2 2xl:mt-5 -mb-px flex justify-between">
-                                    <Tab v-slot="{ selected }" as="template"
-                                         v-for="tab in tabs"
-                                         :key="tab.name"
-                                         :aria-current="tab.selected ? tab.name : ''">
-                                        <button
-                                            type="button"
-                                            :class="[selected ? 'border-pink-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300']"
-                                            class='whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'>
-                                            {{ tab.name }}
-                                        </button>
-                                    </Tab>
-                                </tab-list>
+        <div class="bg-white">
+            <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                <h2 id="subjects-heading" class="sr-only">Subjects</h2>
+                <!--                <div v-for="subject in subjects.data" :key="subject.data.id" :href="subject.data.image" class="group">-->
+                <div class="relative bg-white py-16 sm:py-24">
+                    <div
+                        class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:items-start lg:gap-24 lg:px-8">
+                        <div class="relative sm:py-16 lg:py-0">
+                            <div aria-hidden="true"
+                                 class="hidden sm:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-screen">
+                                <div
+                                    class="absolute inset-y-0 right-1/2 w-full rounded-r-3xl bg-gray-50 lg:right-72"></div>
+                                <svg class="absolute top-8 left-1/2 -ml-3 lg:-right-8 lg:left-auto lg:top-12"
+                                     width="404" height="392" fill="none" viewBox="0 0 404 392">
+                                    <defs>
+                                        <pattern id="02f20b47-fd69-4224-a62a-4c9de5c763f7" x="0" y="0"
+                                                 width="20" height="20" patternUnits="userSpaceOnUse">
+                                            <rect x="0" y="0" width="4" height="4" class="text-gray-200"
+                                                  fill="currentColor"/>
+                                        </pattern>
+                                    </defs>
+                                    <rect width="404" height="392"
+                                          fill="url(#02f20b47-fd69-4224-a62a-4c9de5c763f7)"/>
+                                </svg>
+                            </div>
+                            <div
+                                class="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-none lg:px-0 lg:py-20">
+                                <span class="mb-2 p-2 bg-gray-700 text-white uppercase w-full flex justify-center"
+                                      v-text="category.name"></span>
+                                <!-- Testimonial card-->
+                                <div class="relative rounded-2xl pt-64 pb-10 shadow-xl">
+                                    <TransitionRoot
+                                        class="absolute inset-0"
+                                        :show="showImage"
+                                        enter="duration-500"
+                                        enter-to="animate__animated animate__flipInY"
+                                        leave="duration-1000"
+                                        leave-to="animate__animated animate__flipOutY"
+                                    >
+                                        <img class="w-full rounded-2xl"
+                                             :src="subject.data.image"
+                                             alt="">
+                                    </TransitionRoot>
+                                    <!--                                        <div class="relative px-8">-->
+                                    <!--                                            <div>-->
+                                    <!--                                                <img class="h-12"-->
+                                    <!--                                                     src="https://tailwindui.com/img/logos/workcation.svg?color=white"-->
+                                    <!--                                                     alt="Workcation">-->
+                                    <!--                                            </div>-->
+                                    <!--                                            <blockquote class="mt-8">-->
+                                    <!--                                                <div class="relative text-lg font-medium text-white md:flex-grow">-->
+                                    <!--                                                    <svg-->
+                                    <!--                                                        class="absolute top-0 left-0 h-8 w-8 -translate-x-3 -translate-y-2 transform text-indigo-400"-->
+                                    <!--                                                        fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">-->
+                                    <!--                                                        <path-->
+                                    <!--                                                            d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/>-->
+                                    <!--                                                    </svg>-->
+                                    <!--                                                    <p class="relative">Tincidunt integer commodo, cursus etiam-->
+                                    <!--                                                        aliquam neque, et. Consectetur pretium in volutpat, diam.-->
+                                    <!--                                                        Montes, magna cursus nulla feugiat dignissim id lobortis-->
+                                    <!--                                                        amet.</p>-->
+                                    <!--                                                </div>-->
+
+                                    <!--                                                <footer class="mt-4">-->
+                                    <!--                                                    <p class="text-base font-semibold text-indigo-200">Sarah-->
+                                    <!--                                                        Williams, CEO at Workcation</p>-->
+                                    <!--                                                </footer>-->
+                                    <!--                                            </blockquote>-->
+                                    <!--                                        </div>-->
+                                </div>
                             </div>
                         </div>
-                        <tab-panels class="pb-4 mt-8">
-                            <tab-panel v-slot="{selected}">
-                                <media-library-attachment
-                                    @change="onUpload"
-                                    name="subject"/>
-                                <div
-                                    class="mt-4 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
 
-                                    <div v-for="item in media.data" :key="media.url"
-                                         @click="setSubject(item)"
-                                         class="group cursor-pointer">
-                                        <div
-                                            class="aspect-square w-full overflow-hidden rounded-lg sm:aspect-w-2 sm:aspect-h-3">
-                                            <img :src="item.url" alt=""
-                                                 class="h-full w-full object-cover object-center group-hover:opacity-75"/>
-                                        </div>
-                                        <div
-                                            class="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
-                                        </div>
-                                    </div>
-                                </div>
-                            </tab-panel>
-                            <tab-panel>
-                                <div class="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
-                                    <div class="mx-auto max-w-2xl lg:max-w-none">
-                                        <!-- Product -->
-                                        <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-                                            <div class="aspect-w-1 aspect-h-1 w-full">
-                                                <div>
-                                                    <img v-if="testMedia" :src="testMedia"
-                                                         alt="content_images"
-                                                         class="h-full w-full object-cover object-center sm:rounded-lg"/>
-                                                </div>
-                                            </div>
+                        <div class="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
+                            <!-- Content area -->
+                            <div class="pt-12 sm:pt-16 lg:pt-20">
+                                <form @submit.prevent="saveVote">
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div v-for="criteria in subject.data.criteria">
+                                            <h2 v-text="criteria.name"></h2>
+                                            <div>
+                                                <RadioGroup
+                                                    v-model="form.vote[criteria.id]">
+                                                    <RadioGroupLabel class="sr-only"
+                                                                     v-text="criteria.name"></RadioGroupLabel>
+                                                    <div class="space-y-4">
+                                                        <RadioGroupOption as="template" v-for="option in scores"
+                                                                          :key="criteria.id" :value="option"
+                                                                          v-slot="{ checked }">
+                                                            <div
+                                                                :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score? 'border-transparent border-indigo-500 ring-2 ring-indigo-500' : 'border-gray-300', 'relative block cursor-pointer rounded-lg border bg-white px-4 py-4 divide-x divide-gray-300 shadow-sm focus:outline-none sm:flex sm:justify-between']">
+                                                                <RadioGroupDescription as="span"
+                                                                                       class="mt-2 flex justify-between text-sm sm:mt-0 sm:ml-2">
+                                                                    <div>
+                                                                        <span class="font-medium text-gray-900"
+                                                                              v-text="option.score"/>
+                                                                    </div>
+                                                                </RadioGroupDescription>
+                                                                <RadioGroupDescription as="span"
+                                                                                       class="mt-2 flex justify-between text-sm sm:mt-0 sm:ml-2">
+                                                                    <span class="font-medium text-gray-900"
+                                                                          v-text="option.name"/>
+                                                                </RadioGroupDescription>
 
-
-                                            <!-- Product info -->
-                                            <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                                                <div class="mt-6 flex flex-col items-center">
-                                                    <h3 class="text-lg text-gray-600 font-bold">What category of test is
-                                                        this?</h3>
-                                                    <h4 class="text-md text-gray-600 mt-1">Each category tests different
-                                                        traits.</h4>
-
-                                                    <RadioGroup v-model="form.category" class="mt-4">
-                                                        <RadioGroupLabel class="sr-only"> Choose Category
-                                                        </RadioGroupLabel>
-                                                        <div class="flex items-center justify-center">
-                                                            <RadioGroupOption as="template"
-                                                                              class="border-gray-300 px-4 py-2"
-                                                                              v-for="(category,index) in categories"
-                                                                              :key="category.id" :value="category"
-                                                                              :class="[
-                                                                            index === 0 ? 'border-l border-t border-b rounded-md':'',
-                                                                            index !== 0 && index !== categories.length - 1? 'border':'',
-                                                                            index === categories.length - 1 ? 'border-r rounded-md border-t border-b':''
-                                                                            ]"
-                                                                              v-slot="{ active, checked }">
-                                                                <div
-                                                                    :class="[form.category, active && checked ? 'bg-gray-300 ring-none' : '', !active && checked ? 'bg-gray-300' : '', '-m-0.5 relative p-0.5 flex items-center justify-center cursor-pointer focus:outline-none']">
-                                                                    <RadioGroupLabel as="span"
-                                                                                     class="text-xl">
-                                                                    <span class="uppercase"
-                                                                          v-text="category.name"></span>
-                                                                    </RadioGroupLabel>
-                                                                </div>
-                                                            </RadioGroupOption>
-                                                        </div>
-                                                    </RadioGroup>
-                                                </div>
-
-                                                <div class="mt-10 flex justify-center flex-col items-center">
-                                                    <div v-show="Object.keys(form.category).length !== 0"
-                                                         class="flex items-center space-x-2">
-                                                        <span class="text-xl">Traits:</span>
-                                                        <ul class="flex items-center space-x-2 text-xl">
-                                                            <li
-                                                                v-for="(trait,index) in form.category.criterias"
-                                                                v-text="index === (form.category.criterias.length - 1) ? trait.name : `${trait.name},`"
-                                                                class="capitalize"
-                                                                :class="[
-                                                                index === 0 ? 'text-green-500' : '',
-                                                                index === 1 ? 'text-blue-500':'',
-                                                                index === 2 ? 'text-orange-500' : ''
-                                                                ]"
-                                                            ></li>
-                                                        </ul>
+                                                                <span
+                                                                    :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score ? 'border-indigo-500' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                                    aria-hidden="true"/>
+                                                            </div>
+                                                        </RadioGroupOption>
                                                     </div>
-                                                    <button @click.prevent="changeTab(2)"
-                                                            class="mt-4 flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
-                                                        Next
-                                                    </button>
-                                                </div>
+                                                </RadioGroup>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </tab-panel>
-                            <tab-panel>
-                                <div class="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
-                                    <div class="mx-auto max-w-2xl lg:max-w-none">
-                                        <!-- Product -->
-
-                                        <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-
-                                            <div class="aspect-w-1 aspect-h-1 w-full">
-                                            <span v-text="form.category.name"
-                                                  class="p-2 bg-gray-700 text-white uppercase w-full flex justify-center"
-                                            />
-                                                <div class="mt-2">
-                                                    <img v-if="testMedia" :src="testMedia" alt="content_image"
-                                                         class="h-full w-full object-cover object-center sm:rounded-lg"/>
-                                                </div>
-                                                <div
-                                                    v-if="form.options && form.options.multiplePeople && form.options.position !== undefined"
-                                                    class="flex flex-col mt-4"
-                                                >
-                                                    <span class="text-lg font-bold">Position</span>
-                                                    <span v-text="form.options.position.name"></span>
-                                                </div>
-                                                <div
-                                                    v-if="form.options && form.options.context"
-                                                    class="flex flex-col mt-4"
-                                                >
-                                                    <span class="text-lg font-bold">Title</span>
-                                                    <span v-text="form.options.context"></span>
-                                                </div>
-                                                <div
-                                                    v-if="form.options && form.options.gender"
-                                                    class="flex flex-col mt-4"
-                                                >
-                                                    <div
-                                                        v-if="form.options && form.options.age"
-                                                        class="p-4 border border-gray-300 rounded-md bg-gray-100 flex text-gray-600 space-x-3">
-                                                        <span>Subject - </span>
-                                                        <span v-text="form.options.age.id"></span>
-                                                        <span>/</span>
-                                                        <span v-text="form.options.gender.name"></span>
-                                                    </div>
-                                                </div>
+                                    <div class="flex flex-col w-full">
+                                        <div>
+                                            <label for="about"
+                                                   class="block text-sm font-medium text-gray-700">Leave a
+                                                note</label>
+                                            <div class="mt-1">
+                                                    <textarea v-model="form.comment" id="about" name="about" rows="3"
+                                                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                              placeholder="you@example.com"></textarea>
                                             </div>
-
-
-                                            <!-- Product info -->
-                                            <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                                                <!--                                                BUSINESS-->
-                                                <div
-                                                    v-show="form.category.name === 'Business'"
-                                                    class="mt-6 flex flex-col items-center">
-                                                    <h3 class="text-lg text-gray-600 font-bold">Add Context</h3>
-                                                    <InputLabel for="formOptions"
-                                                                value="What is your professional title?"/>
-                                                    <TextInput
-                                                        ref="formOptions"
-                                                        v-model="form.options.context"
-                                                        type="text"
-                                                        class="mt-1 block w-3/4"
-                                                        placeholder="Vice President Marketing"
-                                                    />
-                                                </div>
-                                                <!--                                                SOCIAL-->
-                                                <div
-                                                    v-if="form.category.name === 'Social'"
-                                                    class="mt-6 flex flex-col items-center">
-                                                    <h3 class="text-lg text-gray-600 font-bold">How many people in this
-                                                        photo?</h3>
-                                                    <RadioGroup v-model="form.options.multiplePeople" class="mt-4">
-                                                        <RadioGroupLabel class="sr-only"> How many people in this
-                                                            photo?
-                                                        </RadioGroupLabel>
-                                                        <div class="flex flex-col items-center justify-center">
-                                                            <RadioGroupOption as="span"
-                                                                              class="px-4 py-2"
-                                                                              key="one" value="one"
-                                                                              @click="resetOptions"
-                                                                              v-slot="{ active, checked }">
-                                                                <div
-                                                                    :class="[
-                                                                    form.category, active && checked ? 'bg-gray-300 ring-none' : '',
-                                                                    !active && checked ? 'bg-gray-300' : '', '-m-0.5 relative p-0.5 flex items-center justify-center cursor-pointer focus:outline-none'
-                                                                ]"
-                                                                    class="rounded-lg p-3 border border-gray-500">
-                                                                    <RadioGroupLabel as="span"
-                                                                                     class="text-xl">
-                                                                        <span class="uppercase">One</span>
-                                                                    </RadioGroupLabel>
-                                                                </div>
-                                                            </RadioGroupOption>
-                                                            <RadioGroupOption as="span"
-                                                                              class="px-4 py-2"
-                                                                              key="multiple" :value="true"
-                                                                              v-slot="{ active, checked }">
-                                                                <div
-                                                                    :class="[
-                                                                    form.category, active && checked ? 'bg-gray-300 ring-none' : '',
-                                                                    !active && checked ? 'bg-gray-300' : '', '-m-0.5 relative p-0.5 flex items-center justify-center cursor-pointer focus:outline-none'
-                                                                ]"
-                                                                    class="rounded-lg p-3 border border-gray-500">
-                                                                    <RadioGroupLabel as="span"
-                                                                                     class="text-xl">
-                                                                        <span class="uppercase">Multiple</span>
-                                                                    </RadioGroupLabel>
-                                                                </div>
-                                                            </RadioGroupOption>
-                                                        </div>
-                                                    </RadioGroup>
-                                                    <SelectWithCheck
-                                                        v-if="form.options.multiplePeople"
-                                                        v-model="form.options.position"
-                                                        :message="form.errors.options"
-                                                        label="Choose One"
-                                                        :options="[
-                                                        {id: 1, name: 'The one on the left'},
-                                                        {id: 2, name: 'The one in the center'},
-                                                        {id: 3, name: 'The one on the right'},
-                                                    ]"
-
-                                                    />
-                                                </div>
-                                                <!--                                                DATING-->
-                                                <div
-                                                    v-if="form.category.name === 'Dating'"
-                                                    class="mt-6 flex flex-col items-center w-full">
-                                                    <h3 class="text-lg text-gray-600 font-bold">Who is in the
-                                                        photo?</h3>
-                                                    <div class="flex space-x-4 w-full">
-                                                        <SelectWithCheck
-                                                            class="w-full"
-                                                            v-model="form.options.gender"
-                                                            :message="form.errors.options"
-                                                            label="Cender"
-                                                            :options="[
-                                                        {id: 1, name: 'Male'},
-                                                        {id: 2, name: 'Female'},
-                                                    ]"
-                                                        />
-                                                        <SelectWithCheck
-                                                            v-model="form.options.age"
-                                                            :message="form.errors.options"
-                                                            label="Age"
-                                                            :options="allowedAges"
-                                                        />
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <div class="flex flex-col space-y-4">
-
-
-                                                            <SwitchGroup as="div" class="flex items-center">
-                                                                <Switch v-model="form.options.multiplePeople"
-                                                                        :class="[form.options.multiplePeople ? 'bg-green-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2']">
-                                                                <span aria-hidden="true"
-                                                                      :class="[form.options.multiplePeople ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']"/>
-                                                                </Switch>
-                                                                <SwitchLabel as="span" class="ml-3">
-                                                                    <span class="text-sm font-medium text-gray-900">This photo has multiple people</span>
-                                                                </SwitchLabel>
-                                                            </SwitchGroup>
-                                                            <SelectWithCheck
-                                                                v-if="form.options.multiplePeople"
-                                                                v-model="form.options.position"
-                                                                :message="form.errors.options"
-                                                                label="Choose One"
-                                                                :options="[
-                                                        {id: 1, name: 'The one on the left'},
-                                                        {id: 2, name: 'The one in the center'},
-                                                        {id: 3, name: 'The one on the right'},
-                                                    ]"
-
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mt-4 flex justify-center flex-col items-center">
-                                                    <button type="submit"
-                                                            class="mt-4 flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
-                                                        Start
-                                                    </button>
-                                                </div>
-                                                <div v-show="form.hasErrors"
-                                                     class=" mt-4 bg-red-300 border-red-600 p-4 rounded-md">
-                                                    <ul class="list-disc px-2">
-                                                        <li
-                                                            v-for="error in form.errors"
-                                                            class="text-red-900"
-                                                            v-text="error"/>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                            <!--                                            <p class="mt-2 text-sm text-gray-500">Brief description for your-->
+                                            <!--                                                profile. URLs are hyperlinked.</p>-->
+                                        </div>
+                                        <button
+                                            :disabled="form.processing"
+                                            type="submit"
+                                            :class="[form.processing ? 'bg-gray-300' : 'bg-indigo-600 hover:bg-indigo-700']"
+                                            class="mt-4 flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent py-3 px-8 text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
+                                            <span v-show="form.processing">
+                                                <ArrowPathIcon class="w-5 h-5 animate-spin"/>
+                                            </span>
+                                            <span>
+                                                Submit
+                                            </span>
+                                        </button>
+                                        <div v-show="form.hasErrors"
+                                             class=" mt-4 bg-red-300 border-red-600 p-4 rounded-md">
+                                            <ul class="list-disc px-2">
+                                                <li
+                                                    v-for="error in form.errors"
+                                                    class="text-red-900"
+                                                    v-text="error"/>
+                                            </ul>
                                         </div>
                                     </div>
-                                </div>
-                            </tab-panel>
-                        </tab-panels>
-                    </tab-group>
-                </form>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--                </div>-->
             </div>
         </div>
     </AppLayout>

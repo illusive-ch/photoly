@@ -3,13 +3,18 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import {useForm} from '@inertiajs/inertia-vue3'
 import {RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption, TransitionRoot} from '@headlessui/vue'
 import {ArrowPathIcon} from '@heroicons/vue/24/outline'
-import {ref} from 'vue';
+import {computed, ref, watch} from 'vue';
+import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/20/solid'
+import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
+import {usePage, Link} from '@inertiajs/inertia-vue3'
 
 
 const props = defineProps({
     subject: Object,
     category: Object,
 });
+
+const categories = computed(() => usePage().props.value.categories.data)
 
 const scores = [
     {name: 'Very', score: 3},
@@ -23,9 +28,22 @@ const form = useForm({
     subject: props.subject.data,
     comment: null
 });
+
+const criteriaLength = props.subject.data.criteria.length
+
+const voteLength = computed(() => {
+    return Object.keys(form.vote).length
+})
+
+const showComment = computed(() => {
+    return criteriaLength === Object.keys(form.vote).length
+})
+
 const showImage = ref(true)
+const showForm = ref(true)
 
 const saveVote = () => {
+    console.log('called')
     showImage.value = false
     form.post(route('category.subjects.criteria.store', {
         category: props.category.id,
@@ -44,14 +62,46 @@ const saveVote = () => {
 <template>
     <AppLayout title="Profile">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Profile
-            </h2>
+            <h1 class="font-black text-3xl lg:text-5xl text-black-color mb-4">
+                Vote:
+                <Menu as="div" class="relative inline-block text-left">
+                    <div>
+                        <MenuButton
+                            class="text-primary-color inline-flex items-center w-full justify-center rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                            {{ category.name }}
+                            <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true"/>
+                        </MenuButton>
+                    </div>
+
+                    <transition enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95">
+                        <MenuItems
+                            class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div class="py-1">
+                                <template v-for="category in categories">
+                                    <MenuItem v-slot="{ active }">
+                                        <Link :href="route('category.subjects.index',category.id)"
+                                              :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                              v-text="category.name"/>
+                                    </MenuItem>
+                                </template>
+                            </div>
+                        </MenuItems>
+                    </transition>
+                </Menu>
+            </h1>
+            <p class="lg:max-w-2xl lg:mx-auto leading-7 md:leading-8 text-optional-color">
+                You are currently voting on the {{ category.name }} category, try to judge the photo as a whole and not
+                just the person using the following categories:
+            </p>
         </template>
         <div class="bg-white">
             <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h2 id="subjects-heading" class="sr-only">Subjects</h2>
-                <!--                <div v-for="subject in subjects.data" :key="subject.data.id" :href="subject.data.image" class="group">-->
                 <div class="relative bg-white py-16 sm:py-24">
                     <div
                         class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:items-start lg:gap-24 lg:px-8">
@@ -75,134 +125,150 @@ const saveVote = () => {
                             </div>
                             <div
                                 class="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-none lg:px-0 lg:py-20">
-                                <span class="mb-2 p-2 bg-gray-700 text-white uppercase w-full flex justify-center"
-                                      v-text="category.name"></span>
                                 <!-- Testimonial card-->
-                                <div class="relative rounded-2xl pt-64 pb-10 shadow-xl">
+                                <div class="relative rounded-2xl shadow-xl">
                                     <TransitionRoot
-                                        class="absolute inset-0"
+                                        class=""
                                         :show="showImage"
                                         enter="duration-500"
                                         enter-to="animate__animated animate__flipInY"
                                         leave="duration-1000"
                                         leave-to="animate__animated animate__flipOutY"
                                     >
-                                        <img class="w-full rounded-2xl"
-                                             :src="subject.data.image"
-                                             alt="">
-                                    </TransitionRoot>
-                                    <!--                                        <div class="relative px-8">-->
-                                    <!--                                            <div>-->
-                                    <!--                                                <img class="h-12"-->
-                                    <!--                                                     src="https://tailwindui.com/img/logos/workcation.svg?color=white"-->
-                                    <!--                                                     alt="Workcation">-->
-                                    <!--                                            </div>-->
-                                    <!--                                            <blockquote class="mt-8">-->
-                                    <!--                                                <div class="relative text-lg font-medium text-white md:flex-grow">-->
-                                    <!--                                                    <svg-->
-                                    <!--                                                        class="absolute top-0 left-0 h-8 w-8 -translate-x-3 -translate-y-2 transform text-indigo-400"-->
-                                    <!--                                                        fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">-->
-                                    <!--                                                        <path-->
-                                    <!--                                                            d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/>-->
-                                    <!--                                                    </svg>-->
-                                    <!--                                                    <p class="relative">Tincidunt integer commodo, cursus etiam-->
-                                    <!--                                                        aliquam neque, et. Consectetur pretium in volutpat, diam.-->
-                                    <!--                                                        Montes, magna cursus nulla feugiat dignissim id lobortis-->
-                                    <!--                                                        amet.</p>-->
-                                    <!--                                                </div>-->
+                                        <div
+                                            class="single-team-member rounded-md md:rounded-lg bg-white">
+                                            <form @submit.prevent="saveVote">
+                                                <div class="">
+                                                    <img
+                                                        :src="subject.data.image"
+                                                        class="object-cover h-128 w-full rounded-tl-lg rounded-tr-lg md:rounded-tl-lg md:rounded-tr-lg"
+                                                        alt="team"/>
+                                                    <template v-for="(criteria,index) in subject.data.criteria">
+                                                        <TransitionRoot
+                                                            :show="showForm && !form.vote[subject.data.criteria[index].id] &&
+                                                                ( subject.data.criteria[index-1] && form.vote[subject.data.criteria[index-1].id] !== undefined )"
+                                                            enter="duration-500"
+                                                            enter-to="animate__animated animate__zoomIn"
+                                                            leave="duration-500"
+                                                            leave-to="animate__animated animate__zoomOut"
+                                                        >
+                                                            <div
+                                                                class="absolute bottom-28 bg-gray-200 opacity-75 w-full p-4 over">
+                                                                <h2 class="w-full bg-gray" v-text="criteria.name"></h2>
+                                                                <div>
+                                                                    <RadioGroup
+                                                                        v-model="form.vote[criteria.id]">
+                                                                        <RadioGroupLabel class="sr-only"
+                                                                                         v-text="criteria.name"></RadioGroupLabel>
+                                                                        <div
+                                                                            class="flex space-y-1 justify-around items-center">
+                                                                            <RadioGroupOption as="template"
+                                                                                              v-for="option in scores"
+                                                                                              :key="criteria.id"
+                                                                                              :value="option"
+                                                                                              v-slot="{ checked }">
+                                                                                <div
+                                                                                    :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score? 'border-transparent border-primary-color ring-2 ring-primary-color-500' : 'border-gray-300', 'relative block cursor-pointer rounded-lg border bg-white hover:bg-gray-100 px-4 py-4 divide-x divide-gray-300 shadow-sm focus:outline-none sm:flex sm:justify-between']">
+                                                                                    <RadioGroupDescription as="span"
+                                                                                                           class="mt-2 flex justify-between text-sm sm:mt-0 sm:ml-2">
+                                                                                <span
+                                                                                    class="font-medium text-gray-900 hover:bg-gray-200"
+                                                                                    v-text="option.name"/>
+                                                                                    </RadioGroupDescription>
+                                                                                    <span
+                                                                                        :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score ? 'boring-primary-color' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                                                        aria-hidden="true"/>
+                                                                                </div>
+                                                                            </RadioGroupOption>
+                                                                        </div>
+                                                                    </RadioGroup>
+                                                                </div>
+                                                            </div>
+                                                        </TransitionRoot>
+                                                    </template>
+                                                    <TransitionRoot
+                                                        :show="showForm && showComment"
+                                                        enter="duration-500"
+                                                        enter-to="animate__animated animate__zoomIn"
+                                                        leave="duration-500"
+                                                        leave-to="animate__animated animate__zoomOut"
+                                                    >
+                                                        <div
+                                                            class="absolute bottom-40 bg-gray-200 opacity-90 w-full p-4 over">
+                                                            <label for="about"
+                                                                   class="block text-sm font-medium text-gray-700">
+                                                                Leave a note
+                                                            </label>
+                                                            <div class="mt-1">
+                                                    <textarea v-model="form.comment" id="about" name="about" rows="3"
+                                                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:boring-primary-color focus:ring-primary-color sm:text-sm"
+                                                              placeholder="you@example.com"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </TransitionRoot>
+                                                </div>
 
-                                    <!--                                                <footer class="mt-4">-->
-                                    <!--                                                    <p class="text-base font-semibold text-indigo-200">Sarah-->
-                                    <!--                                                        Williams, CEO at Workcation</p>-->
-                                    <!--                                                </footer>-->
-                                    <!--                                            </blockquote>-->
-                                    <!--                                        </div>-->
+                                                <div class="relative p-4 flex justify-between items-center">
+                                                    <div class="">
+                                                        <h3 class="font-bold text-xl mt-4 mb-4"
+                                                            v-text="category.name"/>
+                                                        <div class="flex">
+                                                        <span v-if="subject.data.context !== ''"
+                                                              class="text-lg text-primary-color font-medium"
+                                                              v-text="subject.data.context"/>
+                                                            <span v-if="subject.data.position !== ''"
+                                                                  class="text-lg text-primary-color font-medium"
+                                                                  v-text="subject.data.position"/>
+                                                        </div>
+
+                                                    </div>
+                                                    <div
+                                                        class="">
+                                                        <button
+                                                            type="button"
+                                                            v-show="!showComment"
+                                                            @click="showForm = !showForm"
+                                                            class="btn ease-in duration-300 bg-white shadow-md bg-gray-50 p-2 text-center relative rounded-full">
+                                                            <ChevronDownIcon class="h-10 w-10 transition duration-300"
+                                                                             :class="{'rotate-180': showForm}"/>
+                                                        </button>
+                                                        <button
+                                                            v-show="showComment"
+                                                            :disabled="form.processing"
+                                                            type="submit"
+                                                            :class="[form.processing ? 'bg-gray-300' : 'bg-indigo-600 hover:bg-indigo-700']"
+                                                            class="mt-4 flex max-w-xs flex-1 items-center justify-center py-3 px-8 text-white focus:outline-none focus:ring-2 focus:ring-primary-color focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full inline-block font-semibold rounded-md text-white bg-secondary-gradient-color shadow-md ease-in duration-300">
+                                                        <span v-show="form.processing">
+                                                            <ArrowPathIcon class="w-5 h-5 animate-spin"/>
+                                                        </span>
+                                                            <span>
+                                                            Submit
+                                                        </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </TransitionRoot>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
+                        <div class="hidden lg:block relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
                             <!-- Content area -->
                             <div class="pt-12 sm:pt-16 lg:pt-20">
-                                <form @submit.prevent="saveVote">
-                                    <div class="grid grid-cols-3 gap-4">
-                                        <div v-for="criteria in subject.data.criteria">
-                                            <h2 v-text="criteria.name"></h2>
-                                            <div>
-                                                <RadioGroup
-                                                    v-model="form.vote[criteria.id]">
-                                                    <RadioGroupLabel class="sr-only"
-                                                                     v-text="criteria.name"></RadioGroupLabel>
-                                                    <div class="space-y-4">
-                                                        <RadioGroupOption as="template" v-for="option in scores"
-                                                                          :key="criteria.id" :value="option"
-                                                                          v-slot="{ checked }">
-                                                            <div
-                                                                :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score? 'border-transparent border-indigo-500 ring-2 ring-indigo-500' : 'border-gray-300', 'relative block cursor-pointer rounded-lg border bg-white px-4 py-4 divide-x divide-gray-300 shadow-sm focus:outline-none sm:flex sm:justify-between']">
-                                                                <RadioGroupDescription as="span"
-                                                                                       class="mt-2 flex justify-between text-sm sm:mt-0 sm:ml-2">
-                                                                    <div>
-                                                                        <span class="font-medium text-gray-900"
-                                                                              v-text="option.score"/>
-                                                                    </div>
-                                                                </RadioGroupDescription>
-                                                                <RadioGroupDescription as="span"
-                                                                                       class="mt-2 flex justify-between text-sm sm:mt-0 sm:ml-2">
-                                                                    <span class="font-medium text-gray-900"
-                                                                          v-text="option.name"/>
-                                                                </RadioGroupDescription>
-
-                                                                <span
-                                                                    :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score ? 'border-indigo-500' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
-                                                                    aria-hidden="true"/>
-                                                            </div>
-                                                        </RadioGroupOption>
-                                                    </div>
-                                                </RadioGroup>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col w-full">
-                                        <div>
-                                            <label for="about"
-                                                   class="block text-sm font-medium text-gray-700">Leave a
-                                                note</label>
-                                            <div class="mt-1">
-                                                    <textarea v-model="form.comment" id="about" name="about" rows="3"
-                                                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                              placeholder="you@example.com"></textarea>
-                                            </div>
-                                            <!--                                            <p class="mt-2 text-sm text-gray-500">Brief description for your-->
-                                            <!--                                                profile. URLs are hyperlinked.</p>-->
-                                        </div>
-                                        <button
-                                            :disabled="form.processing"
-                                            type="submit"
-                                            :class="[form.processing ? 'bg-gray-300' : 'bg-indigo-600 hover:bg-indigo-700']"
-                                            class="mt-4 flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent py-3 px-8 text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
-                                            <span v-show="form.processing">
-                                                <ArrowPathIcon class="w-5 h-5 animate-spin"/>
-                                            </span>
-                                            <span>
-                                                Submit
-                                            </span>
-                                        </button>
-                                        <div v-show="form.hasErrors"
-                                             class=" mt-4 bg-red-300 border-red-600 p-4 rounded-md">
-                                            <ul class="list-disc px-2">
-                                                <li
-                                                    v-for="error in form.errors"
-                                                    class="text-red-900"
-                                                    v-text="error"/>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </form>
+                                <dl class="mt-20 md:mt-30">
+                                    <template v-for="criteria in subject.data.criteria">
+                                        <dt v-text="criteria.name"
+                                            class="text-black-color relative font-bold last:mb-0 mt-4 text-lg"/>
+                                        <dd v-text="criteria.description"
+                                            class="font-normal leading-7 md:leading-8 text-optional-color"/>
+                                    </template>
+                                </dl>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--                </div>-->
             </div>
         </div>
     </AppLayout>

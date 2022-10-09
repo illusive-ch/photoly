@@ -36,3 +36,5 @@ public/css/
 public/js/
 .env.beta
 .env.testing
+.env.production
+.env.staging

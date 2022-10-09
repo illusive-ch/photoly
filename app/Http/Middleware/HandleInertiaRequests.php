@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\CategoryResource;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -40,7 +43,10 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
-            'env' => config('app.env')
+            'categories' => Cache::rememberForever('categories', function () {
+                return CategoryResource::collection(Category::all());
+            }),
+            'env' => config('app.env'),
         ]);
     }
 }
