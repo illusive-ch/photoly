@@ -53,6 +53,24 @@ class DatabaseSeeder extends Seeder
             }
         });
 
-        User::factory(10)->withPersonalTeam()->create();
+        $subjects = Subject::factory(50)
+            ->state(new Sequence(
+                fn ($sequence) => ['category_id' => Category::all()->random()->id],
+            ))
+            ->create();
+
+        $subjects->each(function ($subject) {
+            $criterias = $subject->category->criterias;
+            for ($x = 0; $x <= 10; $x++) {
+                foreach ($criterias as $criteria) {
+                    $user = User::factory()->create();
+                    $subject->criterias()->attach($criteria, [
+                        'user_id' => $user->id,
+                        'score' => rand(0, 3),
+                    ]);
+                    Comment::factory()->for($user)->create(['subject_id' => $subject->id]);
+                }
+            }
+        });
     }
 }

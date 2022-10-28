@@ -15,6 +15,7 @@
         "laravel/framework": "^9.19",
         "laravel/jetstream": "^2.12",
         "laravel/sanctum": "^3.0",
+        "laravel/socialite": "^5.5",
         "laravel/spark-stripe": "^2.5",
         "laravel/tinker": "^2.7",
         "laravel/vapor-cli": "^1.44",

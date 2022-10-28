@@ -2,6 +2,7 @@
 
 namespace App\Actions\Subject;
 
+use App\Events\SubjectCreated;
 use App\Models\Subject;
 use Auth;
 
@@ -21,8 +22,7 @@ class CreateNewSubject
         unset($subjectForm['media']);
 
         unset($subjectForm['upload']);
-//        dd($subjectForm);
-//        dd($subjectForm);
+
         $subject = $team->subjects()->create($subjectForm);
 
         if ($upload) {
@@ -32,6 +32,8 @@ class CreateNewSubject
         } else {
             $subject->addMedia($media['path'])->preservingOriginal()->toMediaCollection();
         }
+
+        SubjectCreated::dispatch($subject);
 
         return $subject;
     }

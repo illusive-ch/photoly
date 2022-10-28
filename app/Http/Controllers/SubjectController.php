@@ -21,11 +21,11 @@ class SubjectController extends Controller
     {
         $votable = $category->subjects()
             ->with('category', 'media')
-            ->where('status', true)
-            ->whereDoesntHave('criterias', function ($query) {
-                $query->where('user_id', Auth::user()->id);
-            })
+            ->notFlagged()
+            ->notOwner()
+            ->active()
             ->first();
+
         $subject = new SubjectResource($votable);
 
         return Inertia::render('Subject/Index', compact('subject', 'category'));
