@@ -17,18 +17,19 @@ use Inertia\Response;
 
 class SubjectController extends Controller
 {
-    public function index(Category $category): Response
+    public function index(Category $category): \Illuminate\Http\RedirectResponse
     {
         $votable = $category->subjects()
             ->with('category', 'media')
             ->notFlagged()
             ->notOwner()
             ->active()
+            ->whereDoesntHave('criterias', function ($query) {
+                $query->where('user_id', '=', Auth::user()->id);
+            })
             ->first();
 
-        $subject = new SubjectResource($votable);
-
-        return Inertia::render('Subject/Index', compact('subject', 'category'));
+        return Redirect::route('category.subjects.show', ['category' => $category, 'subject' => $votable]);
     }
 
     public function create(): Response
@@ -68,6 +69,12 @@ class SubjectController extends Controller
 
     public function show(Category $category, Subject $subject): Response
     {
+        if (Auth::user()->currentTeam->id !== $subject->team_id) {
+            $subject = new SubjectResource($subject);
+
+            return Inertia::render('Subject/Index', compact('subject', 'category'));
+        }
+
         $subject->scores = $this->scores($subject);
         $subject = new SubjectResource($subject);
         $comments = CommentResource::collection($subject->comments);

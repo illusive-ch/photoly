@@ -60,7 +60,7 @@ class CriteriaController extends Controller
             ]);
         }
 
-        return redirect()->back();
+        return redirect()->route('category.subjects.index', ['category' => $category]);
     }
 
     /**
