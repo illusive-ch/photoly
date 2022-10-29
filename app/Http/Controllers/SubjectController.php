@@ -19,6 +19,15 @@ class SubjectController extends Controller
 {
     public function index(Category $category): \Illuminate\Http\RedirectResponse
     {
+//        $recentVotes = Auth::user()->whereHas('votes', function ($q) {
+//            $q->where('criteria_subject.created_at', '>=', now()->subHours(12));
+//        })->get();
+        $recentVotes = Auth::user()->votes()
+            ->wherePivot('created_at', '>=', now()->subHours(12))
+            ->get()
+            ->pluck('team_id')
+            ->unique();
+
         $votable = $category->subjects()
             ->with('category', 'media')
             ->notFlagged()
@@ -27,6 +36,7 @@ class SubjectController extends Controller
             ->whereDoesntHave('criterias', function ($query) {
                 $query->where('user_id', '=', Auth::user()->id);
             })
+            ->whereNotIn('team_id', $recentVotes)
             ->first();
 
         return Redirect::route('category.subjects.show', ['category' => $category, 'subject' => $votable]);
