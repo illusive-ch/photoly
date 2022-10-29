@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->index();
             $table->string('name');
+            $table->timestamp('last_seen')->useCurrent();
             $table->boolean('personal_team');
             $table->timestamps();
         });
