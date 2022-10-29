@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,10 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
+
+Route::get('/auth/{provider}/redirect', [LoginController::class, 'redirectToProvider'])->name('oauth');
+Route::get('/auth/{provider}/callback', [LoginController::class, 'handleProviderCallback']);
+
 Route::get('/vars', function () {
     dd($_ENV);
 });

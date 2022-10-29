@@ -56,12 +56,18 @@ const auto = () => {
             {{ status }}
         </div>
         <div class="flex space-x-2 mb-2">
-            <Link :href="route('oauth','google')" class="underline text-sm text-gray-600 hover:text-gray-900">
+            <a :href="route('oauth','google')" class="underline text-sm text-gray-600 hover:text-gray-900">
                 Google
-            </Link>
-            <Link :href="route('oauth','facebook')" class="underline text-sm text-gray-600 hover:text-gray-900">
+            </a>
+            <a :href="route('oauth','facebook')" class="underline text-sm text-gray-600 hover:text-gray-900">
                 Facebook
-            </Link>
+            </a>
+            <a :href="route('oauth','twitter-oauth-2')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                Twitter
+            </a>
+            <a :href="route('oauth','apple')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                Apple
+            </a>
         </div>
         <form @submit.prevent="submit">
             <div>

@@ -21,6 +21,7 @@
         "laravel/vapor-cli": "^1.44",
         "laravel/vapor-core": "^2.23",
         "laravel/vapor-ui": "^1.5",
+        "socialiteproviders/apple": "^5.3",
         "spatie/laravel-login-link": "^1.1",
         "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-medialibrary-pro": "^2.0.0",
