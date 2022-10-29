@@ -7,12 +7,16 @@ import {computed, ref, watch} from 'vue';
 import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/20/solid'
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
 import {usePage, Link} from '@inertiajs/inertia-vue3'
+import {VueReCaptcha, useReCaptcha} from 'vue-recaptcha-v3'
 
 
 const props = defineProps({
     subject: Object,
     category: Object,
 });
+
+const {executeRecaptcha, recaptchaLoaded} = useReCaptcha()
+
 
 const categories = computed(() => usePage().props.value.categories.data)
 
@@ -26,8 +30,16 @@ const form = useForm({
     _method: 'POST',
     vote: {},
     subject: props.subject.data,
-    comment: null
+    comment: null,
+    recaptcha: null
 });
+const recaptcha = async () => {
+    form.recaptcha = 'loading'
+    await recaptchaLoaded()
+    form.recaptcha = await executeRecaptcha('login')
+    await saveVote()
+}
+
 
 const criteriaLength = props.subject.data.criteria.length
 
@@ -57,6 +69,7 @@ const saveVote = () => {
         }
     })
 }
+
 </script>
 
 <template>
@@ -137,7 +150,7 @@ const saveVote = () => {
                                     >
                                         <div
                                             class="single-team-member rounded-md md:rounded-lg bg-white">
-                                            <form @submit.prevent="saveVote">
+                                            <form @submit.prevent="recaptcha">
                                                 <div class="">
                                                     <img
                                                         :src="subject.data.image"
