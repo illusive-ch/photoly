@@ -18,6 +18,11 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->boolean('status')->default(false);
+            $table->tinyInteger('position')->nullable();
+            $table->tinyInteger('targetGender')->nullable();
+            $table->mediumInteger('targetMinAge')->default(18);
+            $table->mediumInteger('targetMaxAge')->default(100);
+            $table->integer('targetVotes')->nullable();
             $table->json('options')->nullable();
             $table->timestamps();
         });

@@ -46,19 +46,13 @@ class CriteriaController extends Controller
             'response' => $request->get('recaptcha'),
         ];
 
+        $data = $request->validated();
+
         $response = Http::get('https://www.google.com/recaptcha/api/siteverify', $args);
 
         $googleResponse = $response->json('score');
 
-        $data = $request->all();
-
-        $subject = (new DepictSubject())($data, $subject);
-
-        if ($googleResponse <= 0.5) {
-            $subject->moderate()->create([
-                'reason' => 'possible spam',
-            ]);
-        }
+        $subject = (new DepictSubject())($data, $subject, false, $googleResponse);
 
         return redirect()->route('category.subjects.index', ['category' => $category]);
     }

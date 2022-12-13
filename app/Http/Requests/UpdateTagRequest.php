@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\PackageExists;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class StoreCreditRequest extends FormRequest
+class UpdateTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +13,7 @@ class StoreCreditRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return false;
     }
 
     /**
@@ -26,7 +24,7 @@ class StoreCreditRequest extends FormRequest
     public function rules()
     {
         return [
-            'plan' => ['required', new PackageExists],
+            //
         ];
     }
 }

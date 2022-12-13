@@ -23,4 +23,9 @@ class Category extends Model
     {
         return $this->hasMany(Criteria::class);
     }
+
+    public function tags(): hasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
 }

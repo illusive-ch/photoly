@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\HasBalance;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSubjectRequest extends FormRequest
@@ -28,10 +29,12 @@ class StoreSubjectRequest extends FormRequest
             'media' => ['required_if:upload,true', 'array'],
             'upload' => ['required', 'boolean'],
             'category.id' => ['required', 'exists:categories,id'],
-            'options.context' => ['required_if:category.name,Busienss'],
-            'options.age.id' => ['required_if:category.name,Dating', 'numeric'],
-            'options.gender.id' => ['required_if:category.name,Dating', 'numeric'],
-            'options.position' => ['required_if:options.multiplePeople,true'],
+            'position' => ['required_if:options.multiplePeople,true'],
+            'target.gender' => ['required', 'in:Both,Male,Female'],
+            'target.minAge' => ['required', 'lte:target.maxAge', 'gte:18'],
+            'target.maxAge' => ['required', 'gte:target.minAge', 'lte:100'],
+            'plan' => ['required'],
+            'plan.cost' => ['required', 'integer', new HasBalance],
         ];
     }
 }

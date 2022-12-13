@@ -22,6 +22,7 @@ class SubjectResource extends JsonResource
             ],
             'depictions_count' => $this->criterias_count,
             'criteria' => $this->category->criterias,
+            'tags' => $this->category->tags,
             'scores' => $this->scores,
             'image' => $this->getFirstMediaUrl(),
             'status' => $this->status,

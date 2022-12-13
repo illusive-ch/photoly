@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import {ref, watch} from 'vue'
 import {TabGroup, TabList, Tab, TabPanels, TabPanel, Switch, SwitchGroup, SwitchLabel} from '@headlessui/vue'
 import SubjectScore from '@/Components/SubjectScore.vue';
+import {ChartBarIcon, TagIcon, ChatBubbleLeftIcon, ChatBubbleOvalLeftIcon, PauseIcon} from '@heroicons/vue/24/solid'
 
 const props = defineProps({
     subject: Object,
@@ -12,84 +13,133 @@ const props = defineProps({
 const selectedTab = ref(0)
 
 const tabs = [
-    {name: 'Scores', selected: true},
-    {name: 'Data', selected: false},
-    {name: 'Notes', selected: false},
-    {name: 'Image', selected: false},
+    {name: 'Votes', icon: ChartBarIcon, selected: true},
+    {name: 'Tags', icon: TagIcon, selected: false},
+    {name: 'Comments', icon: ChatBubbleLeftIcon, selected: false},
 ]
 </script>
 
 <template>
     <AppLayout title="Profile">
         <template #header>
-            <h1 class="font-black text-5xl text-black-color mb-4">
-                Test <span class="text-primary-color">Results</span>
-            </h1>
-            <p class="lg:text-16px md:text-15px text-13px lg:max-w-2xl lg:mx-auto leading-7 md:leading-8 text-optional-color">
-                Below is a list of your test results, click on the tabs to view detailed information.
-            </p>
         </template>
-        <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-            <div class="bg-white rounded-md p-4">
-                <div class="grid grid-cols-2 gap-4 divide-x divide-gray-300">
-                    <div class="aspect-w-1 aspect-h-1 w-full">
-                        <div>
-                            <img :src="subject.data.image"
-                                 alt="content_images"
-                                 class="h-full w-full object-cover object-center sm:rounded-lg"/>
-                        </div>
+        <div class="">
+            <div class="container">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="aspect-square rounded-lg overflow-hidden">
+                        <img :src="subject.data.image" alt="content_images" class="object-cover w-full h-full"/>
                     </div>
-                    <div class="space-x-2">
-                        <TabGroup :defaultIndex="0">
-                            <div class="border-b border-gray-200">
-                                <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-                                    <TabList class="mt-6 sm:mt-2 2xl:mt-5 -mb-px flex justify-between">
-                                        <Tab v-slot="{ selected }" as="template"
-                                             v-for="tab in tabs">
-                                            <button
-                                                type="button"
-                                                :class="[selected ? 'border-pink-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300']"
-                                                class='whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'>
-                                                {{ tab.name }}
-                                            </button>
-                                        </Tab>
-                                    </TabList>
-                                </div>
-                            </div>
-                            <TabPanels class="pb-48 mt-8">
-                                <TabPanel>
-                                    <div v-for="(score,name) in subject.data.scores"
-                                         class="flex flex-col items-center mt-4">
-                                        <SubjectScore :score="score" :name="name"/>
+                    <div>
+                        <div class="rounded-lg relative">
+                            <div class="absolute inset-0  rounded-lg bg-gray-300 blur"/>
+                            <dl class="grid grid-cols-4 divide-x-1 divide-gray-200 gap-2 justify-between text-center relative p-4 bg-white rounded-lg">
+                                <template v-for="(score,name) in subject.data.scores">
+                                    <div class="">
+                                        <dt class="text-xl font-bold text-gray-700" v-text="score.avg"></dt>
+                                        <dd class="text-xs text-gray-500" v-text="name"></dd>
                                     </div>
-                                </TabPanel>
-                                <TabPanel>
-                                    <h1>data</h1>
-                                </TabPanel>
-                                <TabPanel>
-                                    <div>
-                                        <h2 class="sr-only">Comments</h2>
-
-                                        <div class="-my-10">
-                                            <div v-for="(comment, index) in comments.data" :key="comment.id"
-                                                 class="flex space-x-4 text-sm text-gray-500">
-                                                <div
-                                                    :class="[index === 0 ? '' : 'border-t border-gray-200', 'flex-1 py-10']">
-                                                    <h3 class="font-medium text-gray-900">{{ comment.age }} /
-                                                        {{ comment.gender }}</h3>
-                                                    <p>
-                                                        <span>{{ comment.date }}</span>
-                                                    </p>
-
-                                                    <div class="prose prose-sm mt-4 max-w-none text-gray-500"
-                                                         v-text="comment.body"/>
-                                                </div>
+                                </template>
+                                <div class="">
+                                    <dt class="text-xl font-bold text-gray-700"
+                                        v-text="subject.data.depictions_count === null ? 0 : subject.data.depictions_count"></dt>
+                                    <dd class="text-xs text-gray-500">Total Votes</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div class="space-x-2">
+                            <TabGroup :defaultIndex="0">
+                                <div class="">
+                                    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+                                        <TabList class="mt-6 sm:mt-2 2xl:mt-5 -mb-px flex justify-between">
+                                            <Tab v-slot="{ selected }" as="template"
+                                                 v-for="tab in tabs">
+                                                <button
+                                                    type="button"
+                                                    class='inline-flex group items-center space-x-2 whitespace-nowrap py-4 px-1 font-medium text-sm focus:outline-none'>
+                                                    <component
+                                                        :is="tab.icon"
+                                                        :class="[selected ? 'fill-wild-watermelon text-wild-watermelon' : 'fill-gray-300 group-hover:fill-gray-700']"
+                                                        class="w-4 h-4 lg:w-5 lg:h-5"/>
+                                                    <span
+                                                        :class="[selected ? 'text-wild-watermelon' : 'text-gray-300 group-hover:text-gray-700']"
+                                                        class="text-sm lg:text-lg">{{ tab.name }}</span>
+                                                </button>
+                                            </Tab>
+                                        </TabList>
+                                    </div>
+                                </div>
+                                <TabPanels class="pb-48 mt-2">
+                                    <TabPanel>
+                                        <div v-for="(score,name,index) in subject.data.scores"
+                                             class="flex flex-col items-center">
+                                            <SubjectScore :score="score" :name="name" :index="index"/>
+                                        </div>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <div>
+                                            <div class="flex items-center space-x-3 justify-center">
+                                                <TagIcon class="w-5 h-5 fill-[#F7CF9F]"/>
+                                                <h2 class="font-bold">
+                                                    Top 10 Tags
+                                                </h2>
+                                            </div>
+                                            <div
+                                                class="grid grid-cols-1 text-sm gap-4 mt-4">
+                                                <template v-for="(tag, index) in tags.data" :key="comment.id">
+                                                    <p class="text-gray-600 border-b border-gray-200"
+                                                       v-text="tag.name"/>
+                                                </template>
                                             </div>
                                         </div>
-                                    </div>
-                                </TabPanel>
-                            </TabPanels>
-                        </TabGroup>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <div>
+                                            <div class="flex items-center space-x-3 justify-center">
+                                                <ChatBubbleOvalLeftIcon class="w-5 h-5 fill-blue-500"/>
+                                                <h2 class="font-bold">
+                                                    Comments
+                                                </h2>
+                                            </div>
+
+                                            <div
+                                                class="grid grid-cols-1 text-sm gap-4 mt-4">
+                                                <template v-for="(comment, index) in comments.data" :key="comment.id">
+                                                    <p class="text-gray-600 border-b border-gray-200"
+                                                       v-text="comment.body"/>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </TabPanel>
+                                </TabPanels>
+                            </TabGroup>
+                        </div>
+                        <div
+                            v-if="subject.data.status"
+                            class="flex justify-between">
+                            <div class="flex items-center mt-4">
+                                <div class="relative max-w-xl mx-auto">
+                                    <Link
+                                        :href="route('category.subjects.update', {'category':1,'subject': subject.data.id})"
+                                        method="put"
+                                        :data="{ status: false }"
+                                        class="uppercase relative inline-flex items-center rounded-full border border-black px-24 py-3 text-base font-medium text-black">
+                                        <PauseIcon class="w-5 h-5"/>
+                                        Pause
+                                    </Link>
+                                </div>
+                            </div>
+                            <div class="flex items-center mt-4">
+                                <div class="relative max-w-xl mx-auto">
+                                    <div
+                                        class="absolute -inset-0.5 primary-gradient rounded-full blur"></div>
+                                    <Link
+                                        :href="route('spark.portal')"
+                                        class="uppercase relative inline-flex items-center rounded-full primary-gradient px-24 py-3 text-base font-medium text-white">
+                                        Get More Credits
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

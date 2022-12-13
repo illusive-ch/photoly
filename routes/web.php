@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreditController;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SubjectController;
@@ -45,6 +46,7 @@ Route::middleware([
     })->name('dashboard');
     Route::get('/me', [SubjectController::class, 'showMine'])->name('subject.mine');
     Route::resources([
+        'credit' => CreditController::class,
         'category.subjects' => SubjectController::class,
         'category.subjects.criteria' => CriteriaController::class,
     ]);

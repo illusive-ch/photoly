@@ -14,7 +14,8 @@ const props = defineProps([
 const emit = defineEmits(['update:modelValue'])
 const modelValue = ref(props.modelValue)
 
-if (typeof modelValue.value === 'undefined') {
+if (typeof props.modelValue.value === 'undefined') {
+    console.log('here')
     modelValue.value = props.options[0]
     emit('update:modelValue', modelValue)
 }

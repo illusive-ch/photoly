@@ -2,23 +2,31 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {useForm} from '@inertiajs/inertia-vue3'
 import {RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption, TransitionRoot} from '@headlessui/vue'
-import {ArrowPathIcon} from '@heroicons/vue/24/outline'
+import {ArrowPathIcon, HandThumbUpIcon} from '@heroicons/vue/24/outline'
 import {computed, ref, watch} from 'vue';
 import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/20/solid'
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
 import {usePage, Link} from '@inertiajs/inertia-vue3'
 import {VueReCaptcha, useReCaptcha} from 'vue-recaptcha-v3'
+import {TabGroup, TabList, Tab, TabPanels, TabPanel} from '@headlessui/vue'
 
 
 const props = defineProps({
     subject: Object,
     category: Object,
+    index: Number,
 });
 
 const {executeRecaptcha, recaptchaLoaded} = useReCaptcha()
 
 
 const categories = computed(() => usePage().props.value.categories.data)
+
+const selectedTags = computed(() => {
+    return props.subject.data.tags
+        .filter(tag => tag.selected)
+        .map(tag => tag);
+})
 
 const scores = [
     {name: 'Very', score: 3},
@@ -31,8 +39,11 @@ const form = useForm({
     vote: {},
     subject: props.subject.data,
     comment: null,
-    recaptcha: null
+    recaptcha: null,
+    tags: []
 });
+
+
 const recaptcha = async () => {
     form.recaptcha = 'loading'
     await recaptchaLoaded()
@@ -47,22 +58,33 @@ const voteLength = computed(() => {
     return Object.keys(form.vote).length
 })
 
+
 const showComment = computed(() => {
     return criteriaLength === Object.keys(form.vote).length
+})
+const reversedScores = computed(() => {
+    return scores.slice().reverse()
 })
 
 const showImage = ref(true)
 const showForm = ref(true)
+const selectedTab = ref(0)
+
+function changeTab(index) {
+    selectedTab.value = index
+}
 
 const saveVote = () => {
-    console.log('called')
+    form.tags = selectedTags
     showImage.value = false
     form.post(route('category.subjects.criteria.store', {
-        category: props.category.id,
+        category: usePage().props.value.category.id,
         subject: props.subject.data.id
     }), {
         preserveScroll: true,
         onSuccess: () => {
+            window.history.pushState({}, "My Tests", route('subject.mine'));
+            selectedTab.value = 0
             form.reset()
             form.vote = {}
             showImage.value = true
@@ -75,210 +97,211 @@ const saveVote = () => {
 <template>
     <AppLayout title="Profile">
         <template #header>
-            <h1 class="font-black text-3xl lg:text-5xl text-black-color mb-4">
-                Vote:
-                <Menu as="div" class="relative inline-block text-left">
-                    <div>
-                        <MenuButton
-                            class="text-primary-color inline-flex items-center w-full justify-center rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                            {{ category.name }}
-                            <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true"/>
-                        </MenuButton>
-                    </div>
-
-                    <transition enter-active-class="transition ease-out duration-100"
-                                enter-from-class="transform opacity-0 scale-95"
-                                enter-to-class="transform opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95">
-                        <MenuItems
-                            class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div class="py-1">
-                                <template v-for="category in categories">
-                                    <MenuItem v-slot="{ active }">
-                                        <Link :href="route('category.subjects.index',category.id)"
-                                              :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
-                                              v-text="category.name"/>
-                                    </MenuItem>
-                                </template>
-                            </div>
-                        </MenuItems>
-                    </transition>
-                </Menu>
-            </h1>
-            <p class="lg:max-w-2xl lg:mx-auto leading-7 md:leading-8 text-optional-color">
-                You are currently voting on the {{ category.name }} category, try to judge the photo as a whole and not
-                just the person using the following categories:
-            </p>
+            <!-- Page title & actions -->
+            <div class="hidden lg:block">
+                <h1 class="text-3xl font-medium text-gray-900 sm:truncate">Voting</h1>
+                <span class="text-base text-gray-500">Get your Vote on here</span>
+            </div>
         </template>
         <div class="bg-white">
             <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h2 id="subjects-heading" class="sr-only">Subjects</h2>
-                <div class="relative bg-white py-16 sm:py-24">
-                    <div
-                        class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:items-start lg:gap-24 lg:px-8">
-                        <div class="relative sm:py-16 lg:py-0">
-                            <div aria-hidden="true"
-                                 class="hidden sm:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-screen">
-                                <div
-                                    class="absolute inset-y-0 right-1/2 w-full rounded-r-3xl bg-gray-50 lg:right-72"></div>
-                                <svg class="absolute top-8 left-1/2 -ml-3 lg:-right-8 lg:left-auto lg:top-12"
-                                     width="404" height="392" fill="none" viewBox="0 0 404 392">
-                                    <defs>
-                                        <pattern id="02f20b47-fd69-4224-a62a-4c9de5c763f7" x="0" y="0"
-                                                 width="20" height="20" patternUnits="userSpaceOnUse">
-                                            <rect x="0" y="0" width="4" height="4" class="text-gray-200"
-                                                  fill="currentColor"/>
-                                        </pattern>
-                                    </defs>
-                                    <rect width="404" height="392"
-                                          fill="url(#02f20b47-fd69-4224-a62a-4c9de5c763f7)"/>
-                                </svg>
-                            </div>
-                            <div
-                                class="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-none lg:px-0 lg:py-20">
-                                <!-- Testimonial card-->
-                                <div class="relative rounded-2xl shadow-xl">
-                                    <TransitionRoot
-                                        class=""
-                                        :show="showImage"
-                                        enter="duration-500"
-                                        enter-to="animate__animated animate__flipInY"
-                                        leave="duration-1000"
-                                        leave-to="animate__animated animate__flipOutY"
-                                    >
-                                        <div
-                                            class="single-team-member rounded-md md:rounded-lg bg-white">
-                                            <form @submit.prevent="recaptcha">
-                                                <div class="">
-                                                    <img
-                                                        :src="subject.data.image"
-                                                        class="object-cover h-128 w-full rounded-tl-lg rounded-tr-lg md:rounded-tl-lg md:rounded-tr-lg"
-                                                        alt="team"/>
-                                                    <template v-for="(criteria,index) in subject.data.criteria">
-                                                        <TransitionRoot
-                                                            :show="showForm && !form.vote[subject.data.criteria[index].id] &&
-                                                                ( subject.data.criteria[index-1] && form.vote[subject.data.criteria[index-1].id] !== undefined )"
-                                                            enter="duration-500"
-                                                            enter-to="animate__animated animate__zoomIn"
-                                                            leave="duration-500"
-                                                            leave-to="animate__animated animate__zoomOut"
-                                                        >
-                                                            <div
-                                                                class="absolute bottom-28 bg-gray-200 opacity-75 w-full p-4 over">
-                                                                <h2 class="w-full bg-gray" v-text="criteria.name"></h2>
-                                                                <div>
-                                                                    <RadioGroup
-                                                                        v-model="form.vote[criteria.id]">
-                                                                        <RadioGroupLabel class="sr-only"
-                                                                                         v-text="criteria.name"></RadioGroupLabel>
-                                                                        <div
-                                                                            class="flex space-y-1 justify-around items-center">
-                                                                            <RadioGroupOption as="template"
-                                                                                              v-for="option in scores"
-                                                                                              :key="criteria.id"
-                                                                                              :value="option"
-                                                                                              v-slot="{ checked }">
-                                                                                <div
-                                                                                    :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score? 'border-transparent border-primary-color ring-2 ring-primary-color-500' : 'border-gray-300', 'relative block cursor-pointer rounded-lg border bg-white hover:bg-gray-100 px-4 py-4 divide-x divide-gray-300 shadow-sm focus:outline-none sm:flex sm:justify-between']">
-                                                                                    <RadioGroupDescription as="span"
-                                                                                                           class="mt-2 flex justify-between text-sm sm:mt-0 sm:ml-2">
-                                                                                <span
-                                                                                    class="font-medium text-gray-900 hover:bg-gray-200"
-                                                                                    v-text="option.name"/>
-                                                                                    </RadioGroupDescription>
-                                                                                    <span
-                                                                                        :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score ? 'boring-primary-color' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
-                                                                                        aria-hidden="true"/>
-                                                                                </div>
-                                                                            </RadioGroupOption>
-                                                                        </div>
-                                                                    </RadioGroup>
-                                                                </div>
-                                                            </div>
-                                                        </TransitionRoot>
-                                                    </template>
-                                                    <TransitionRoot
-                                                        :show="showForm && showComment"
-                                                        enter="duration-500"
-                                                        enter-to="animate__animated animate__zoomIn"
-                                                        leave="duration-500"
-                                                        leave-to="animate__animated animate__zoomOut"
-                                                    >
+                <div class="">
+                    <div class="grid grid-cols-1 lg:grid-cols-2  gap-4">
+                        <div class="aspect-square rounded-lg overflow-hidden">
+                            <img :src="subject.data.image" alt="content_images" class="object-cover w-full h-full"/>
+                        </div>
+                        <div class="lg:hidden">
+                            <TabGroup :selectedIndex="selectedTab" @change="changeTab">
+                                <TabPanels>
+                                    <TabPanel class="grid grid-cols-1 gap-4">
+                                        <template v-for="(criteria,index) in subject.data.criteria">
+                                            <div class="">
+                                                <h2 class="font-medium text-base" v-text="criteria.name"></h2>
+                                                <div
+                                                    :class="{
+                                                'bg-blue-300' : index === 0,
+                                                'bg-green-200' : index === 1,
+                                                'bg-pink-200' : index === 2,
+                                                }"
+                                                    class="rounded-xl px-4 py-1">
+                                                    <RadioGroup
+                                                        v-model="form.vote[criteria.id]">
+                                                        <RadioGroupLabel class="sr-only"
+                                                                         v-text="criteria.name"></RadioGroupLabel>
                                                         <div
-                                                            class="absolute bottom-40 bg-gray-200 opacity-90 w-full p-4 over">
-                                                            <label for="about"
-                                                                   class="block text-sm font-medium text-gray-700">
-                                                                Leave a note
-                                                            </label>
-                                                            <div class="mt-1">
-                                                    <textarea v-model="form.comment" id="about" name="about" rows="3"
-                                                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:boring-primary-color focus:ring-primary-color sm:text-sm"
-                                                              placeholder="you@example.com"></textarea>
-                                                            </div>
+                                                            class="flex justify-between">
+                                                            <RadioGroupOption as="template"
+                                                                              v-for="option in reversedScores"
+                                                                              :key="criteria.id"
+                                                                              :value="option"
+                                                                              v-slot="{ checked }">
+                                                                <div
+                                                                    :class="{
+                                                        'text-white bg-gradient-to-r from-blue-500 to-blue-600' : form.vote[criteria.id] && form.vote[criteria.id].score === option.score && index === 0,
+                                                        'text-white bg-gradient-to-r from-green-400 to-green-500' : form.vote[criteria.id] && form.vote[criteria.id].score === option.score && index === 1,
+                                                        'text-white primary-gradient' : form.vote[criteria.id] && form.vote[criteria.id].score === option.score && index === 2,
+                                                    }"
+                                                                    class="relative block cursor-pointer rounded-xl py-1 px-2">
+                                                                    <RadioGroupDescription as="span" class="">
+                                                                        <span class="text-sm" v-text="option.name"/>
+                                                                    </RadioGroupDescription>
+                                                                    <span
+                                                                        :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score ? 'boring-primary-color' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                                        aria-hidden="true"/>
+                                                                </div>
+                                                            </RadioGroupOption>
                                                         </div>
-                                                    </TransitionRoot>
+                                                    </RadioGroup>
                                                 </div>
-
-                                                <div class="relative p-4 flex justify-between items-center">
-                                                    <div class="">
-                                                        <h3 class="font-bold text-xl mt-4 mb-4"
-                                                            v-text="category.name"/>
-                                                        <div class="flex">
-                                                        <span v-if="subject.data.context !== ''"
-                                                              class="text-lg text-primary-color font-medium"
-                                                              v-text="subject.data.context"/>
-                                                            <span v-if="subject.data.position !== ''"
-                                                                  class="text-lg text-primary-color font-medium"
-                                                                  v-text="subject.data.position"/>
-                                                        </div>
-
-                                                    </div>
-                                                    <div
-                                                        class="">
-                                                        <button
-                                                            type="button"
-                                                            v-show="!showComment"
-                                                            @click="showForm = !showForm"
-                                                            class="btn ease-in duration-300 bg-white shadow-md bg-gray-50 p-2 text-center relative rounded-full">
-                                                            <ChevronDownIcon class="h-10 w-10 transition duration-300"
-                                                                             :class="{'rotate-180': showForm}"/>
-                                                        </button>
-                                                        <button
-                                                            v-show="showComment"
-                                                            :disabled="form.processing"
-                                                            type="submit"
-                                                            :class="[form.processing ? 'bg-gray-300' : 'bg-indigo-600 hover:bg-indigo-700']"
-                                                            class="mt-4 flex max-w-xs flex-1 items-center justify-center py-3 px-8 text-white focus:outline-none focus:ring-2 focus:ring-primary-color focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full inline-block font-semibold rounded-md text-white bg-secondary-gradient-color shadow-md ease-in duration-300">
-                                                        <span v-show="form.processing">
-                                                            <ArrowPathIcon class="w-5 h-5 animate-spin"/>
-                                                        </span>
-                                                            <span>
-                                                            Submit
-                                                        </span>
-                                                        </button>
-                                                    </div>
+                                            </div>
+                                        </template>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <h2 class="font-medium text-base">Tags</h2>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <template v-for="tag in subject.data.tags">
+                                                <div class="flex">
+                                                    <input type="checkbox" v-model="tag.selected" :id="'tag'+tag.id"
+                                                           class="peer hidden"/>
+                                                    <label :for="'tag'+tag.id"
+                                                           class="select-none cursor-pointer rounded-full bg-blue-50 border border-gray-200 px-2 py-1 text-sm font-medium text-gray-800 transition-colors duration-200 ease-in-out peer-checked:bg-black peer-checked:text-white"
+                                                           v-text="tag.name"></label>
                                                 </div>
-                                            </form>
+                                            </template>
                                         </div>
-                                    </TransitionRoot>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <h2 class="font-medium text-base">Notes</h2>
+                                        <textarea v-model="form.comment" id="about" name="about" rows="8"
+                                                  placeholder="Give the user some constructive feedback"
+                                                  class="placeholder-gray-300 block mt-2 w-full rounded-lg border-gray-300 text-gray-500 text-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"></textarea>
+                                    </TabPanel>
+                                </TabPanels>
+                                <TabList class="mx-auto mt-4 text-center">
+                                    <Tab>
+                                    </Tab>
+                                    <Tab>
+                                        <div v-if="selectedTab === 0" class="relative max-w-xl mx-auto">
+                                            <TransitionRoot
+                                                :show="Object.keys(form.vote).length >= 3"
+                                                enter="duration-500"
+                                                enter-to="animate__animated animate__bounceIn"
+                                                leave="duration-1000"
+                                                leave-to="animate__animated animate__bounceOut"
+                                            >
+                                                <div
+                                                    class="absolute -inset-0.5 primary-gradient rounded-full blur"></div>
+                                                <button type="button"
+                                                        class="uppercase relative inline-flex items-center rounded-full primary-gradient px-24 py-3 text-base font-medium text-white">
+                                                    Next
+                                                </button>
+                                            </TransitionRoot>
+                                        </div>
+                                    </Tab>
+                                    <Tab>
+                                        <div v-if="selectedTab === 1" class="relative max-w-xl mx-auto">
+                                            <div
+                                                class="absolute -inset-0.5 primary-gradient rounded-full blur"></div>
+                                            <button type="button"
+                                                    class="uppercase relative inline-flex items-center rounded-full primary-gradient px-24 py-3 text-base font-medium text-white">
+                                                Next
+                                            </button>
+                                        </div>
+                                    </Tab>
+                                    <Tab>
+                                        <div v-if="selectedTab === 2" class="relative max-w-xl mx-auto">
+                                            <div
+                                                class="absolute -inset-0.5 primary-gradient rounded-full blur"></div>
+                                            <button type="button"
+                                                    @click="recaptcha"
+                                                    class="uppercase relative inline-flex items-center rounded-full primary-gradient px-24 py-3 text-base font-medium text-white">
+                                                Vote
+                                            </button>
+                                        </div>
+                                    </Tab>
+                                </TabList>
+                            </TabGroup>
+                        </div>
+                        <div class="hidden lg:grid  grid-cols-1 gap-3">
+                            <div class="grid grid-cols-1 gap-2">
+                                <template v-for="(criteria,index) in subject.data.criteria">
+                                    <div class="">
+                                        <h2 class="font-medium text-base" v-text="criteria.name"></h2>
+                                        <div
+                                            :class="{
+                                                'bg-blue-300' : index === 0,
+                                                'bg-green-200' : index === 1,
+                                                'bg-pink-200' : index === 2,
+                                                }"
+                                            class="rounded-xl px-4 py-1">
+                                            <RadioGroup
+                                                v-model="form.vote[criteria.id]">
+                                                <RadioGroupLabel class="sr-only"
+                                                                 v-text="criteria.name"></RadioGroupLabel>
+                                                <div
+                                                    class="flex justify-between">
+                                                    <RadioGroupOption as="template"
+                                                                      v-for="option in reversedScores"
+                                                                      :key="criteria.id"
+                                                                      :value="option"
+                                                                      v-slot="{ checked }">
+                                                        <div
+                                                            :class="{
+                                                        'text-white bg-gradient-to-r from-blue-500 to-blue-600' : form.vote[criteria.id] && form.vote[criteria.id].score === option.score && index === 0,
+                                                        'text-white bg-gradient-to-r from-green-400 to-green-500' : form.vote[criteria.id] && form.vote[criteria.id].score === option.score && index === 1,
+                                                        'text-white primary-gradient' : form.vote[criteria.id] && form.vote[criteria.id].score === option.score && index === 2,
+                                                    }"
+                                                            class="relative block cursor-pointer rounded-xl py-1 px-2">
+                                                            <RadioGroupDescription as="span" class="">
+                                                                <span class="text-sm" v-text="option.name"/>
+                                                            </RadioGroupDescription>
+                                                            <span
+                                                                :class="[form.vote[criteria.id] && form.vote[criteria.id].score === option.score ? 'boring-primary-color' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                                aria-hidden="true"/>
+                                                        </div>
+                                                    </RadioGroupOption>
+                                                </div>
+                                            </RadioGroup>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            <div>
+                                <h2 class="font-medium text-base">Tags</h2>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <template v-for="tag in subject.data.tags">
+                                        <div class="flex">
+                                            <input type="checkbox" v-model="tag.selected" :id="'tag'+tag.id"
+                                                   class="peer hidden"/>
+                                            <label :for="'tag'+tag.id"
+                                                   class="select-none cursor-pointer rounded-full bg-blue-50 border border-gray-200 px-4 py-1 text-sm font-medium text-gray-800 transition-colors duration-200 ease-in-out peer-checked:bg-black peer-checked:text-white"
+                                                   v-text="tag.name"></label>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="hidden lg:block relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
-                            <!-- Content area -->
-                            <div class="pt-12 sm:pt-16 lg:pt-20">
-                                <dl class="mt-20 md:mt-30">
-                                    <template v-for="criteria in subject.data.criteria">
-                                        <dt v-text="criteria.name"
-                                            class="text-black-color relative font-bold last:mb-0 mt-4 text-lg"/>
-                                        <dd v-text="criteria.description"
-                                            class="font-normal leading-7 md:leading-8 text-optional-color"/>
-                                    </template>
-                                </dl>
+                            <div>
+                                <h2 class="font-medium text-base">Notes</h2>
+                                <textarea v-model="form.comment" id="about" name="about" rows="5"
+                                          placeholder="Give the user some constructive feedback"
+                                          class="placeholder-gray-300 block mt-2 w-full rounded-lg border-gray-300 text-gray-500 text-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"></textarea>
                             </div>
+                            <TransitionRoot
+                                :show="Object.keys(form.vote).length >= 3"
+                                enter="duration-500"
+                                enter-to="animate__animated animate__bounceIn"
+                                leave="duration-1000"
+                                leave-to="animate__animated animate__bounceOut"
+                            >
+                                <button
+                                    @click="recaptcha"
+                                    type="submit"
+                                    class="mt-2 uppercase relative inline-flex gap-2 items-center rounded-full primary-gradient py-2 px-6 text-base font-medium text-white">
+                                    <HandThumbUpIcon class="h-6 w-6 text-white" aria-hidden="true"/>
+                                    <span class="hidden lg:block">Vote</span>
+                                </button>
+                            </TransitionRoot>
+
                         </div>
                     </div>
                 </div>

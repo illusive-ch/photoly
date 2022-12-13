@@ -45,7 +45,7 @@ class LoginController extends Controller
             $this->$provider($socialiteUser, $provider);
         }
 
-        $redirect = route('dashboard');
+        $redirect = route('subject.mine');
 
         if (session()->exists('redirect')) {
             $redirect = session()->pull('redirect')[0];

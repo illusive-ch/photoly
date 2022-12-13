@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class, 'criteria_subject')->withPivot(['score'])->withTimestamps();
     }
+
+    public function moderate()
+    {
+        return $this->morphOne(Moderate::class, 'model');
+    }
 }

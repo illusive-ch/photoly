@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
 import {Inertia} from '@inertiajs/inertia';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
@@ -9,6 +9,36 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Footer from '@/Components/Footer.vue';
 import NavBar from '@/Components/NavBar.vue';
+import MobileNav from '@/Components/MobileNav.vue';
+
+import {
+    Dialog,
+    DialogPanel,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+    TransitionChild,
+    TransitionRoot,
+} from '@headlessui/vue'
+import {
+    Bars3CenterLeftIcon,
+    Bars4Icon,
+    ClockIcon,
+    HomeIcon,
+    XMarkIcon,
+    PlusIcon,
+    ChevronLeftIcon,
+
+} from '@heroicons/vue/24/outline'
+import {
+    ChevronRightIcon,
+    ChevronUpDownIcon,
+    EllipsisVerticalIcon,
+    MagnifyingGlassIcon,
+    BanknotesIcon
+} from '@heroicons/vue/20/solid'
+import {usePage} from "@inertiajs/inertia-vue3";
 
 defineProps({
     title: String,
@@ -27,341 +57,277 @@ const switchToTeam = (team) => {
 const logout = () => {
     Inertia.post(route('logout'));
 };
+
+const datingNav = usePage().props.value.categories.data.find((category) => category.name === 'Dating')
+const socialNav = usePage().props.value.categories.data.find((category) => category.name === 'Social')
+const businessNav = usePage().props.value.categories.data.find((category) => category.name === 'Business')
+const curUrl = ref(usePage().url)
+const curCategory = ref(usePage().props.value.category)
+
+const navigation = computed(() => {
+    return [
+        {name: 'Home', href: route('subject.mine'), icon: HomeIcon, current: curUrl.value === '/me'},
+        {
+            name: 'Vote For Dating',
+            href: route('category.subjects.index', datingNav),
+            icon: Bars4Icon,
+            current: curUrl.value.startsWith('/category/' + datingNav.id)
+        },
+        {
+            name: 'Vote For Social',
+            href: route('category.subjects.index', socialNav),
+            icon: Bars4Icon,
+            current: curUrl.value.startsWith('/category/' + socialNav.id)
+        },
+        {
+            name: 'Vote For Business',
+            href: route('category.subjects.index', businessNav),
+            icon: Bars4Icon,
+            current: curUrl.value.startsWith('/category/' + businessNav.id)
+        },
+        {name: 'Billing', href: route('spark.portal'), icon: ClockIcon, current: false},
+    ]
+})
+
+const back = () => {
+    window.history.back()
+}
+
 </script>
 
 <template>
-    <div>
-        <Head :title="title"/>
+    <!--
+      This example requires updating your template:
 
-        <Banner/>
+      ```
+      <html class="h-full bg-white">
+      <body class="h-full">
+      ```
+    -->
+    <div class="min-h-full">
 
-        <div class="min-h-screen bg-white">
-            <!--            <nav class="bg-white border-b border-gray-100">-->
-            <!--                &lt;!&ndash; Primary Navigation Menu &ndash;&gt;-->
-            <!--                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">-->
-            <!--                    <div class="flex justify-between h-16">-->
-            <!--                        <div class="flex">-->
-            <!--                            &lt;!&ndash; Logo &ndash;&gt;-->
-            <!--                            <div class="shrink-0 flex items-center">-->
-            <!--                                <Link :href="route('dashboard')">-->
-            <!--                                    <ApplicationMark class="block h-9 w-auto"/>-->
-            <!--                                </Link>-->
-            <!--                                <Link :href="route('category.subjects.create', 1)">-->
-            <!--                                    <ApplicationMark class="block h-9 w-auto"/>-->
-            <!--                                </Link>-->
-            <!--                            </div>-->
+        <!-- Static sidebar for desktop -->
+        <div
+            class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:shadow-xl lg:pt-5 lg:pb-4">
+            <div class="flex flex-shrink-0 items-center px-6">
+                <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500"
+                     alt="Your Company"/>
+            </div>
+            <!-- Sidebar component, swap this element with another sidebar if you like -->
+            <div class="mt-5 flex h-0 flex-1 flex-col overflow-y-auto pt-1">
+                <!-- User account dropdown -->
+                <Menu as="div" class="relative inline-block px-3 text-left">
+                    <div>
+                        <MenuButton
+                            class="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-wild-watermelon focus:ring-offset-2 focus:ring-offset-gray-100">
+              <span class="flex w-full items-center justify-between">
+                <span class="flex min-w-0 items-center justify-between space-x-3">
+                  <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
+                       src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                       alt=""/>
+                  <span class="flex min-w-0 flex-1 flex-col">
+                    <span class="truncate text-sm font-medium text-gray-900" v-text="$page.props.user.name"></span>
+                    <span class="truncate text-sm text-gray-500" v-text="$page.props.user.email"></span>
+                  </span>
+                </span>
+                <ChevronUpDownIcon class="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                   aria-hidden="true"/>
+              </span>
+                        </MenuButton>
+                    </div>
+                    <transition enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95">
+                        <MenuItems
+                            class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div class="py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                       :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">View
+                                        profile</a>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <Link :href="route('profile.show')"
+                                          :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">
+                                        Settings
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                       :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Notifications</a>
+                                </MenuItem>
+                            </div>
+                            <div class="py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                       :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Get
+                                        desktop app</a>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                       :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Support</a>
+                                </MenuItem>
+                            </div>
+                            <div class="py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <Link method="post" as="button" :href="route('logout')"
+                                          :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm w-full text-left']">
+                                        Logout
+                                    </Link>
+                                </MenuItem>
+                            </div>
+                        </MenuItems>
+                    </transition>
+                </Menu>
 
-            <!--                            &lt;!&ndash; Navigation Links &ndash;&gt;-->
-            <!--                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">-->
-            <!--                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">-->
-            <!--                                    Dashboard-->
-            <!--                                </NavLink>-->
-            <!--                                <NavLink :href="route('subject.mine')"-->
-            <!--                                         :active="route().current('subject.mine')">-->
-            <!--                                    My tests-->
-            <!--                                </NavLink>-->
-            <!--                                <NavLink :href="route('category.subjects.create', 1)"-->
-            <!--                                         :active="route().current('category.subjects.create')">-->
-            <!--                                    Create Test-->
-            <!--                                </NavLink>-->
-            <!--                                <NavLink :href="route('category.subjects.index', 1)"-->
-            <!--                                         :active="route().current('category.subjects.index')">-->
-            <!--                                    Vote-->
-            <!--                                </NavLink>-->
-            <!--                                <NavLink :href="route('spark.portal')"-->
-            <!--                                         :active="route().current('spark.portal')">-->
-            <!--                                    Billing-->
-            <!--                                </NavLink>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-
-            <!--                        <div class="hidden sm:flex sm:items-center sm:ml-6">-->
-            <!--                            <div class="ml-3 relative">-->
-            <!--                                &lt;!&ndash; Teams Dropdown &ndash;&gt;-->
-            <!--                                <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">-->
-            <!--                                    <template #trigger>-->
-            <!--                                                    <span class="inline-flex rounded-md">-->
-            <!--                                                        <button type="button"-->
-            <!--                                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">-->
-            <!--                                                            {{ $page.props.user.current_team.name }}-->
-            <!--                                                            <svg-->
-            <!--                                                                class="ml-2 -mr-0.5 h-4 w-4"-->
-            <!--                                                                xmlns="http://www.w3.org/2000/svg"-->
-            <!--                                                                viewBox="0 0 20 20"-->
-            <!--                                                                fill="currentColor"-->
-            <!--                                                            >-->
-            <!--                                                                <path fill-rule="evenodd"-->
-            <!--                                                                      d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"-->
-            <!--                                                                      clip-rule="evenodd"/>-->
-            <!--                                                            </svg>-->
-            <!--                                                        </button>-->
-            <!--                                                    </span>-->
-            <!--                                    </template>-->
-
-            <!--                                    <template #content>-->
-            <!--                                        <div class="w-60">-->
-            <!--                                            &lt;!&ndash; Team Management &ndash;&gt;-->
-            <!--                                            <template v-if="$page.props.jetstream.hasTeamFeatures">-->
-            <!--                                                <div class="block px-4 py-2 text-xs text-gray-400">-->
-            <!--                                                    Manage Team-->
-            <!--                                                </div>-->
-
-            <!--                                                &lt;!&ndash; Team Settings &ndash;&gt;-->
-            <!--                                                <DropdownLink-->
-            <!--                                                    :href="route('teams.show', $page.props.user.current_team)">-->
-            <!--                                                    Team Settings-->
-            <!--                                                </DropdownLink>-->
-
-            <!--                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams"-->
-            <!--                                                              :href="route('teams.create')">-->
-            <!--                                                    Create New Team-->
-            <!--                                                </DropdownLink>-->
-
-            <!--                                                <div class="border-t border-gray-100"/>-->
-
-            <!--                                                &lt;!&ndash; Team Switcher &ndash;&gt;-->
-            <!--                                                <div class="block px-4 py-2 text-xs text-gray-400">-->
-            <!--                                                    Switch Teams-->
-            <!--                                                </div>-->
-
-            <!--                                                <template v-for="team in $page.props.user.all_teams" :key="team.id">-->
-            <!--                                                    <form @submit.prevent="switchToTeam(team)">-->
-            <!--                                                        <DropdownLink as="button">-->
-            <!--                                                            <div class="flex items-center">-->
-            <!--                                                                <svg-->
-            <!--                                                                    v-if="team.id == $page.props.user.current_team_id"-->
-            <!--                                                                    class="mr-2 h-5 w-5 text-green-400"-->
-            <!--                                                                    fill="none"-->
-            <!--                                                                    stroke-linecap="round"-->
-            <!--                                                                    stroke-linejoin="round"-->
-            <!--                                                                    stroke-width="2"-->
-            <!--                                                                    stroke="currentColor"-->
-            <!--                                                                    viewBox="0 0 24 24"-->
-            <!--                                                                >-->
-            <!--                                                                    <path-->
-            <!--                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>-->
-            <!--                                                                </svg>-->
-            <!--                                                                <div>{{ team.name }}</div>-->
-            <!--                                                            </div>-->
-            <!--                                                        </DropdownLink>-->
-            <!--                                                    </form>-->
-            <!--                                                </template>-->
-            <!--                                            </template>-->
-            <!--                                        </div>-->
-            <!--                                    </template>-->
-            <!--                                </Dropdown>-->
-            <!--                            </div>-->
-
-            <!--                            &lt;!&ndash; Settings Dropdown &ndash;&gt;-->
-            <!--                            <div class="ml-3 relative">-->
-            <!--                                <Dropdown align="right" width="48">-->
-            <!--                                    <template #trigger>-->
-            <!--                                        <button v-if="$page.props.jetstream.managesProfilePhotos"-->
-            <!--                                                class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">-->
-            <!--                                            <img class="h-8 w-8 rounded-full object-cover"-->
-            <!--                                                 :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name">-->
-            <!--                                        </button>-->
-
-            <!--                                        <span v-else class="inline-flex rounded-md">-->
-            <!--                                                        <button type="button"-->
-            <!--                                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">-->
-            <!--                                                            {{ $page.props.user.name }}-->
-
-            <!--                                                            <svg-->
-            <!--                                                                class="ml-2 -mr-0.5 h-4 w-4"-->
-            <!--                                                                xmlns="http://www.w3.org/2000/svg"-->
-            <!--                                                                viewBox="0 0 20 20"-->
-            <!--                                                                fill="currentColor"-->
-            <!--                                                            >-->
-            <!--                                                                <path fill-rule="evenodd"-->
-            <!--                                                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"-->
-            <!--                                                                      clip-rule="evenodd"/>-->
-            <!--                                                            </svg>-->
-            <!--                                                        </button>-->
-            <!--                                                    </span>-->
-            <!--                                    </template>-->
-
-            <!--                                    <template #content>-->
-            <!--                                        &lt;!&ndash; Account Management &ndash;&gt;-->
-            <!--                                        <div class="block px-4 py-2 text-xs text-gray-400">-->
-            <!--                                            Manage Account-->
-            <!--                                        </div>-->
-
-            <!--                                        <DropdownLink :href="route('profile.show')">-->
-            <!--                                            Profile-->
-            <!--                                        </DropdownLink>-->
-
-            <!--                                        <DropdownLink v-if="$page.props.jetstream.hasApiFeatures"-->
-            <!--                                                      :href="route('api-tokens.index')">-->
-            <!--                                            API Tokens-->
-            <!--                                        </DropdownLink>-->
-
-            <!--                                        <div class="border-t border-gray-100"/>-->
-
-            <!--                                        &lt;!&ndash; Authentication &ndash;&gt;-->
-            <!--                                        <form @submit.prevent="logout">-->
-            <!--                                            <DropdownLink as="button">-->
-            <!--                                                Log Out-->
-            <!--                                            </DropdownLink>-->
-            <!--                                        </form>-->
-            <!--                                    </template>-->
-            <!--                                </Dropdown>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-
-            <!--                        &lt;!&ndash; Hamburger &ndash;&gt;-->
-            <!--                        <div class="-mr-2 flex items-center sm:hidden">-->
-            <!--                            <button-->
-            <!--                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"-->
-            <!--                                @click="showingNavigationDropdown = ! showingNavigationDropdown">-->
-            <!--                                <svg-->
-            <!--                                    class="h-6 w-6"-->
-            <!--                                    stroke="currentColor"-->
-            <!--                                    fill="none"-->
-            <!--                                    viewBox="0 0 24 24"-->
-            <!--                                >-->
-            <!--                                    <path-->
-            <!--                                        :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }"-->
-            <!--                                        stroke-linecap="round"-->
-            <!--                                        stroke-linejoin="round"-->
-            <!--                                        stroke-width="2"-->
-            <!--                                        d="M4 6h16M4 12h16M4 18h16"-->
-            <!--                                    />-->
-            <!--                                    <path-->
-            <!--                                        :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"-->
-            <!--                                        stroke-linecap="round"-->
-            <!--                                        stroke-linejoin="round"-->
-            <!--                                        stroke-width="2"-->
-            <!--                                        d="M6 18L18 6M6 6l12 12"-->
-            <!--                                    />-->
-            <!--                                </svg>-->
-            <!--                            </button>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-
-            <!--                &lt;!&ndash; Responsive Navigation Menu &ndash;&gt;-->
-            <!--                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}"-->
-            <!--                     class="sm:hidden">-->
-            <!--                    <div class="pt-2 pb-3 space-y-1">-->
-            <!--                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">-->
-            <!--                            Dashboard-->
-            <!--                        </ResponsiveNavLink>-->
-            <!--                    </div>-->
-
-            <!--                    &lt;!&ndash; Responsive Settings Options &ndash;&gt;-->
-            <!--                    <div class="pt-4 pb-1 border-t border-gray-200">-->
-            <!--                        <div class="flex items-center px-4">-->
-            <!--                            <div v-if="$page.props.jetstream.managesProfilePhotos" class="shrink-0 mr-3">-->
-            <!--                                <img class="h-10 w-10 rounded-full object-cover"-->
-            <!--                                     :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name">-->
-            <!--                            </div>-->
-
-            <!--                            <div>-->
-            <!--                                <div class="font-medium text-base text-gray-800">-->
-            <!--                                    {{ $page.props.user.name }}-->
-            <!--                                </div>-->
-            <!--                                <div class="font-medium text-sm text-gray-500">-->
-            <!--                                    {{ $page.props.user.email }}-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-
-            <!--                        <div class="mt-3 space-y-1">-->
-            <!--                            <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">-->
-            <!--                                Profile-->
-            <!--                            </ResponsiveNavLink>-->
-
-            <!--                            <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures"-->
-            <!--                                               :href="route('api-tokens.index')"-->
-            <!--                                               :active="route().current('api-tokens.index')">-->
-            <!--                                API Tokens-->
-            <!--                            </ResponsiveNavLink>-->
-
-            <!--                            &lt;!&ndash; Authentication &ndash;&gt;-->
-            <!--                            <form method="POST" @submit.prevent="logout">-->
-            <!--                                <ResponsiveNavLink as="button">-->
-            <!--                                    Log Out-->
-            <!--                                </ResponsiveNavLink>-->
-            <!--                            </form>-->
-
-            <!--                            &lt;!&ndash; Team Management &ndash;&gt;-->
-            <!--                            <template v-if="$page.props.jetstream.hasTeamFeatures">-->
-            <!--                                <div class="border-t border-gray-200"/>-->
-
-            <!--                                <div class="block px-4 py-2 text-xs text-gray-400">-->
-            <!--                                    Manage Team-->
-            <!--                                </div>-->
-
-            <!--                                &lt;!&ndash; Team Settings &ndash;&gt;-->
-            <!--                                <ResponsiveNavLink :href="route('teams.show', $page.props.user.current_team)"-->
-            <!--                                                   :active="route().current('teams.show')">-->
-            <!--                                    Team Settings-->
-            <!--                                </ResponsiveNavLink>-->
-
-            <!--                                <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams"-->
-            <!--                                                   :href="route('teams.create')"-->
-            <!--                                                   :active="route().current('teams.create')">-->
-            <!--                                    Create New Team-->
-            <!--                                </ResponsiveNavLink>-->
-
-            <!--                                <div class="border-t border-gray-200"/>-->
-
-            <!--                                &lt;!&ndash; Team Switcher &ndash;&gt;-->
-            <!--                                <div class="block px-4 py-2 text-xs text-gray-400">-->
-            <!--                                    Switch Teams-->
-            <!--                                </div>-->
-
-            <!--                                <template v-for="team in $page.props.user.all_teams" :key="team.id">-->
-            <!--                                    <form @submit.prevent="switchToTeam(team)">-->
-            <!--                                        <ResponsiveNavLink as="button">-->
-            <!--                                            <div class="flex items-center">-->
-            <!--                                                <svg-->
-            <!--                                                    v-if="team.id == $page.props.user.current_team_id"-->
-            <!--                                                    class="mr-2 h-5 w-5 text-green-400"-->
-            <!--                                                    fill="none"-->
-            <!--                                                    stroke-linecap="round"-->
-            <!--                                                    stroke-linejoin="round"-->
-            <!--                                                    stroke-width="2"-->
-            <!--                                                    stroke="currentColor"-->
-            <!--                                                    viewBox="0 0 24 24"-->
-            <!--                                                >-->
-            <!--                                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>-->
-            <!--                                                </svg>-->
-            <!--                                                <div>{{ team.name }}</div>-->
-            <!--                                            </div>-->
-            <!--                                        </ResponsiveNavLink>-->
-            <!--                                    </form>-->
-            <!--                                </template>-->
-            <!--                            </template>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </nav>-->
-            <NavBar></NavBar>
-
-            <!-- Page Heading -->
-            <header v-if="$slots.header" class="bg-white">
-                <div class="relative z-1 text-center mt-8">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <!-- Navigation -->
+                <nav class="mt-6 px-3">
+                    <div class="space-y-1">
+                        <Link v-for="item in navigation" :key="item.name" :href="item.href"
+                              :class="[item.current ? 'bg-black text-white' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md']"
+                              :aria-current="item.current ? 'page' : undefined">
+                            <component :is="item.icon"
+                                       :class="[item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500', 'mr-3 flex-shrink-0 h-6 w-6']"
+                                       aria-hidden="true"/>
+                            {{ item.name }}
+                        </Link>
+                    </div>
+                    <div class="mt-8 relative flex justify-center group">
+                        <!-- Secondary navigation -->
+                        <div
+                            class="absolute -inset-px group-hover:inset-1 primary-gradient rounded-full blur"></div>
+                        <Link
+                            :href="route('category.subjects.create', curCategory ?? datingNav)"
+                            class="uppercase relative inline-flex gap-2 items-center rounded-full primary-gradient px-8 py-3 text-base font-medium text-white">
+                            <PlusIcon class="h-6 w-6 text-white" aria-hidden="true"/>
+                            Upload Photo
+                        </Link>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Main column -->
+        <div class="flex flex-col lg:pl-64">
+            <!-- Search header -->
+            <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white lg:hidden flex justify-between">
+                <button type="button"
+                        class="px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-wild-watermelon lg:hidden"
+                        @click="back">
+                    <span class="sr-only">Open sidebar</span>
+                    <ChevronLeftIcon class="h-6 w-6" aria-hidden="true"/>
+                </button>
+                <div class="flex justify-between px-4 sm:px-6 lg:px-8">
+                    <div class="mt-4 flex items-center gap-2 sm:mt-0 sm:ml-4">
+                        <div class="relative flex justify-center group">
+                            <!-- Secondary navigation -->
+                            <div
+                                class="absolute -inset-px group-hover:inset-1 primary-gradient rounded-full blur"></div>
+                            <Link
+                                :href="route('spark.portal')"
+                                class="uppercase relative inline-flex gap-2 items-center rounded-full primary-gradient p-1 text-base font-medium text-white">
+                                <PlusIcon class="h-6 w-6 text-white" aria-hidden="true"/>
+                                <span class="hidden lg:block">Get Credits</span>
+                            </Link>
+                        </div>
+                        <div>
+                            <span
+                                class="text-2xl inline-flex items-center justify-center gap-2 py-1 px-2 bg-white text-black">
+                                                                324
+                                <BanknotesIcon class="w-6 h-6 fill-wild-watermelon"/>
+                            </span>
+                        </div>
+                    </div>
+                    <!--                    <div class="flex items-center">-->
+                    <!--                        &lt;!&ndash; Profile dropdown &ndash;&gt;-->
+                    <!--                        <Menu as="div" class="relative ml-3">-->
+                    <!--                            <div>-->
+                    <!--                                <MenuButton-->
+                    <!--                                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-wild-watermelon focus:ring-offset-2">-->
+                    <!--                                    <span class="sr-only">Open user menu</span>-->
+                    <!--                                    <img class="h-8 w-8 rounded-full"-->
+                    <!--                                         src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"-->
+                    <!--                                         alt=""/>-->
+                    <!--                                </MenuButton>-->
+                    <!--                            </div>-->
+                    <!--                            <transition enter-active-class="transition ease-out duration-100"-->
+                    <!--                                        enter-from-class="transform opacity-0 scale-95"-->
+                    <!--                                        enter-to-class="transform opacity-100 scale-100"-->
+                    <!--                                        leave-active-class="transition ease-in duration-75"-->
+                    <!--                                        leave-from-class="transform opacity-100 scale-100"-->
+                    <!--                                        leave-to-class="transform opacity-0 scale-95">-->
+                    <!--                                <MenuItems-->
+                    <!--                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">-->
+                    <!--                                    <div class="py-1">-->
+                    <!--                                        <MenuItem v-slot="{ active }">-->
+                    <!--                                            <a href="#"-->
+                    <!--                                               :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">View-->
+                    <!--                                                profile</a>-->
+                    <!--                                        </MenuItem>-->
+                    <!--                                        <MenuItem v-slot="{ active }">-->
+                    <!--                                            <a href="#"-->
+                    <!--                                               :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Settings</a>-->
+                    <!--                                        </MenuItem>-->
+                    <!--                                        <MenuItem v-slot="{ active }">-->
+                    <!--                                            <a href="#"-->
+                    <!--                                               :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Notifications</a>-->
+                    <!--                                        </MenuItem>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="py-1">-->
+                    <!--                                        <MenuItem v-slot="{ active }">-->
+                    <!--                                            <a href="#"-->
+                    <!--                                               :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Get-->
+                    <!--                                                desktop app</a>-->
+                    <!--                                        </MenuItem>-->
+                    <!--                                        <MenuItem v-slot="{ active }">-->
+                    <!--                                            <a href="#"-->
+                    <!--                                               :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Support</a>-->
+                    <!--                                        </MenuItem>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="py-1">-->
+                    <!--                                        <MenuItem v-slot="{ active }">-->
+                    <!--                                            <a href="#"-->
+                    <!--                                               :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Logout</a>-->
+                    <!--                                        </MenuItem>-->
+                    <!--                                    </div>-->
+                    <!--                                </MenuItems>-->
+                    <!--                            </transition>-->
+                    <!--                        </Menu>-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+            <main class="flex-1">
+                <header v-if="$slots.header"
+                        class="px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 lg:mb-10">
+                    <div class="min-w-0 flex-1">
                         <slot name="header"/>
                     </div>
-                    <div class="left-0 top-0 absolute -z-1 hidden xl:inline"><img
-                        :src="asset('assets/img/shape/shape34.png')"
-                        class="animate-custom-movebounce w-[100px]"
-                        alt="shape"></div>
-                    <div class="right-2 top-40 absolute -z-1 hidden xl:inline"><img
-                        :src="asset('assets/img/shape/shape35.png')" class="animate-custom-movebounce" alt="shape">
+                    <div class="hidden lg:flex mt-4  items-center gap-2 sm:mt-0 sm:ml-4">
+                        <div class="relative flex justify-center group">
+                            <!-- Secondary navigation -->
+                            <div
+                                class="absolute -inset-px group-hover:inset-1 primary-gradient rounded-full blur"></div>
+                            <Link
+                                :href="route('spark.portal')"
+                                class="uppercase relative inline-flex gap-2 items-center rounded-full primary-gradient px-6 py-2 text-base font-medium text-white">
+                                <PlusIcon class="h-6 w-6 text-white" aria-hidden="true"/>
+                                Get Credits
+                            </Link>
+                        </div>
+                        <div>
+                            <span
+                                class="text-2xl inline-flex items-center justify-center gap-2 py-1 px-2 bg-white rounded-full text-black">
+                                                                324
+                                <BanknotesIcon class="w-8 h-8 fill-wild-watermelon"/>
+                            </span>
+                        </div>
                     </div>
-                </div>
-            </header>
-
-            <!-- Page Content -->
-            <main>
+                </header>
                 <slot/>
             </main>
 
-            <Footer/>
         </div>
     </div>
 </template>

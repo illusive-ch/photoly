@@ -13,80 +13,74 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Spartan', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
             spacing: {
                 '128': '32rem',
             },
+            scale: {
+                '175': '1.75',
+                '200': '2.00',
+            },
             colors: {
-                'black-color': '#000000',
-                'primary-color': {
-                    DEFAULT: '#FF0779',
-                    '50': '#FFECF5',
-                    '100': '#FFAAD1',
-                    '200': '#FF81BB',
-                    '300': '#FF59A5',
-                    '400': '#FF308F',
-                    '500': '#FF0779',
-                    '600': '#CE005F',
-                    '700': '#960045',
-                    '800': '#5E002B',
-                    '900': '#260011'
+                'gray': {
+                    '150': '#F1F0F0'
                 },
-                'secondary-color': '#4a00e0',
-                'purple-color': '#4A00E0',
-                'optional-color': '#464646',
-                'gray-light-color': '#f2f2f2',
-                'white-light': 'rgba(255, 255, 255, 0.5)',
-                'yello-light': {
-                    DEFAULT: '#EFE5D7',
+                'blue': {
+                    '50': '#F1F9FF',
+                },
+                'cream-brulee': {
+                    DEFAULT: '#FED9A2',
+
+                    '200': '#FFFAF3',
+                    '300': '#FEE9CA',
+                    '400': '#FFEBCB',
+                    '500': '#FED9A2',
+                    '600': '#FDC26A',
+                    '700': '#FDAC33',
+                    '800': '#F59403',
+                    '900': '#BE7202'
+                },
+                'salmon': {
+                    DEFAULT: '#FF916E',
                     '50': '#FFFFFF',
                     '100': '#FFFFFF',
-                    '200': '#FFFFFF',
-                    '300': '#FBF8F4',
-                    '400': '#FBF8F4',
-                    '500': '#EFE5D7',
-                    '600': '#DFCBAF',
-                    '700': '#CFB187',
-                    '800': '#BF975F',
-                    '900': '#A47B42'
+                    '200': '#FFEEE8',
+                    '300': '#FFCFC0',
+                    '400': '#FFB097',
+                    '500': '#FF916E',
+                    '600': '#FF6636',
+                    '700': '#FD3D00',
+                    '800': '#C52F00',
+                    '900': '#8D2200'
+                },
+                'wild-watermelon': {
+                    DEFAULT: '#FE4977',
+                    '50': '#FFFFFF',
+                    '100': '#FFEBF0',
+                    '200': '#FFC3D2',
+                    '300': '#FE9AB4',
+                    '400': '#FE7295',
+                    '500': '#FE4977',
+                    '600': '#FE114D',
+                    '700': '#D60137',
+                    '800': '#9E0129',
+                    '900': '#66011A'
                 },
             },
-            backgroundImage: {
-                'gradient-color': 'linear-gradient(90deg, #FF0080 0%, #FF8C00 100%)',
-                'primary-gradient-color': 'linear-gradient(90deg, #FF0080 67.19%, #FF8C00 100%)',
-                'secondary-gradient-color': 'linear-gradient(91.43deg, #4A00E0 1.22%, #8E2DE2 98.84%)',
-                'gray-gradient-color': 'linear-gradient(180deg, #FBFBFB 0%, #FBFBFB 100%)',
-                'instagram-gradient-color': 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)',
-                'green-gradient-color': 'linear-gradient(91.43deg, #11998E 1.22%, #38EF7D 98.84%)',
-                'yello-gradient-color': 'linear-gradient(90deg, #E65C00 0%, #F9D423 100%)',
+            divideWidth: {
+                '1': '1px'
             },
-            zIndex: {
-                '1': '1',
-                '2': '2',
-                '9999': '9999',
-                '99': '99',
-                '999': '999',
-            },
-            lineHeight: {
-                '63': '63px',
-            },
+            backgroundImage: {},
             boxShadow: {
-                'custom-box-shadow': '0px 10px 15px rgba(142, 45, 226, 0.15)',
-                'custom-box-shadow2': '0px 14px 30px rgba(0, 0, 0, 0.05)',
-                'custom-box-shadow3': '0px 2px 15px rgba(58, 58, 58, 0.1)',
-                'custom-box-shadow4': '0px 2px 15px rgba(0, 0, 0, 0.06)',
-                'primary-btn': '0px 15px 40px rgba(244, 27, 84, 0.3)',
-                'secondary-btn': '0px 15px 40px rgba(142, 45, 226, 0.3)',
-                'navbar': '0px 2px 20px rgba(0, 0, 0, 0.05)',
-                'dropdown': '0px 0px 15px 0px rgba(0, 0, 0, .10)',
+                "below": '0 5px 5px 0px rgb(0 0 0 / 0.3)',
             },
-            animation: {
-                'custom-slow-rotateme': 'rotateme 100s linear infinite',
-                'custom-rotateme': 'rotateme 20s linear infinite',
-                'custom-movebounce': 'movebounce 2s linear infinite',
-                'custom-moveleftbounce': 'moveleftbounce 2s linear infinite',
-                'animationFramesOne': 'animationFramesOne 15s infinite linear'
+            aspectRatio: {
+                '4/5': '4 / 5'
+            },
+            blur: {
+                xs: '2px',
+                xxs: '1px',
             },
             container: {
                 center: true,

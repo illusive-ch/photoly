@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Subject\CreateNewSubject;
+use App\Actions\Subject\PauseSubject;
 use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Resources\CommentResource;
@@ -10,7 +11,9 @@ use App\Http\Resources\MediaResource;
 use App\Http\Resources\SubjectResource;
 use App\Models\Category;
 use App\Models\Subject;
+use App\Models\Tag;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -42,16 +45,13 @@ class SubjectController extends Controller
         return Redirect::route('category.subjects.show', ['category' => $category, 'subject' => $votable]);
     }
 
-    public function create(): Response
+    public function create(Category $category): Response
     {
         $media = Auth::user()->currentTeam->subjects->load('media');
         $media = MediaResource::collection($media);
+        $balance = Auth::user()->currentTeam->creditBalance();
 
-        $categories = Category::query()
-            ->with('criterias')
-            ->get();
-
-        return Inertia::render('Subject/Create', compact('media', 'categories'));
+        return Inertia::render('Subject/Create', compact('media', 'balance', 'category'));
     }
 
     /**
@@ -70,6 +70,10 @@ class SubjectController extends Controller
             'options' => $input['options'] ?? null,
             'media' => $request->get('media'),
             'upload' => $input['upload'],
+            'position' => $input['position'],
+            'targetGender' => $input['target']['gender'],
+            'targetMinAge' => $input['target']['minAge'],
+            'targetMaxAge' => $input['target']['maxAge'],
         ];
 
         $subject = (new CreateNewSubject)($subjectForm);
@@ -88,6 +92,11 @@ class SubjectController extends Controller
         $subject->scores = $this->scores($subject);
         $subject = new SubjectResource($subject);
         $comments = CommentResource::collection($subject->comments);
+        $tags = Tag::join('subject_tag', 'tags.id', '=', 'subject_tag.tag_id')
+            ->groupBy('tags.id', 'tags.name')
+            ->select(['tags.id', 'tags.name', DB::raw('COUNT(*) as cnt')])
+            ->orderBy('cnt', 'desc')
+            ->get();
 
         return Inertia::render('Subject/Show', compact('subject', 'comments'));
     }
@@ -110,9 +119,10 @@ class SubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSubjectRequest $request, Subject $subject)
+    public function update(UpdateSubjectRequest $request, Category $category, Subject $subject)
     {
-        //
+        $input = $request->validated();
+        $subject = (new PauseSubject)($subject);
     }
 
     /**

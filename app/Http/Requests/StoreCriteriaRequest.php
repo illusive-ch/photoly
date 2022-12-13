@@ -27,6 +27,7 @@ class StoreCriteriaRequest extends FormRequest
             'vote.*.score' => ['required', 'numeric', 'lte:3'],
             'vote' => ['required', 'size:3'],
             'comment' => ['nullable', 'string', 'max:255'],
+            'tags' => ['nullable', 'array'],
         ];
     }
 

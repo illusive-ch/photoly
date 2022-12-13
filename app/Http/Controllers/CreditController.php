@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCreditRequest;
 use App\Http\Requests\UpdateCreditRequest;
 use App\Models\Credit;
+use Inertia\Inertia;
 
 class CreditController extends Controller
 {
@@ -15,7 +16,9 @@ class CreditController extends Controller
      */
     public function index()
     {
-        //
+        $packages = config('credit.billables.team.plans');
+
+        return Inertia::render('Credit/Index', compact('packages'));
     }
 
     /**
@@ -36,7 +39,9 @@ class CreditController extends Controller
      */
     public function store(StoreCreditRequest $request)
     {
-        //
+        $input = $request->validated();
+        $package = collect(config('credit.billables.team.plans'))->firstWhere('name', $input['plan']);
+        $response = \Auth::user()->currentTeam->invoicePrice($package['gateway_id']);
     }
 
     /**
