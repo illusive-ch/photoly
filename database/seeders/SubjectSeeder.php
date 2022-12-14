@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Depiction;
 use App\Models\Subject;
 use App\Models\Team;
 use App\Models\User;
@@ -22,9 +23,9 @@ class SubjectSeeder extends Seeder
     {
         $user = User::find(1);
 
-        User::factory()->withPersonalTeam()->count(5)->create();
+        User::factory()->withPersonalTeam()->count(20)->create();
 
-        $subjects = Subject::factory(50)
+        $subjects = Subject::factory(200)
             ->state(new Sequence(
                 fn ($sequence) => ['category_id' => Category::all()->random()->id],
             ))
@@ -38,17 +39,20 @@ class SubjectSeeder extends Seeder
 
     public function populate(Collection $subjects): void
     {
-        echo 'Populating';
         $subjects->each(function ($subject) {
-            dump($subject->id);
             for ($x = 0; $x <= 10; $x++) {
+                $depiction = Depiction::factory()->for($subject)->state(new Sequence(
+                    fn ($sequence) => ['user_id' => User::all()->random()->id],
+                ))->create();
                 foreach ($subject->category->criterias as $criteria) {
-                    $user = User::all()->random();
-                    $subject->criterias()->attach($criteria, [
-                        'user_id' => $user->id,
+                    $depiction->criterias()->attach($criteria, [
                         'score' => rand(0, 3),
                     ]);
-                    Comment::factory()->for($user)->create(['subject_id' => $subject->id]);
+                }
+                Comment::factory()->for($depiction)->create();
+                $tags = $depiction->subject->category->tags;
+                for ($t = 0; $t <= 3; $t++) {
+                    $depiction->tags()->attach($tags->random()->id);
                 }
             }
         });

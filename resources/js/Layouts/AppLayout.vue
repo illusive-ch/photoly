@@ -91,6 +91,7 @@ const navigation = computed(() => {
 
 const back = () => {
     let urlPrev = usePage().props.value.urlPrev
+    console.log(urlPrev)
     Inertia.visit(urlPrev)
 }
 

@@ -2,7 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {useForm} from '@inertiajs/inertia-vue3'
 import {RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption, TransitionRoot} from '@headlessui/vue'
-import {ArrowPathIcon, HandThumbUpIcon} from '@heroicons/vue/24/outline'
+import {ArrowPathIcon, HandThumbUpIcon, ArrowPathRoundedSquareIcon} from '@heroicons/vue/24/outline'
 import {computed, ref, watch} from 'vue';
 import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/20/solid'
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
@@ -213,9 +213,13 @@ const saveVote = () => {
                                             <div
                                                 class="absolute -inset-0.5 primary-gradient rounded-full blur"></div>
                                             <button type="button"
+                                                    :disabled="form.processing"
                                                     @click="recaptcha"
                                                     class="uppercase relative inline-flex items-center rounded-full primary-gradient px-24 py-3 text-base font-medium text-white">
-                                                Vote
+                                                <span v-if="!form.processing">Vote</span>
+                                                <ArrowPathRoundedSquareIcon
+                                                    v-if="form.processing"
+                                                    class="animate-spin h-6 w-6 text-white" aria-hidden="true"/>
                                             </button>
                                         </div>
                                     </Tab>
@@ -295,9 +299,16 @@ const saveVote = () => {
                             >
                                 <button
                                     @click="recaptcha"
+                                    :disabled="form.processing"
                                     type="submit"
                                     class="mt-2 uppercase relative inline-flex gap-2 items-center rounded-full primary-gradient py-2 px-6 text-base font-medium text-white">
-                                    <HandThumbUpIcon class="h-6 w-6 text-white" aria-hidden="true"/>
+                                    <HandThumbUpIcon
+                                        v-if="!form.processing"
+                                        class="h-6 w-6 text-white" aria-hidden="true"/>
+                                    <ArrowPathRoundedSquareIcon
+                                        v-if="form.processing"
+                                        class="animate-spin h-6 w-6 text-white" aria-hidden="true"/>
+
                                     <span class="hidden lg:block">Vote</span>
                                 </button>
                             </TransitionRoot>

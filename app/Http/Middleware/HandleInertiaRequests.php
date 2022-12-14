@@ -50,10 +50,13 @@ class HandleInertiaRequests extends Middleware
             'env' => config('app.env'),
             'credits' => Auth::check() ? Auth::user()->currentTeam->creditBalance() : 0,
             'urlPrev' => function () {
-                if (url()->previous() !== route('login') && url()->previous() !== '' && url()->previous() !== url()->current()) {
+                if (app('router')->getRoutes()->match(app('request')->create(url()->previous()))->getName() !== 'category.subjects.show' &&
+                    url()->previous() !== route('login') &&
+                    url()->previous() !== '' &&
+                    url()->previous() !== url()->current()) {
                     return url()->previous();
                 } else {
-                    return false; // used in javascript to disable back button behavior
+                    return route('subject.mine');
                 }
             },
         ]);

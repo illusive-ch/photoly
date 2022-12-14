@@ -37,6 +37,7 @@ const totalSubjects = computed(() => {
             <div class="bg-white rounded-md p-4">
                 <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <Link
+                        as="div"
                         v-for="subject in subjects.data"
                         :key="subject.id"
                         :href="route('category.subjects.show', {category: subject.category.id, subject: subject.id})"

@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('criteria_subject', function (Blueprint $table) {
+        Schema::create('depictions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('criteria_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('subject_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->tinyInteger('score');
+            $table->foreignId('subject_id');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('criteria_subject');
+        Schema::dropIfExists('depictions');
     }
 };

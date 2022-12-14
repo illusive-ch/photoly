@@ -70,9 +70,9 @@ class Team extends JetstreamTeam
         ]);
     }
 
-    public function debitCredit(float $amount, $note = null)
+    public function debitCredit(float $amount, $note = null, $invoice = null)
     {
-        return $this->addCredit($amount * -1, $note);
+        return $this->addCredit($amount * -1, $note, $invoice);
     }
 
     public function creditBalance()

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Depiction;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -25,10 +26,9 @@ class DepictionReceivedOnSubject implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Subject $subject, User $user)
+    public function __construct(Depiction $depiction)
     {
-        $this->subject = $subject;
-        $this->user = $user;
+        $this->depiction = $depiction;
     }
 
     /**

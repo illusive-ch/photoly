@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -61,14 +60,9 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function comments(): hasMany
+    public function depictions(): hasMany
     {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function votes(): belongsToMany
-    {
-        return $this->belongsToMany(Subject::class, 'criteria_subject')->withPivot(['score'])->withTimestamps();
+        return $this->hasMany(Depiction::class);
     }
 
     public function moderate()

@@ -8,6 +8,7 @@ import {ChartBarIcon, TagIcon, ChatBubbleLeftIcon, ChatBubbleOvalLeftIcon, Pause
 const props = defineProps({
     subject: Object,
     comments: Object,
+    tags: Object,
 });
 
 const selectedTab = ref(0)
@@ -84,9 +85,15 @@ const tabs = [
                                         </div>
                                         <div
                                             class="grid grid-cols-1 text-sm gap-4 mt-4">
-                                            <template v-for="(tag, index) in tags.data" :key="comment.id">
-                                                <p class="text-gray-600 border-b border-gray-200"
-                                                   v-text="tag.name"/>
+                                            <template v-for="(count,name) in tags" :key="name">
+                                                <p class="text-gray-600 border-b border-gray-200 flex justify-between">
+                                                <span class="capitalize">
+                                                    {{ name }}
+                                                </span>
+                                                    <span>
+                                                    {{ count }}
+                                                </span>
+                                                </p>
                                             </template>
                                         </div>
                                     </div>

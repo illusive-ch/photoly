@@ -130,14 +130,10 @@ return [
     */
 
     'billables' => [
-
         'team' => [
             'model' => Team::class,
-
-            'trial_days' => 5,
-
+            'trial_days' => 0,
             'default_interval' => 'monthly',
-
             'plans' => [
                 [
                     'name' => 'Basic',

@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Depiction;
+use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Depiction>
  */
-class CommentFactory extends Factory
+class DepictionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +19,8 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'depiction_id' => Depiction::factory(),
-            'body' => $this->faker->sentence(),
+            'subject_id' => Subject::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }

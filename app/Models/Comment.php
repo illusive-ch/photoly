@@ -15,18 +15,8 @@ class Comment extends Model
         'user_id',
     ];
 
-    public function subject(): belongsTo
+    public function depiction(): BelongsTo
     {
-        return $this->belongsTo(Subject::class);
-    }
-
-    public function user(): belongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function moderate()
-    {
-        return $this->morphOne(Moderate::class, 'model');
+        return $this->belongsTo(Depiction::class);
     }
 }

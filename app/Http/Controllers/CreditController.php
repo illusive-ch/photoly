@@ -9,6 +9,11 @@ use Inertia\Inertia;
 
 class CreditController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('subscribed');
+    }
+
     /**
      * Display a listing of the resource.
      *

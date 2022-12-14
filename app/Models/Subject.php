@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
@@ -49,6 +48,13 @@ class Subject extends Model implements HasMedia
         return $query->where('status', true);
     }
 
+    public function scopeNotVotedOnByUser($query)
+    {
+        return $query->whereDoesntHave('depictions', function ($query) {
+            $query->where('user_id', '=', Auth::user()->id);
+        });
+    }
+
     public function category(): belongsTo
     {
         return $this->belongsTo(Category::class);
@@ -59,19 +65,9 @@ class Subject extends Model implements HasMedia
         return $this->belongsTo(Team::class);
     }
 
-    public function criterias(): belongsToMany
+    public function depictions(): hasMany
     {
-        return $this->belongsToMany(Criteria::class)->withPivot(['score'])->withTimestamps();
-    }
-
-    public function comments(): hasMany
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function tags(): belongsToMany
-    {
-        return $this->belongsToMany(Tag::class);
+        return $this->hasMany(Depiction::class);
     }
 
     public function moderate()

@@ -10,10 +10,10 @@ use App\Http\Resources\CommentResource;
 use App\Http\Resources\MediaResource;
 use App\Http\Resources\SubjectResource;
 use App\Models\Category;
+use App\Models\Criteria;
+use App\Models\Depiction;
 use App\Models\Subject;
-use App\Models\Tag;
 use Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -25,21 +25,21 @@ class SubjectController extends Controller
 //        $recentVotes = Auth::user()->whereHas('votes', function ($q) {
 //            $q->where('criteria_subject.created_at', '>=', now()->subHours(12));
 //        })->get();
-        $recentVotes = Auth::user()->votes()
-            ->wherePivot('created_at', '>=', now()->subHours(12))
-            ->get()
-            ->pluck('team_id')
-            ->unique();
+        $depictions = Auth::user()->depictions()
+            ->with('subject')
+            ->recent()
+            ->get();
+
+        $teams = $depictions->map(function (Depiction $depiction) {
+            return $depiction->subject->team_id;
+        })->unique();
 
         $votable = $category->subjects()
             ->with('category', 'media')
             ->notFlagged()
             ->notOwner()
             ->active()
-            ->whereDoesntHave('criterias', function ($query) {
-                $query->where('user_id', '=', Auth::user()->id);
-            })
-            ->whereNotIn('team_id', $recentVotes)
+            ->whereNotIn('team_id', $teams)
             ->first();
 
         return Redirect::route('category.subjects.show', ['category' => $category, 'subject' => $votable]);
@@ -91,14 +91,24 @@ class SubjectController extends Controller
 
         $subject->scores = $this->scores($subject);
         $subject = new SubjectResource($subject);
-        $comments = CommentResource::collection($subject->comments);
-        $tags = Tag::join('subject_tag', 'tags.id', '=', 'subject_tag.tag_id')
-            ->groupBy('tags.id', 'tags.name')
-            ->select(['tags.id', 'tags.name', DB::raw('COUNT(*) as cnt')])
-            ->orderBy('cnt', 'desc')
-            ->get();
 
-        return Inertia::render('Subject/Show', compact('subject', 'comments'));
+        $depictions = $subject->depictions()->with('comments', 'tags')->get();
+
+        $comments = $depictions->map(function (Depiction $depiction) {
+            return $depiction->comments;
+        })->flatten();
+
+        $comments = CommentResource::collection($comments);
+
+        $tags = $depictions->map(function (Depiction $depiction) {
+            return $depiction->tags;
+        })
+        ->flatten()
+        ->countBy('name')
+        ->sortDesc()
+        ->take(10);
+
+        return Inertia::render('Subject/Show', compact('subject', 'comments', 'tags'));
     }
 
     /**
@@ -141,14 +151,13 @@ class SubjectController extends Controller
         $subjects = Auth::user()->currentTeam->subjects()
             ->latest()
             ->with('media')
-            ->withCount('criterias')
+            ->withCount('depictions')
             ->get()
             ->map(function ($subject) {
                 $subject->scores = $this->scores($subject);
 
                 return $subject;
             });
-
         $subjects = SubjectResource::collection($subjects);
 
         return Inertia::render('Subject/Mine', compact('subjects'));
@@ -156,9 +165,10 @@ class SubjectController extends Controller
 
     private function scores(Subject $subject)
     {
-        return $subject
-            ->criterias()
-            ->get()
+        $depictions = $subject->depictions()->with('criterias')->get();
+        $scores = $depictions->map(function (Depiction $depiction) {
+            return $depiction->criterias;
+        })->flatten()
             ->groupBy('name')
             ->mapWithKeys(function ($item, $key) {
                 $scores = collect($item->pluck('pivot.score'))->map(function ($score) {
@@ -183,5 +193,7 @@ class SubjectController extends Controller
 
                 return [$key => compact('confidence', 'count', 'avg')];
             });
+
+        return $scores;
     }
 }

@@ -45,8 +45,8 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
     Route::get('/me', [SubjectController::class, 'showMine'])->name('subject.mine');
+    Route::resource('credit', CreditController::class)->middleware('subscribed');
     Route::resources([
-        'credit' => CreditController::class,
         'category.subjects' => SubjectController::class,
         'category.subjects.criteria' => CriteriaController::class,
     ]);

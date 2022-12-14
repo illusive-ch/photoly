@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('criteria_depiction', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('criteria_id')->constrained()->cascadeOnDelete();
             $table->foreignId('depiction_id')->constrained()->cascadeOnDelete();
-            $table->string('body');
+            $table->tinyInteger('score');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('criteria_subject');
     }
 };

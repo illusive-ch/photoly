@@ -24,7 +24,7 @@ class RemoveCreditFromBalance
      */
     public function handle(DepictionReceivedOnSubject $event)
     {
-        $team = $event->subject->team;
-        $team->debitCredit(1, 'Vote Received');
+        $team = $event->depiction->subject->team;
+        $team->debitCredit(1, 'Vote Received', 'depiction_'.$event->depiction->id);
     }
 }

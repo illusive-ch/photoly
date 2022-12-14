@@ -20,7 +20,7 @@ class SubjectResource extends JsonResource
                 'id' => $this->category->id,
                 'name' => $this->category->name,
             ],
-            'depictions_count' => $this->criterias_count,
+            'depictions_count' => $this->depictions_count,
             'criteria' => $this->category->criterias,
             'tags' => $this->category->tags,
             'scores' => $this->scores,
