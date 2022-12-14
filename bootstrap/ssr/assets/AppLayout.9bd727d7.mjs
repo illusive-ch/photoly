@@ -118,8 +118,8 @@ const _sfc_main$1 = {
       },
       {
         title: "Billing",
-        route: route("spark.portal"),
-        active: route().current("spark.portal"),
+        route: route("credit.index"),
+        active: route().current("credit.index"),
         icon: CogIcon
       }
     ];

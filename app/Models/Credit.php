@@ -13,6 +13,7 @@ class Credit extends Model
     protected $fillable = [
         'amount',
         'note',
+        'provider_id',
     ];
 
     public function team(): belongsTo

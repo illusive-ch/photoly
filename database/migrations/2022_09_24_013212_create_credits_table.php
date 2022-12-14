@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('credits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('team_id')->constrained()->cascadeOnDelete();
+            $table->string('provider_id')->nullable();
             $table->float('amount');
             $table->string('note')->nullable();
             $table->timestamps();

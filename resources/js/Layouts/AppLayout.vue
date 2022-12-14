@@ -85,12 +85,13 @@ const navigation = computed(() => {
             icon: Bars4Icon,
             current: curUrl.value.startsWith('/category/' + businessNav.id)
         },
-        {name: 'Billing', href: route('spark.portal'), icon: ClockIcon, current: false},
+        {name: 'Billing', href: route('credit.index'), icon: ClockIcon, current: false},
     ]
 })
 
 const back = () => {
-    window.history.back()
+    let urlPrev = usePage().props.value.urlPrev
+    Inertia.visit(urlPrev)
 }
 
 </script>
@@ -226,7 +227,7 @@ const back = () => {
                             <div
                                 class="absolute -inset-px group-hover:inset-1 primary-gradient rounded-full blur"></div>
                             <Link
-                                :href="route('spark.portal')"
+                                :href="route('credit.index')"
                                 class="uppercase relative inline-flex gap-2 items-center rounded-full primary-gradient p-1 text-base font-medium text-white">
                                 <PlusIcon class="h-6 w-6 text-white" aria-hidden="true"/>
                                 <span class="hidden lg:block">Get Credits</span>
@@ -235,7 +236,7 @@ const back = () => {
                         <div>
                             <span
                                 class="text-2xl inline-flex items-center justify-center gap-2 py-1 px-2 bg-white text-black">
-                                                                324
+                                {{ $page.props.credits }}
                                 <BanknotesIcon class="w-6 h-6 fill-wild-watermelon"/>
                             </span>
                         </div>
@@ -310,7 +311,7 @@ const back = () => {
                             <div
                                 class="absolute -inset-px group-hover:inset-1 primary-gradient rounded-full blur"></div>
                             <Link
-                                :href="route('spark.portal')"
+                                :href="route('credit.index')"
                                 class="uppercase relative inline-flex gap-2 items-center rounded-full primary-gradient px-6 py-2 text-base font-medium text-white">
                                 <PlusIcon class="h-6 w-6 text-white" aria-hidden="true"/>
                                 Get Credits

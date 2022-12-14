@@ -407,7 +407,7 @@ const percentageCompleted = computed(() => {
                                             class="absolute -inset-0.5 primary-gradient rounded-full blur"></div>
                                         <Link
                                             v-if="creditCount > balance"
-                                            :href="route('spark.portal')"
+                                            :href="route('credit.index')"
                                             class="uppercase relative inline-flex items-center rounded-full primary-gradient px-24 py-3 text-base font-medium text-white">
                                             Get Credits
                                         </Link>

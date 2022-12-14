@@ -61,11 +61,12 @@ class Team extends JetstreamTeam
         return $this->hasMany(Credit::class);
     }
 
-    public function addCredit(float $amount, $note = null)
+    public function addCredit(float $amount, $note = null, $invoice = null)
     {
-        return $this->credits()->create([
+        return $this->credits()->firstOrCreate([
             'amount' => $amount,
             'note' => $note,
+            'provider_id' => $invoice,
         ]);
     }
 

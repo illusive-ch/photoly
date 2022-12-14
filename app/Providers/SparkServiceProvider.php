@@ -6,6 +6,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\ValidationException;
 use Laravel\Cashier\Cashier;
 use Spark\Plan;
 use Spark\Spark;
@@ -38,7 +39,21 @@ class SparkServiceProvider extends ServiceProvider
         });
 
         Spark::billable(Team::class)->checkPlanEligibility(function (Team $billable, Plan $plan) {
-            // ...
+            $currentBalance = $billable->creditBalance();
+            $allowedNow = $billable->sparkPlan()->options['depictions'];
+            $allowedAfter = $plan->options['depictions'];
+
+            if ($allowedAfter > $allowedNow) {
+                return;
+            }
+
+            //downgrading plan check if credits have been used
+            $difference = $allowedNow - $allowedAfter;
+            if (($currentBalance - $difference) < 0) {
+                throw ValidationException::withMessages([
+                    'plan' => 'You have already used all your credits this month.',
+                ]);
+            }
         });
     }
 }

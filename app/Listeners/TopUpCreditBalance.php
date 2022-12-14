@@ -24,10 +24,22 @@ class TopUpCreditBalance
      */
     public function handle($event)
     {
-        Log::debug($event);
+        $lineItems = $event->invoice->invoiceItems();
+        $team = $event->billable;
+        $invoiceId = $event->invoice->id;
+        Log::debug($event->invoice);
 
-        $depictions = $event->billable->sparkPlan()->options['depictions'];
+        collect($lineItems)->each(function ($lineItem) use ($team, $invoiceId) {
+            $package = collect(config('credit.billables.team.plans'))
+                        ->firstWhere('gateway_id', $lineItem->price->id);
 
-        $event->billable->addCredit($depictions, "Plan Top Up: {$event->billable->sparkPlan()->name}");
+            if ($package) {
+                Log::debug('Adding credits for one time');
+                $team->addCredit($package['options']['credits'], 'One time purchase '.$package['name'], $invoiceId);
+            } else {
+                Log::debug('Adding credits for plan');
+                $team->addCredit($team->sparkPlan()->options['depictions'], "Plan Top Up: {$team->sparkPlan()->name}", $invoiceId);
+            }
+        });
     }
 }

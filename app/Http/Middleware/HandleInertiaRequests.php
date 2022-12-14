@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -47,6 +48,14 @@ class HandleInertiaRequests extends Middleware
                 return CategoryResource::collection(Category::all());
             }),
             'env' => config('app.env'),
+            'credits' => Auth::check() ? Auth::user()->currentTeam->creditBalance() : 0,
+            'urlPrev' => function () {
+                if (url()->previous() !== route('login') && url()->previous() !== '' && url()->previous() !== url()->current()) {
+                    return url()->previous();
+                } else {
+                    return false; // used in javascript to disable back button behavior
+                }
+            },
         ]);
     }
 }
