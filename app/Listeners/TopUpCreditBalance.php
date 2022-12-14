@@ -29,6 +29,13 @@ class TopUpCreditBalance
         $invoiceId = $event->invoice->id;
         Log::debug($event->invoice);
 
+        if ($event->invoice->billing_reason === 'subscription_create') {
+            Log::debug('Adding credits for plan');
+            $team->addCredit($team->sparkPlan()->options['depictions'], "Plan Top Up: {$team->sparkPlan()->name}", $invoiceId);
+
+            return;
+        }
+
         collect($lineItems)->each(function ($lineItem) use ($team, $invoiceId) {
             $package = collect(config('credit.billables.team.plans'))
                         ->firstWhere('gateway_id', $lineItem->price->id);
@@ -36,9 +43,6 @@ class TopUpCreditBalance
             if ($package) {
                 Log::debug('Adding credits for one time');
                 $team->addCredit($package['options']['credits'], 'One time purchase '.$package['name'], $invoiceId);
-            } else {
-                Log::debug('Adding credits for plan');
-                $team->addCredit($team->sparkPlan()->options['depictions'], "Plan Top Up: {$team->sparkPlan()->name}", $invoiceId);
             }
         });
     }

@@ -39,6 +39,9 @@ class SparkServiceProvider extends ServiceProvider
         });
 
         Spark::billable(Team::class)->checkPlanEligibility(function (Team $billable, Plan $plan) {
+            if (! $billable->subscribed()) {
+                return;
+            }
             $currentBalance = $billable->creditBalance();
             $allowedNow = $billable->sparkPlan()->options['depictions'];
             $allowedAfter = $plan->options['depictions'];

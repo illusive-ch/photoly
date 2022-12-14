@@ -33,7 +33,7 @@ class SubjectFactory extends Factory
         return [
             'category_id' => Category::factory(),
             'team_id' => Team::factory(),
-            'status' => $this->faker->boolean(),
+            'status' => $this->faker->boolean(95),
         ];
     }
 }

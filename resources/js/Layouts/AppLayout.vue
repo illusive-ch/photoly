@@ -85,7 +85,7 @@ const navigation = computed(() => {
             icon: Bars4Icon,
             current: curUrl.value.startsWith('/category/' + businessNav.id)
         },
-        {name: 'Billing', href: route('credit.index'), icon: ClockIcon, current: false},
+        {name: 'Billing', href: route('spark.portal'), icon: ClockIcon, current: false},
     ]
 })
 
@@ -320,7 +320,7 @@ const back = () => {
                         <div>
                             <span
                                 class="text-2xl inline-flex items-center justify-center gap-2 py-1 px-2 bg-white rounded-full text-black">
-                                                                324
+                                                                {{ $page.props.credits }}
                                 <BanknotesIcon class="w-8 h-8 fill-wild-watermelon"/>
                             </span>
                         </div>
