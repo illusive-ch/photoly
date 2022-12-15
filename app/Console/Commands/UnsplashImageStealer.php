@@ -37,7 +37,9 @@ class UnsplashImageStealer extends Command
 
         $images = $this->withProgressBar($cache, function ($int) use ($url) {
             $response = Http::get($url.$int);
-            Storage::put('/seed/'.strtotime('now').'.jpg', $response->body());
+            $fileName = str_replace('.', '-', microtime('now')).'.jpg';
+            Storage::disk(config('app.env') === 'local' ? 'local' : 's3')
+                ->put('/seed/'.$fileName, $response->body());
             sleep(1);
         });
 

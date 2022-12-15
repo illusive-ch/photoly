@@ -25,12 +25,15 @@ class DepictSubject
             ]);
         });
 
-        collect($depictionForm['tags'])->each(function ($tag, $key) use ($depiction) {
-            $depiction->tags()->attach($tag['id']);
-        });
+        $depiction->tags()->sync(
+            collect($depictionForm['tags'])->pluck('id')
+        );
+//        collect($depictionForm['tags'])->each(function ($tag, $key) use ($depiction) {
+//            $depiction->tags()->attach($tag['id']);
+//        });
 
         if ($depictionForm['comment']) {
-            $depiction->comments()->create([
+            $depiction->comment()->create([
                 'body' => $depictionForm['comment'],
             ]);
         }

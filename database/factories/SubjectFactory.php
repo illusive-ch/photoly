@@ -19,11 +19,26 @@ class SubjectFactory extends Factory
             $files = Storage::allFiles('/seed/');
             $randomFile = $files[rand(0, count($files) - 1)];
 
-            $subject
-                ->addMedia(Storage::path($randomFile))
-                ->preservingOriginal()
-                ->toMediaCollection();
+            if (config('app.env') === 'local') {
+                $subject
+                    ->addMedia(Storage::path($randomFile))
+                    ->preservingOriginal()
+                    ->toMediaCollection();
+            } else {
+                $subject
+                    ->addMediaFromDisk(Storage::path($randomFile), 's3')
+                    ->preservingOriginal()
+                    ->toMediaCollection();
+            }
         });
+//        return $this->afterCreating(function (Subject $subject) {
+//            $files = Storage::allFiles('/seed/');
+//            $randomFile = $files[rand(0, count($files) - 1)];
+//
+//            $subject
+//                ->addMedia($randomFile)
+//                ->toMediaCollection();
+//        });
 //        return $this->afterCreating(function (Subject $subject) {
 //            $rand = $this->faker->randomNumber();
 //            $url = "https://source.unsplash.com/random/?people&cache={$rand}";

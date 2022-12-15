@@ -30,9 +30,9 @@ class Depiction extends Model
         return $this->morphOne(Moderate::class, 'model');
     }
 
-    public function comments()
+    public function comment()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasOne(Comment::class);
     }
 
     public function criterias(): belongsToMany

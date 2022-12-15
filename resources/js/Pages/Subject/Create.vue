@@ -26,8 +26,7 @@ import TestSize from "@/Components/TestSize.vue"
 
 
 const props = defineProps({
-    media: Object,
-    categories: Object,
+    // media: Object,
     balance: Number,
     category: Object,
 });
@@ -211,6 +210,7 @@ const percentageCompleted = computed(() => {
                                     name="subject"
                                     :initial-value="subject"
                                     @change="onUpload"
+                                    vapor
                                 />
                             </tab-panel>
                             <tab-panel>

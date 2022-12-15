@@ -47,11 +47,11 @@ class SubjectController extends Controller
 
     public function create(Category $category): Response
     {
-        $media = Auth::user()->currentTeam->subjects->load('media');
-        $media = MediaResource::collection($media);
+//        $media = Auth::user()->currentTeam->subjects->load('media');
+//        $media = MediaResource::collection($media);
         $balance = Auth::user()->currentTeam->creditBalance();
 
-        return Inertia::render('Subject/Create', compact('media', 'balance', 'category'));
+        return Inertia::render('Subject/Create', compact('balance', 'category'));
     }
 
     /**
