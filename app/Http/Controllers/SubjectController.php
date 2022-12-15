@@ -17,6 +17,7 @@ use Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SubjectController extends Controller
 {
@@ -81,9 +82,12 @@ class SubjectController extends Controller
         return Redirect::route('subject.mine');
     }
 
-    public function show(Category $category, Subject $subject): Response
+    public function show(Category $category, Subject $subject): Response|RedirectResponse
     {
         if (Auth::user()->currentTeam->id !== $subject->team_id) {
+            if ($subject->depictions()->firstWhere('user_id', Auth::user()->id)) {
+                return Redirect::route('category.subjects.index', ['category' => $category]);
+            }
             $subject = new SubjectResource($subject);
 
             return Inertia::render('Subject/Index', compact('subject', 'category'));
@@ -92,10 +96,10 @@ class SubjectController extends Controller
         $subject->scores = $this->scores($subject);
         $subject = new SubjectResource($subject);
 
-        $depictions = $subject->depictions()->with('comments', 'tags')->get();
+        $depictions = $subject->depictions()->with('comment', 'tags')->get();
 
         $comments = $depictions->map(function (Depiction $depiction) {
-            return $depiction->comments;
+            return $depiction->comment;
         })->flatten();
 
         $comments = CommentResource::collection($comments);

@@ -22,9 +22,13 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        $before = now()->subYears(18)->format('Y-m-d');
+
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'dob' => ['required', 'date_format:Y-m-d', 'before:'.$before],
+            'gender' => ['required', 'in:Male,Female'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
@@ -33,7 +37,9 @@ class CreateNewUser implements CreatesNewUsers
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
+                'gender' => ! ($input['gender'] === 'male'),
                 'password' => Hash::make($input['password']),
+                'dob' => $input['dob'],
             ]), function (User $user) {
                 $this->createTeam($user);
             });

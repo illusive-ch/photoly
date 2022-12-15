@@ -2,9 +2,10 @@
 
 namespace App\Listeners;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
-class TopUpCreditBalance
+class TopUpCreditBalance implements ShouldQueue
 {
     /**
      * Create the event listener.

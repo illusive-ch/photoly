@@ -83,7 +83,6 @@ const saveVote = () => {
     }), {
         preserveScroll: true,
         onSuccess: () => {
-            window.history.pushState({}, "My Tests", route('subject.mine'));
             selectedTab.value = 0
             form.reset()
             form.vote = {}

@@ -17,6 +17,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/socialite": "^5.5",
         "laravel/spark-stripe": "^2.5",
+        "laravel/telescope": "^4.10",
         "laravel/tinker": "^2.7",
         "laravel/vapor-cli": "^1.44",
         "laravel/vapor-core": "^2.23",

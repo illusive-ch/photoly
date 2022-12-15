@@ -86,6 +86,7 @@ class CreditTest extends TestCase
         ];
 
         $depictionForm['comment'] = null;
+        $depictionForm['tags'] = null;
 
         $this->assertEquals(0, $team->creditBalance());
 

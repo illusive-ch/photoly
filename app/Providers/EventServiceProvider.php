@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\DepictionReceivedOnSubject;
+use App\Listeners\CheckRecaptchaScore;
 use App\Listeners\GiveCreditToDepictor;
 use App\Listeners\RemoveCreditFromBalance;
 use App\Listeners\TopUpCreditBalance;
@@ -28,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
         DepictionReceivedOnSubject::class => [
             RemoveCreditFromBalance::class,
             GiveCreditToDepictor::class,
+            CheckRecaptchaScore::class,
         ],
     ];
 

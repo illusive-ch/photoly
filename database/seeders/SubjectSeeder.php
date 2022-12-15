@@ -40,8 +40,6 @@ class SubjectSeeder extends Seeder
                 fn ($sequence) => ['team_id' => $users->random()->currentTeam->id],
             ))
             ->create();
-
-        $this->populate($subjects);
     }
 
     public function populate(Collection $subjects): void

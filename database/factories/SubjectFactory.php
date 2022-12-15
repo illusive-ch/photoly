@@ -19,7 +19,7 @@ class SubjectFactory extends Factory
             $files = Storage::allFiles('/seed/');
             $randomFile = $files[rand(0, count($files) - 1)];
 
-            if (config('app.env') === 'local') {
+            if (config('app.env') === 'local' || config('app.env') === 'testing') {
                 $subject
                     ->addMedia(Storage::path($randomFile))
                     ->preservingOriginal()

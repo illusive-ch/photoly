@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateCriteriaRequest;
 use App\Models\Category;
 use App\Models\Criteria;
 use App\Models\Subject;
-use Illuminate\Support\Facades\Http;
 
 class CriteriaController extends Controller
 {
@@ -40,19 +39,7 @@ class CriteriaController extends Controller
      */
     public function store(StoreCriteriaRequest $request, Category $category, Subject $subject)
     {
-        //check recaptcha score
-        $args = [
-            'secret' => env('RECAPTCHA_SECRET'),
-            'response' => $request->get('recaptcha'),
-        ];
-
-        $data = $request->validated();
-
-        $response = Http::get('https://www.google.com/recaptcha/api/siteverify', $args);
-
-        $googleResponse = $response->json('score');
-
-        $subject = (new DepictSubject())($data, $subject, false, $googleResponse);
+        $subject = (new DepictSubject())($request->validated(), $subject, false);
 
         return redirect()->route('category.subjects.index', ['category' => $category]);
     }

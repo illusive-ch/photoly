@@ -83,7 +83,7 @@ class SubjectTest extends TestCase
 
         $subjectForm = Subject::factory()->make();
 
-        $subjectForm['media'] = $path;
+        $subjectForm['media']['path'] = $path;
 
         $subject = (new CreateNewSubject)($subjectForm->toArray());
 
@@ -123,9 +123,10 @@ class SubjectTest extends TestCase
         ];
 
         $depictionForm['comment'] = null;
+        $depictionForm['tags'] = null;
 
-        $subject = (new DepictSubject())($depictionForm, $subject);
+        $depiction = (new DepictSubject())($depictionForm, $subject);
 
-        $this->assertCount(1, $subject->criterias);
+        $this->assertCount(1, $subject->depictions);
     }
 }

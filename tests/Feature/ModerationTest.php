@@ -35,21 +35,21 @@ class ModerationTest extends TestCase
     /**
      * @test
      */
-    public function a_comment_on_a_subject_can_be_moderated()
+    public function a_depiction_on_a_subject_can_be_moderated()
     {
-        $category = Category::factory()->create();
+//        $category = Category::factory()->create();
+//
+//        $subject = Subject::factory()->for($category)->create();
 
-        $subject = Subject::factory()->for($category)->create();
+        $comment = Comment::factory()->create();
 
-        $comment = Comment::factory()->for($subject)->create();
-
-        $comment->moderate()->create([
+        $comment->depiction->moderate()->create([
             'reason' => 'bad comment',
         ]);
 
-        $this->assertInstanceOf(Moderate::class, $comment->moderate);
+        $this->assertInstanceOf(Moderate::class, $comment->depiction->moderate);
 
-        $this->assertEquals('bad comment', $comment->moderate->reason);
+        $this->assertEquals('bad comment', $comment->depiction->moderate->reason);
     }
 
     /**

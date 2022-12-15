@@ -25,6 +25,7 @@ class StoreCriteriaRequest extends FormRequest
     {
         return [
             'vote.*.score' => ['required', 'numeric', 'lte:3'],
+            'recaptcha' => ['required'],
             'vote' => ['required', 'size:3'],
             'comment' => ['nullable', 'string', 'max:255'],
             'tags' => ['nullable', 'array'],

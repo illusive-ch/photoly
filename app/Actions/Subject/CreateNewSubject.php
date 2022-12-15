@@ -30,7 +30,9 @@ class CreateNewSubject
                 ->addFromMediaLibraryRequest($media)
                 ->toMediaCollection();
         } else {
-            $subject->addMedia($media['path'])->preservingOriginal()->toMediaCollection();
+            if (isset($media['path'])) {
+                $subject->addMedia($media['path'])->preservingOriginal()->toMediaCollection();
+            }
         }
 
         SubjectCreated::dispatch($subject);

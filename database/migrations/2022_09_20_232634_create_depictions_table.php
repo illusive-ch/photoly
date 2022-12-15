@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('subject_id');
             $table->foreignId('user_id');
+            $table->string('recaptcha_key', 1000)->nullable();
+            $table->float('recaptcha_score')->nullable();
             $table->timestamps();
         });
     }

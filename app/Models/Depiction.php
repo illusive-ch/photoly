@@ -13,6 +13,7 @@ class Depiction extends Model
 
     protected $fillable = [
         'subject_id',
+        'recaptcha',
     ];
 
     public function subject(): belongsTo

@@ -4,8 +4,9 @@ namespace App\Listeners;
 
 use App\Events\SubjectCreated;
 use App\Services\ImageModerationService;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ModerateImage
+class ModerateImage implements ShouldQueue
 {
     /**
      * Create the event listener.

@@ -17,34 +17,24 @@ class DepictSubject
         $user = $user === false ? Auth::user() : $user;
 
         //create new depiction
-        $depiction = $user->depictions()->create(['subject_id' => $subject->id]);
+        $depiction = $user->depictions()->create([
+            'subject_id' => $subject->id,
+            'recaptcha_key' => $depictionForm['recaptcha'],
+        ]);
 
-        collect($depictionForm['vote'])->each(function ($vote, $key) use ($depiction) {
-            $depiction->criterias()->attach($key, [
-                'score' => $vote['score'],
-            ]);
+        $data = collect($depictionForm['vote'])->map(function ($vote, $key) {
+            return $key = ['score' => $vote['score']];
         });
+
+        $depiction->criterias()->sync($data);
 
         $depiction->tags()->sync(
             collect($depictionForm['tags'])->pluck('id')
         );
-//        collect($depictionForm['tags'])->each(function ($tag, $key) use ($depiction) {
-//            $depiction->tags()->attach($tag['id']);
-//        });
 
         if ($depictionForm['comment']) {
             $depiction->comment()->create([
                 'body' => $depictionForm['comment'],
-            ]);
-        }
-
-        //moderate user if needed
-        if ($spamScore <= 0.5) {
-            $user->moderate()->create([
-                'reason' => 'possible spammer',
-            ]);
-            $depiction->moderate()->create([
-                'reason' => 'possible spam',
             ]);
         }
 

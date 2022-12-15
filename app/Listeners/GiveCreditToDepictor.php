@@ -2,7 +2,9 @@
 
 namespace App\Listeners;
 
-class GiveCreditToDepictor
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class GiveCreditToDepictor implements ShouldQueue
 {
     /**
      * Create the event listener.

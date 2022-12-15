@@ -3,8 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\DepictionReceivedOnSubject;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RemoveCreditFromBalance
+class RemoveCreditFromBalance implements ShouldQueue
 {
     /**
      * Create the event listener.

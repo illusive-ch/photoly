@@ -45,6 +45,8 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'dob' => now()->subYears(20)->format('Y-m-d'),
+            'gender' => 'Female',
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
         ]);
 

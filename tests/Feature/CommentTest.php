@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Comment;
+use App\Models\Depiction;
 use App\Models\Subject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,24 +15,12 @@ class CommentTest extends TestCase
     /**
      * @test
      */
-    public function a_comment_belongs_to_a_subject()
+    public function a_comment_belongs_to_a_depiction()
     {
         $subject = Subject::factory()->create();
+        $depiction = Depiction::factory()->create();
+        $comment = Comment::factory()->for($depiction)->create();
 
-        $comment = Comment::factory()->for($subject)->create();
-
-        $this->assertInstanceOf(Subject::class, $comment->subject);
-    }
-
-    /**
-     * @test
-     */
-    public function a_subject_can_have_many_comments()
-    {
-        $subject = Subject::factory()->create();
-
-        $comment = Comment::factory(3)->for($subject)->create();
-
-        $this->assertCount(3, $subject->comments);
+        $this->assertInstanceOf(Depiction::class, $comment->depiction);
     }
 }
